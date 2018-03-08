@@ -6,8 +6,8 @@ This plugin provides indexing of Symbols in your artboard and creates a new artb
 It creates a text symbol with the Symbol's index above the Symbol and on the `Legend` artboard it adds the definition of the symbol as well as it's `overrides` if there are any. 
 Note that it will add an `override` only if it was overriden on the `SymbolInstance`.
 
-Feature requests and pull requests are more than welcome :) 
-Operated by command+shift+y
+Feature requests and pull requests are more than welcome :)  
+Shortcut: command/ctrl+shift+y  
 #demo
 
 ![legend demo](https://raw.githubusercontent.com/amimagid/sketch-symbol-legend/master/LegendPlugin.gif)
