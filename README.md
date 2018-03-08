@@ -13,11 +13,8 @@ Shortcut: command+shift+y
 ![legend demo](https://raw.githubusercontent.com/amimagid/sketch-symbol-legend/master/LegendPlugin.gif)
 
 ## Installation
-Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automagically by Sketch.
-
+Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automatically by Sketch.
 
 ---
-
 ## Known Issues and TODOs
-- [ ] Currently works only on artboards that are on (0,0) coordinates
-
+- Currently works only on artboards that are on (0,0) coordinates. Status: [x]
