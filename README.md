@@ -7,7 +7,7 @@ It creates a text symbol with the Symbol's index above the Symbol and on the `Le
 Note that it will add an `override` only if it was overriden on the `SymbolInstance`.
 
 Feature requests and pull requests are more than welcome :) 
-
+Operated by command+shift+y
 #demo
 
 ![legend demo](https://raw.githubusercontent.com/amimagid/sketch-symbol-legend/master/LegendPlugin.gif)
