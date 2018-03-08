@@ -10,7 +10,7 @@ Feature requests and pull requests are more than welcome :)
 
 #demo
 
-![legend demo](https://raw.githubusercontent.com/jorgemartins/sketch-paginate/master/paginate-demo.gif)
+![legend demo](https://raw.githubusercontent.com/amimagid/sketch-symbol-legend/master/LegendPlugin.gif)
 
 #Installation
 Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automagically by Sketch.
