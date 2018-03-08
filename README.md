@@ -2,7 +2,7 @@
 Legend plugin for sketch app.
 ## Motivation
 In some companies UX designers make an effort to align with the company's UX standard by creating Sketch symbols that are highly detailed. 
-Some companies even have components library that the developer use and the UX designer wish to give them the most detailed design. 
+Some companies even have components library that the developer use and the UX designer wish to give them the most detailed design.  
 After exporting to `Zeplin`, most of the data is lost.
 
 ---
