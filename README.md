@@ -8,16 +8,16 @@ Note that it will add an `override` only if it was overriden on the `SymbolInsta
 
 Feature requests and pull requests are more than welcome :)  
 Shortcut: command/ctrl+shift+y  
-#demo
+## demo
 
 ![legend demo](https://raw.githubusercontent.com/amimagid/sketch-symbol-legend/master/LegendPlugin.gif)
 
-#Installation
+## Installation
 Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automagically by Sketch.
 
 
 ---
 
-Known Issues and TODOs
+## Known Issues and TODOs
 - [ ] Currently works only on artboards that are on (0,0) coordinates
 
