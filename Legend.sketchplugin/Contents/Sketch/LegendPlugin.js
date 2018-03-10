@@ -86,7 +86,6 @@ var addIndexesToSymbols = function(context, layer, index) {
     if (layer.class() == SYMBOL_INSTANCE_CLASSNAME) {
       var page = getSelectedPage(context);
       var rect = new Rectangle(layer.frame().x(), layer.frame().y() - 15, layer.frame().width(), layer.frame().height());
-      //rect.offset(layer.frame().x()+100, layer.frame().y());  
       var text = new sketch.Text({
         parent: page,
         alignment: sketch.Text.Alignment.center,
