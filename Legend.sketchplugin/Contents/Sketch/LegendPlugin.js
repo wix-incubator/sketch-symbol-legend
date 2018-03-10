@@ -4,7 +4,11 @@ var Rectangle = require('sketch/dom').Rectangle
 var SYMBOL_INSTANCE_CLASSNAME = "MSSymbolInstance";
 var SYMBOL_MASTER_CLASSNAME = "MSSymbolMaster";
 
+var artboardX;
+var artboardY;
 var runLegendScript = function(context) {
+  artboardX = currPage.artboards()[0].frame().x();
+  artboardY = currPage.artboards()[0].frame().y();
   var doc = context.document;
   var docSymbols = doc.documentData().allSymbols();
   getAllSymbols(docSymbols);
@@ -85,7 +89,7 @@ var getSelectedPage = function(context) {
 var addIndexesToSymbols = function(context, layer, index) {
     if (layer.class() == SYMBOL_INSTANCE_CLASSNAME) {
       var page = getSelectedPage(context);
-      var rect = new Rectangle(layer.frame().x(), layer.frame().y() - 15, layer.frame().width(), layer.frame().height());
+      var rect = new Rectangle(artboardX + layer.frame().x(), artboardY + layer.frame().y() - 15, layer.frame().width(), layer.frame().height());
       var text = new sketch.Text({
         parent: page,
         alignment: sketch.Text.Alignment.center,
