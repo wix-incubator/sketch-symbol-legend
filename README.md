@@ -22,6 +22,6 @@ Download or Clone the latest version of this project, and open `Legend.sketchplu
 
 ---
 ## Known Issues and TODOs
-- Currently works only on artboards that are on (0,0) coordinates. Status: [V]
+- ~Currently works only on artboards that are on (0,0) coordinates.~ Status: [V]
 - duplicate numbering in complex designs. Status: [x]
-- Currently works only on one page and one artboard. Status: [x] 
+- ~Currently works only on one page and one artboard.~ Status: [V] 
