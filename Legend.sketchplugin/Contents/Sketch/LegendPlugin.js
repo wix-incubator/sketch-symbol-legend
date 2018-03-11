@@ -4,21 +4,26 @@ var Rectangle = require('sketch/dom').Rectangle
 var SYMBOL_INSTANCE_CLASSNAME = "MSSymbolInstance";
 var SYMBOL_MASTER_CLASSNAME = "MSSymbolMaster";
 
-var artboardX;
-var artboardY;
 var runLegendScript = function(context) {
-  artboardX = currPage.artboards()[0].frame().x();
-  artboardY = currPage.artboards()[0].frame().y();
   var doc = context.document;
-  var docSymbols = doc.documentData().allSymbols();
-  getAllSymbols(docSymbols);
+  initSymbolDict(doc)
   var pages = doc.pages();
 
   for (var i = 0; i < pages.length; i++) {
     var currPage = pages[i];
-    var legendArtboard = createAndAddArtboard(context); //NOTICE!! - for now supporting only one page and one artboard.
-    legendify(currPage, context, legendArtboard, 0);
+    var artboards = currPage.artboards();
+    for (var j = 0; j < artboards.length; j++) {
+      var currArtboard = artboards[j];
+      var legendArtboard = createAndAddLegendArtboard(currArtboard, currPage); 
+      legendify(currArtboard, context, currArtboard, legendArtboard, 0);
+    }
+
   }
+};
+
+var initSymbolDict = function(doc) {
+  var docSymbols = doc.documentData().allSymbols();
+  getAllSymbols(docSymbols);
 };
 
 var symbolsDict = {};
@@ -36,11 +41,10 @@ var getAllSymbols = function(symbols) {
   }
 };
 
-var createAndAddArtboard = function(context) {
-  var page = getSelectedPage(context);
-  var rect = new Rectangle(-500, 0, 500, 500);  
+var createAndAddLegendArtboard = function(currArtboard, currPage) {
+  var rect = new Rectangle(currArtboard.frame().x() - 500, currArtboard.frame().y() , 500, 500);  
   var artboard = new sketch.Artboard({
-    parent: page,
+    parent: currPage,
     name: 'Legend',
     flowStartPoint: true,
     frame: rect,
@@ -50,19 +54,20 @@ var createAndAddArtboard = function(context) {
   return artboard;
 };
 
-var legendify = function(comp, context, artboard, currIndex) { 
+var legendify = function(comp, context, currArtboard, legendArtboard, currIndex) { 
   if (comp.layers) {
     var compLayers = comp.layers();
-    for (var j = currIndex; j < compLayers.length+currIndex; j++) {     
-      var layer = compLayers[j-currIndex];
+    var currLegendNextY = 0;
+    for (var k = currIndex; k < compLayers.length+currIndex; k++) {     
+      var layer = compLayers[k-currIndex];
       if (layer.class() != SYMBOL_INSTANCE_CLASSNAME) {
-        legendify(layer, context, artboard, currIndex+j);
+        legendify(layer, context, currArtboard, legendArtboard, currIndex+k);
       } 
 
-      addIndexesToSymbols(context, layer, currIndex+j);
+      addIndexesToSymbols(context, layer, currIndex+k, currArtboard);
 
       if (layer.overrides) {
-        var str ='('+(currIndex+j)+') '+layer.name()+'\n';       
+        var str ='('+(currIndex+k)+') '+layer.name()+'\n';       
         var overrides = layer.overrides();
         for (key in overrides) { 
           var override = overrides[key];          
@@ -75,23 +80,18 @@ var legendify = function(comp, context, artboard, currIndex) {
             }
           }            
         } 
-        addDescriptionToLegend(str, artboard);
+        addDescriptionToLegend(str, legendArtboard, currLegendNextY);
+        currLegendNextY+=80;
       }
     }
   } 
 }; 
 
-var getSelectedPage = function(context) {
-  var document = sketch.fromNative(context.document);
-  return document.selectedPage;
-};
-
-var addIndexesToSymbols = function(context, layer, index) {
+var addIndexesToSymbols = function(context, layer, index, currArtboard) {
     if (layer.class() == SYMBOL_INSTANCE_CLASSNAME) {
-      var page = getSelectedPage(context);
-      var rect = new Rectangle(artboardX + layer.frame().x(), artboardY + layer.frame().y() - 15, layer.frame().width(), layer.frame().height());
+      var rect = new Rectangle(layer.frame().x(), layer.frame().y()-15, layer.frame().width(), layer.frame().height());
       var text = new sketch.Text({
-        parent: page,
+        parent: currArtboard,
         alignment: sketch.Text.Alignment.center,
         text: '(' + index + ')',
         frame: rect,
@@ -101,10 +101,8 @@ var addIndexesToSymbols = function(context, layer, index) {
     }
 };
 
-var y = 0;
-var addDescriptionToLegend = function(str, artboard) {
-  var rect = new Rectangle(0, y, 200, 200);
-  y+=80;  
+var addDescriptionToLegend = function(str, artboard, nextY) {
+  var rect = new Rectangle(0, nextY, 200, 200);
   var text = new sketch.Text({
     parent: artboard,
     text: str,
