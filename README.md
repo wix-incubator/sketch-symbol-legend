@@ -15,7 +15,7 @@ Feature requests and pull requests are more than welcome :)
 Shortcut: command+shift+y  
 ## demo
 
-![legend demo](https://github.com/amimagid/sketch-symbol-legend.git/info/lfsLegendPlugin.gif)
+![legend demo](https://github.com/amimagid/sketch-symbol-legend/blob/master/LegendPlugin.gif)
 ---
 ## Installation
 Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automatically by Sketch.
