@@ -25,7 +25,8 @@ Download or Clone the latest version of this project, and open `Legend.sketchplu
 - ~Currently works only on artboards that are on (0,0) coordinates.~ Status: [V]
 - duplicate numbering on designs with groups. Status: [x]
 - ~Currently works only on one page and one artboard.~ Status: [V] 
-- Hard coded Legend sizes
+- Hard coded Legend sizes. [x]
 
 ## Important links:
 https://github.com/abynim/Sketch-Headers/
+https://developer.sketchapp.com/reference/api/
