@@ -25,3 +25,6 @@ Download or Clone the latest version of this project, and open `Legend.sketchplu
 - ~Currently works only on artboards that are on (0,0) coordinates.~ Status: [V]
 - duplicate numbering in complex designs. Status: [x]
 - ~Currently works only on one page and one artboard.~ Status: [V] 
+
+## Important links:
+https://github.com/abynim/Sketch-Headers/
