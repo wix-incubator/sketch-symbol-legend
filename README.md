@@ -28,5 +28,5 @@ Download or Clone the latest version of this project, and open `Legend.sketchplu
 - Hard coded Legend sizes. [x]
 
 ## Important links:
-https://github.com/abynim/Sketch-Headers/
+https://github.com/abynim/Sketch-Headers/  
 https://developer.sketchapp.com/reference/api/
