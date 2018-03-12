@@ -7,8 +7,8 @@ var SYMBOL_MASTER_CLASSNAME = "MSSymbolMaster";
 var runLegendScript = function(context) {
   var doc = context.document;
   initSymbolDict(doc)
+  
   var pages = doc.pages();
-
   for (var i = 0; i < pages.length; i++) {
     var currPage = pages[i];
     var artboards = currPage.artboards();
@@ -22,18 +22,18 @@ var runLegendScript = function(context) {
 };
 
 var initSymbolDict = function(doc) {
-  var docSymbols = doc.documentData().allSymbols();
-  getAllSymbols(docSymbols);
+  var firstLevelSymbols = doc.documentData().allSymbols();
+  initSymbolDictFlat(firstLevelSymbols);
 };
 
 var symbolsDict = {};
-var getAllSymbols = function(symbols) {  
+var initSymbolDictFlat = function(symbols) {  
   for (var i = 0; i < symbols.count(); i++) {
     var symbol = symbols.objectAtIndex(i);
     if(symbol.class() == SYMBOL_INSTANCE_CLASSNAME || 
        symbol.class() == SYMBOL_MASTER_CLASSNAME) {
       if (symbol.layers) {
-        getAllSymbols(symbol.layers());
+        initSymbolDictFlat(symbol.layers());
       }               
       symbolsDict[symbol.symbolID()] = symbol;
       symbolsDict[symbol.objectID()] = symbol;
@@ -54,38 +54,44 @@ var createAndAddLegendArtboard = function(currArtboard, currPage) {
   return artboard;
 };
 
-var legendify = function(comp, context, currArtboard, legendArtboard, currIndex) { 
+var legendify = function(comp, context, currArtboard, legendArtboard, prevIndex) { 
   if (comp.layers) {
     var compLayers = comp.layers();
     var currLegendNextY = 0;
-    for (var k = currIndex; k < compLayers.length+currIndex; k++) {     
-      var layer = compLayers[k-currIndex];
+    for (var k = 0; k < compLayers.length; k++) {     
+      var layer = compLayers[k];
+      var currentIndex = prevIndex + k;
       if (layer.class() != SYMBOL_INSTANCE_CLASSNAME) {
-        legendify(layer, context, currArtboard, legendArtboard, currIndex+k);
+        legendify(layer, context, currArtboard, legendArtboard, currentIndex);
       } 
 
-      addIndexesToSymbols(context, layer, currIndex+k, currArtboard);
+      addIndexesToSymbols(context, layer, currentIndex, currArtboard);
 
       if (layer.overrides) {
-        var str ='('+(currIndex+k)+') '+layer.name()+'\n';       
-        var overrides = layer.overrides();
-        for (key in overrides) { 
-          var override = overrides[key];          
-          if (symbolsDict[key]) {
-            str+='        ' + symbolsDict[key].name();
-            if (override.symbolID) {
-              var valueString = symbolsDict[override.symbolID]; 
-              str+=" = ";
-              str+=valueString.name()+'\n';
-            }
-          }            
-        } 
-        addDescriptionToLegend(str, legendArtboard, currLegendNextY);
+        var overrideDescription = buildOverrideDescription(layer, currentIndex);
+        addDescriptionToLegend(overrideDescription, legendArtboard, currLegendNextY);
         currLegendNextY+=80;
       }
     }
   } 
 }; 
+
+var buildOverrideDescription = function(layer, index) {
+  var description ='('+(index)+') '+layer.name()+'\n';       
+  var overrides = layer.overrides();
+  for (key in overrides) { 
+    var override = overrides[key];          
+    if (symbolsDict[key]) {
+      description+='        ' + symbolsDict[key].name();
+      if (override.symbolID) {
+        var valueString = symbolsDict[override.symbolID]; 
+        description+=" = ";
+        description+=valueString.name()+'\n';
+      }
+    }            
+  }
+  return description;  
+};
 
 var addIndexesToSymbols = function(context, layer, index, currArtboard) {
     if (layer.class() == SYMBOL_INSTANCE_CLASSNAME) {
