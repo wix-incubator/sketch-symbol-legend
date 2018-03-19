@@ -18,7 +18,13 @@ Shortcut: command+shift+y
 ![legend demo](https://github.com/amimagid/sketch-symbol-legend/blob/master/LegendPlugin.gif)
 ---
 ## Installation
-Download or Clone the latest version of this project, and open `Legend.sketchplugin`. The plugin will be installed automatically by Sketch.
+
+Go to sketch plugins directory and clone repo with name `Legend.sketchplugin`;
+```sh
+cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugins
+git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
+```
+The plugin will be used automatically by Sketch.
 
 ---
 ## Known Issues and TODOs
