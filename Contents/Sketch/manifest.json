@@ -1,19 +1,17 @@
-
 {
-    "name" : "Sketch Legend Plugin",
-    "identifier" : "com.amimagid.legend-plugin",
-    "version" : "1.0",
-    "description" : "a Sketch legend for symbols ",
-    "authorEmail" : "amimagid@gmail.com",
-    "author" : "Ami Magid",
-
-    "commands" : [
+  "name": "Sketch Legend Plugin",
+  "identifier": "com.amimagid.legend-plugin",
+  "version": "1.0",
+  "description": "a Sketch legend for symbols ",
+  "authorEmail": "amimagid@gmail.com",
+  "author": "Ami Magid",
+  "commands": [
     {
-      "script" : "index.js",
-      "handler" : "runLegendScript",
-      "shortcut" : "command shift y",
-      "name" : "Show Symbols and their overrides",
-      "identifier" : "com.amimagid.legend-plugin"
+      "script": "index.js",
+      "handler": "runLegendScript",
+      "shortcut": "command shift y",
+      "name": "Show Symbols and their overrides",
+      "identifier": "com.amimagid.legend-plugin"
     }
-  ],
+  ]
 }
