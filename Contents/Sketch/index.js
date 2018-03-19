@@ -1,90 +1,118 @@
-var sketch = require('sketch');
-var Rectangle = require('sketch/dom').Rectangle
+const sketch = require('sketch');
+const Rectangle = require('sketch/dom').Rectangle;
 
-var SYMBOL_INSTANCE_CLASSNAME = "MSSymbolInstance";
-var SYMBOL_MASTER_CLASSNAME = "MSSymbolMaster";
+const SYMBOL_INSTANCE_CLASS_NAME = "MSSymbolInstance";
+const SYMBOL_MASTER_CLASS_NAME = "MSSymbolMaster";
 
-const runLegendScript = function(context) {
-  var doc = context.document;
-  initSymbolDict(doc)
+const LEGEND_ARTBOARD_NAME = 'Legend';
+const LEGEND_ARTBOARD_MIN_WIDTH = 300;
+const LEGEND_ITEM_HEIGHT = 80;
 
-  var pages = doc.pages();
-  for (var i = 0; i < pages.length; i++) {
-    var currPage = pages[i];
-    var artboards = currPage.artboards();
-    for (var j = 0; j < artboards.length; j++) {
-      var currArtboard = artboards[j];
-      var legendArtboard = createAndAddLegendArtboard(currArtboard, currPage);
-      legendify(currArtboard, context, currArtboard, legendArtboard, 0);
-    }
-
+const legendItemOffsetGenerator = () => {
+  let lastItemOffsetTop = 0;
+  return () => {
+    const curItemOffsetTop = lastItemOffsetTop;
+    lastItemOffsetTop += LEGEND_ITEM_HEIGHT;
+    return curItemOffsetTop;
   }
 };
 
-var initSymbolDict = function(doc) {
-  var firstLevelSymbols = doc.documentData().allSymbols();
-  initSymbolDictFlat(firstLevelSymbols);
-};
+const getNextItemOffsetTop = legendItemOffsetGenerator();
 
-var symbolsDict = {};
-var initSymbolDictFlat = function(symbols) {
-  for (var i = 0; i < symbols.count(); i++) {
-    var symbol = symbols.objectAtIndex(i);
-    if(symbol.class() == SYMBOL_INSTANCE_CLASSNAME ||
-       symbol.class() == SYMBOL_MASTER_CLASSNAME) {
+const createSymbolsDictionary = function(symbols, dictionary = {}) {
+  for (let i = 0; i < symbols.count(); i++) {
+    const symbol = symbols.objectAtIndex(i);
+    if(symbol.class() === SYMBOL_INSTANCE_CLASS_NAME || symbol.class() === SYMBOL_MASTER_CLASS_NAME) {
       if (symbol.layers) {
-        initSymbolDictFlat(symbol.layers());
+        initSymbolDictFlat(symbol.layers(), dictionary);
       }
-      symbolsDict[symbol.symbolID()] = symbol;
-      symbolsDict[symbol.objectID()] = symbol;
+      dictionary[symbol.symbolID()] = symbol;
+      dictionary[symbol.objectID()] = symbol;
     }
   }
+
+  return dictionary;
 };
 
-var createAndAddLegendArtboard = function(currArtboard, currPage) {
-  var rect = new Rectangle(currArtboard.frame().x() - 500, currArtboard.frame().y() , 500, 500);
-  var artboard = new sketch.Artboard({
-    parent: currPage,
-    name: 'Legend',
+const legendifyArtboard = ({artboard, page, symbolsDictionary}) => {
+  const legendArtboard = createLegendArtboard({artboard, page});
+
+  legendify({
+    currentLayer: artboard,
+    parentArtboard: artboard,
+    legendArtboard,
+    symbolsDictionary,
+  });
+
+  legendArtboard.adjustToFit();
+
+  // TODO: figure out how to update `legendArtboard.frame.x` here
+};
+
+const runLegendScript = ({ document }) => {
+  const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
+  document.pages().forEach(page => page.artboards().forEach(artboard => {
+    legendifyArtboard({artboard, page, symbolsDictionary});
+  }));
+
+  document.pages().forEach(page => page.artboards().forEach(artboard => {
+    // NOTE: artboard.name() is object :/
+    if (String(artboard.name()) !== LEGEND_ARTBOARD_NAME) {
+      return;
+    }
+
+    const frame = artboard.frame();
+
+    if (frame.width() < LEGEND_ARTBOARD_MIN_WIDTH) {
+      frame.width = LEGEND_ARTBOARD_MIN_WIDTH;
+    }
+
+    frame.x = frame.x() - frame.width();
+  }));
+};
+
+const createLegendArtboard = ({ artboard, page }) => {
+  const rect = new Rectangle(artboard.frame().x(), artboard.frame().y());
+
+  return new sketch.Artboard({
+    parent: page,
+    name: LEGEND_ARTBOARD_NAME,
     flowStartPoint: true,
     frame: rect,
-
   });
-  artboard.adjustToFit();
-  return artboard;
 };
 
-var legendify = function(comp, context, currArtboard, legendArtboard, prevIndex) {
-  if (comp.layers) {
-    var compLayers = comp.layers();
-    var currLegendNextY = 0;
-    for (var k = 0; k < compLayers.length; k++) {
-      var layer = compLayers[k];
-      var currentIndex = prevIndex + k;
-      if (layer.class() != SYMBOL_INSTANCE_CLASSNAME) {
-        legendify(layer, context, currArtboard, legendArtboard, currentIndex);
-      }
-
-      addIndexesToSymbols(context, layer, currentIndex, currArtboard);
-
-      if (layer.overrides) {
-        var overrideDescription = buildOverrideDescription(layer, currentIndex);
-        addDescriptionToLegend(overrideDescription, legendArtboard, currLegendNextY);
-        currLegendNextY+=80;
-      }
-    }
+const legendify = ({ currentLayer, parentArtboard, legendArtboard, depth = 0, symbolsDictionary}) => {
+  if (!currentLayer.layers) {
+    return;
   }
+  let currLegendNextY = 0;
+  currentLayer.layers().forEach((layer, index) => {
+    const currentDepth = index + depth;
+    if (layer.class() !== SYMBOL_INSTANCE_CLASS_NAME) {
+      legendify({currentLayer: layer, parentArtboard, legendArtboard, depth: currentDepth, symbolsDictionary});
+    }
+    addIndexesToSymbols(layer, currentDepth, parentArtboard);
+    if (layer.overrides) {
+      addLegendItem({layer, depth: currentDepth, legendArtboard, symbolsDictionary});
+    }
+  });
 };
 
-var buildOverrideDescription = function(layer, index) {
-  var description ='('+(index)+') '+layer.name()+'\n';
+const addLegendItem = ({layer, depth, legendArtboard, symbolsDictionary}) => {
+  const overrideDescription = buildOverrideDescription({layer, depth, symbolsDictionary});
+  addDescriptionToLegend(overrideDescription, legendArtboard, getNextItemOffsetTop());
+}
+
+const buildOverrideDescription = function({layer, depth, symbolsDictionary}) {
+  var description ='('+(depth)+') '+layer.name()+'\n';
   var overrides = layer.overrides();
   for (key in overrides) {
     var override = overrides[key];
-    if (symbolsDict[key]) {
-      description+='        ' + symbolsDict[key].name();
+    if (symbolsDictionary[key]) {
+      description+='        ' + symbolsDictionary[key].name();
       if (override.symbolID) {
-        var valueString = symbolsDict[override.symbolID];
+        var valueString = symbolsDictionary[override.symbolID];
         description+=" = ";
         description+=valueString.name()+'\n';
       }
@@ -93,27 +121,25 @@ var buildOverrideDescription = function(layer, index) {
   return description;
 };
 
-var addIndexesToSymbols = function(context, layer, index, currArtboard) {
-    if (layer.class() == SYMBOL_INSTANCE_CLASSNAME) {
-      var rect = new Rectangle(layer.frame().x(), layer.frame().y()-15, layer.frame().width(), layer.frame().height());
-      var text = new sketch.Text({
+const addIndexesToSymbols = function(layer, index, currArtboard) {
+    if (layer.class() == SYMBOL_INSTANCE_CLASS_NAME) {
+      const rect = new Rectangle(layer.frame().x(), layer.frame().y()-15, layer.frame().width(), layer.frame().height());
+      const text = new sketch.Text({
         parent: currArtboard,
         alignment: sketch.Text.Alignment.center,
         text: '(' + index + ')',
         frame: rect,
-
-      })
+      });
       text.adjustToFit()
     }
 };
 
-var addDescriptionToLegend = function(str, artboard, nextY) {
-  var rect = new Rectangle(0, nextY, 200, 200);
-  var text = new sketch.Text({
+const addDescriptionToLegend = function(str, artboard, nextY) {
+  const rect = new Rectangle(0, nextY, 200, 200);
+  const text = new sketch.Text({
     parent: artboard,
     text: str,
     frame: rect,
-
   });
   text.adjustToFit();
 };
