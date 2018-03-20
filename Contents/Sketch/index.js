@@ -1,11 +1,14 @@
 const sketch = require('sketch');
 const Rectangle = require('sketch/dom').Rectangle;
-const createLegendIndex = require('./utils/createLegendIndex');
+
+const createLegendItemIndex = require('./utils/createLegendIndex');
+const cleanUpLegends = require('./utils/cleanUpLegends');
 
 const SYMBOL_INSTANCE_CLASS_NAME = "MSSymbolInstance";
 const SYMBOL_MASTER_CLASS_NAME = "MSSymbolMaster";
 
 const LEGEND_ARTBOARD_NAME = 'Legend';
+const LEGEND_ITEM_INDEX_NAME = 'LegendItemIndex';
 const LEGEND_ARTBOARD_MIN_WIDTH = 300;
 const LEGEND_ITEM_HEIGHT = 80;
 
@@ -52,6 +55,14 @@ const legendifyArtboard = ({artboard, page, symbolsDictionary}) => {
 
 const runLegendScript = ({ document }) => {
   const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
+
+  // cleanup previous legends on rerun
+  cleanUpLegends({
+    document,
+    artboardName: LEGEND_ARTBOARD_NAME,
+    legendItemIndexName: LEGEND_ITEM_INDEX_NAME
+  });
+
   document.pages().forEach(page => page.artboards().forEach(artboard => {
     legendifyArtboard({artboard, page, symbolsDictionary});
   }));
@@ -93,14 +104,20 @@ const legendify = ({ currentLayer, parentArtboard, legendArtboard, depth = 0, sy
     if (layer.class() !== SYMBOL_INSTANCE_CLASS_NAME) {
       legendify({currentLayer: layer, parentArtboard, legendArtboard, depth: currentDepth, symbolsDictionary});
     }
-    createLegendIndex({layer, depth: currentDepth, artboard: parentArtboard});
+
     if (layer.overrides) {
-      addLegendItem({layer, depth: currentDepth, legendArtboard, symbolsDictionary});
+      createLegendItemIndex({
+        layer,
+        name: LEGEND_ITEM_INDEX_NAME,
+        depth: currentDepth,
+        artboard: parentArtboard
+      });
+      createLegendItem({layer, depth: currentDepth, legendArtboard, symbolsDictionary});
     }
   });
 };
 
-const addLegendItem = ({layer, depth, legendArtboard, symbolsDictionary}) => {
+const createLegendItem = ({layer, depth, legendArtboard, symbolsDictionary}) => {
   const overrideDescription = buildOverrideDescription({layer, depth, symbolsDictionary});
   addDescriptionToLegend(overrideDescription, legendArtboard, getNextItemOffsetTop());
 }
