@@ -65,7 +65,15 @@ function adjustToFitLegentArtboard(document) {
   }));
 }
 
-function runLegendScript({ document }) {
+function runCleanUpLegends({ document }) {
+  cleanUpLegends({
+    document,
+    artboardName: LEGEND_ARTBOARD_NAME,
+    legendItemIndexName: LEGEND_ITEM_INDEX_NAME
+  });
+}
+
+function runAddLegends({ document }) {
   const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
 
   // cleanup previous legends on rerun
@@ -82,5 +90,6 @@ function runLegendScript({ document }) {
   adjustToFitLegentArtboard(document);
 }
 
-/* Export plugin command handler */
-this.runLegendScript = runLegendScript;
+/* Export plugin commands handlers */
+this.runCleanUpLegends = runCleanUpLegends;
+this.runAddLegends = runAddLegends;
