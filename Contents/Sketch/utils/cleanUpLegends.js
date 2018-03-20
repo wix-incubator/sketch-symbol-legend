@@ -1,6 +1,7 @@
+const isSketchStringsEqual = require('./isSketchStringsEqual');
+
 const cleanUpLegendsIndexes = ({ layer, legendItemIndexName }) => {
-  // NOTE: layer.name() is object :/
-  if (String(layer.name()) === legendItemIndexName) {
+  if (isSketchStringsEqual(layer.name(), legendItemIndexName)) {
     layer.removeFromParent();
     return;
   }
@@ -15,8 +16,7 @@ const cleanUpLegendsIndexes = ({ layer, legendItemIndexName }) => {
 const cleanUpLegends = ({ document, artboardName, legendItemIndexName }) => {
   document.pages().forEach(page => {
     page.artboards().forEach(artboard => {
-      // NOTE: artboard.name() is object :/
-      if (String(artboard.name()) === artboardName) {
+      if (isSketchStringsEqual(artboard.name(), artboardName)) {
         artboard.removeFromParent();
       }
     });

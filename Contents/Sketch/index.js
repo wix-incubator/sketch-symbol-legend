@@ -1,16 +1,18 @@
 const sketch = require('sketch');
 const Rectangle = require('sketch/dom').Rectangle;
 
-const createLegendItemIndex = require('./utils/createLegendIndex');
+const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
 const cleanUpLegends = require('./utils/cleanUpLegends');
+const createLegendItemIndex = require('./utils/createLegendIndex');
+const createSymbolsDictionary = require('./utils/createSymbolsDictionary');
 
-const SYMBOL_INSTANCE_CLASS_NAME = "MSSymbolInstance";
-const SYMBOL_MASTER_CLASS_NAME = "MSSymbolMaster";
-
-const LEGEND_ARTBOARD_NAME = 'Legend';
-const LEGEND_ITEM_INDEX_NAME = 'LegendItemIndex';
-const LEGEND_ARTBOARD_MIN_WIDTH = 300;
-const LEGEND_ITEM_HEIGHT = 80;
+const {
+  SYMBOL_INSTANCE_CLASS_NAME,
+  LEGEND_ARTBOARD_NAME,
+  LEGEND_ITEM_INDEX_NAME,
+  LEGEND_ARTBOARD_MIN_WIDTH,
+  LEGEND_ITEM_HEIGHT,
+} = require('./constants');
 
 const legendItemOffsetGenerator = () => {
   let lastItemOffsetTop = 0;
@@ -22,21 +24,6 @@ const legendItemOffsetGenerator = () => {
 };
 
 const getNextItemOffsetTop = legendItemOffsetGenerator();
-
-const createSymbolsDictionary = function(symbols, dictionary = {}) {
-  for (let i = 0; i < symbols.count(); i++) {
-    const symbol = symbols.objectAtIndex(i);
-    if(symbol.class() === SYMBOL_INSTANCE_CLASS_NAME || symbol.class() === SYMBOL_MASTER_CLASS_NAME) {
-      if (symbol.layers) {
-        initSymbolDictFlat(symbol.layers(), dictionary);
-      }
-      dictionary[symbol.symbolID()] = symbol;
-      dictionary[symbol.objectID()] = symbol;
-    }
-  }
-
-  return dictionary;
-};
 
 const legendifyArtboard = ({artboard, page, symbolsDictionary}) => {
   const legendArtboard = createLegendArtboard({artboard, page});
@@ -68,8 +55,7 @@ const runLegendScript = ({ document }) => {
   }));
 
   document.pages().forEach(page => page.artboards().forEach(artboard => {
-    // NOTE: artboard.name() is object :/
-    if (String(artboard.name()) !== LEGEND_ARTBOARD_NAME) {
+    if (!isSketchStringsEqual(artboard.name(), LEGEND_ARTBOARD_NAME)) {
       return;
     }
 
@@ -101,7 +87,7 @@ const legendify = ({ currentLayer, parentArtboard, legendArtboard, depth = 0, sy
   let currLegendNextY = 0;
   currentLayer.layers().forEach((layer, index) => {
     const currentDepth = index + depth;
-    if (layer.class() !== SYMBOL_INSTANCE_CLASS_NAME) {
+    if (!isSketchStringsEqual(layer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
       legendify({currentLayer: layer, parentArtboard, legendArtboard, depth: currentDepth, symbolsDictionary});
     }
 
