@@ -1,28 +1,45 @@
 const isSketchStringsEqual = require('./isSketchStringsEqual');
 
-const cleanUpLegendsIndexes = ({ layer, legendItemIndexName }) => {
+
+function getLayersToRemove({layer, legendItemIndexName, itemsToRemove = []}) {
   if (isSketchStringsEqual(layer.name(), legendItemIndexName)) {
-    layer.removeFromParent();
+    itemsToRemove.push(layer);
     return;
   }
 
   if (layer.layers) {
     layer.layers().forEach(layer => {
-      cleanUpLegendsIndexes({layer, legendItemIndexName});
+      getLayersToRemove({
+        layer: layer,
+        legendItemIndexName,
+        itemsToRemove
+      });
     });
   }
-};
 
-const cleanUpLegends = ({ document, artboardName, legendItemIndexName }) => {
+  return itemsToRemove;
+}
+
+function cleanUpLegendsIndexes({ layer, legendItemIndexName }) {
+  // sketch behave strange while deleting layers in loop, so remove items in two steps
+  const layersToRemove = getLayersToRemove({layer, legendItemIndexName});
+
+  layersToRemove.forEach(layer => {
+    layer.removeFromParent();
+  });
+}
+
+function cleanUpLegends({ document, artboardName, legendItemIndexName }) {
   document.pages().forEach(page => {
     page.artboards().forEach(artboard => {
       if (isSketchStringsEqual(artboard.name(), artboardName)) {
         artboard.removeFromParent();
+        return;
       }
-    });
 
-    cleanUpLegendsIndexes({ layer: page, legendItemIndexName });
+      cleanUpLegendsIndexes({ layer: page, legendItemIndexName });
+    });
   });
-};
+}
 
 module.exports = cleanUpLegends;
