@@ -1,5 +1,6 @@
 const sketch = require('sketch');
 const Rectangle = require('sketch/dom').Rectangle;
+const createLegendIndex = require('./utils/createLegendIndex');
 
 const SYMBOL_INSTANCE_CLASS_NAME = "MSSymbolInstance";
 const SYMBOL_MASTER_CLASS_NAME = "MSSymbolMaster";
@@ -92,7 +93,7 @@ const legendify = ({ currentLayer, parentArtboard, legendArtboard, depth = 0, sy
     if (layer.class() !== SYMBOL_INSTANCE_CLASS_NAME) {
       legendify({currentLayer: layer, parentArtboard, legendArtboard, depth: currentDepth, symbolsDictionary});
     }
-    addIndexesToSymbols(layer, currentDepth, parentArtboard);
+    createLegendIndex({layer, depth: currentDepth, artboard: parentArtboard});
     if (layer.overrides) {
       addLegendItem({layer, depth: currentDepth, legendArtboard, symbolsDictionary});
     }
@@ -119,19 +120,6 @@ const buildOverrideDescription = function({layer, depth, symbolsDictionary}) {
     }
   }
   return description;
-};
-
-const addIndexesToSymbols = function(layer, index, currArtboard) {
-    if (layer.class() == SYMBOL_INSTANCE_CLASS_NAME) {
-      const rect = new Rectangle(layer.frame().x(), layer.frame().y()-15, layer.frame().width(), layer.frame().height());
-      const text = new sketch.Text({
-        parent: currArtboard,
-        alignment: sketch.Text.Alignment.center,
-        text: '(' + index + ')',
-        frame: rect,
-      });
-      text.adjustToFit()
-    }
 };
 
 const addDescriptionToLegend = function(str, artboard, nextY) {
