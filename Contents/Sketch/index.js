@@ -8,6 +8,7 @@ const createSymbolsDictionary = require('./utils/createSymbolsDictionary');
 const createLegendItem =  require('./utils/createLegendItem');
 
 const {
+  ARTBOARD_GROUP_CLASS_NAME,
   SYMBOL_INSTANCE_CLASS_NAME,
   LEGEND_ARTBOARD_NAME,
   LEGEND_ITEM_INDEX_NAME,
@@ -119,7 +120,9 @@ function runAddLegends({ document }) {
     cleanUpPageLegends(page);
 
     page.artboards().forEach(artboard => {
-      legendifyArtboard({artboard, page, symbolsDictionary});
+      if (isSketchStringsEqual(artboard.class(), ARTBOARD_GROUP_CLASS_NAME)) {
+        legendifyArtboard({artboard, page, symbolsDictionary});
+      }
     })
   });
 
