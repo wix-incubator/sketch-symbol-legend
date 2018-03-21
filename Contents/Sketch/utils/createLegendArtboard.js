@@ -8,7 +8,7 @@ function createLegendArtboard({ artboard, page }) {
 
   return new sketch.Artboard({
     parent: page,
-    name: String(LEGEND_ARTBOARD_NAME),
+    name: artboard.name() + String(LEGEND_ARTBOARD_NAME),
     flowStartPoint: true,
     frame: rect,
   });

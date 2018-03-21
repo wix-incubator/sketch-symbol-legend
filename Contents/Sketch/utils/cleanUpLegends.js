@@ -1,43 +1,43 @@
 const isSketchStringsEqual = require('./isSketchStringsEqual');
+const {
+  LEGEND_ARTBOARD_NAME,
+  LEGEND_ITEM_INDEX_NAME,
+} = require('../constants');
 
 
-function getLayersToRemove({layer, legendItemIndexName, itemsToRemove = []}) {
-  if (isSketchStringsEqual(layer.name(), legendItemIndexName)) {
+function getLayersToRemove({layer, itemsToRemove = []}) {
+  if (isSketchStringsEqual(layer.name(), LEGEND_ITEM_INDEX_NAME)) {
     itemsToRemove.push(layer);
     return;
   }
 
   if (layer.layers) {
     layer.layers().forEach(layer => {
-      getLayersToRemove({
-        layer: layer,
-        legendItemIndexName,
-        itemsToRemove
-      });
+      getLayersToRemove({layer, itemsToRemove});
     });
   }
 
   return itemsToRemove;
 }
 
-function cleanUpLegendsIndexes({ layer, legendItemIndexName }) {
+function cleanUpLegendsIndexes(layer) {
   // sketch behave strange while deleting layers in loop, so remove items in two steps
-  const layersToRemove = getLayersToRemove({layer, legendItemIndexName});
+  const layersToRemove = getLayersToRemove({layer});
 
   layersToRemove.forEach(layer => {
     layer.removeFromParent();
   });
 }
 
-function cleanUpLegends({ document, artboardName, legendItemIndexName }) {
+function cleanUpLegends({ document }) {
   document.pages().forEach(page => {
     page.artboards().forEach(artboard => {
-      if (isSketchStringsEqual(artboard.name(), artboardName)) {
+      if (artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
         artboard.removeFromParent();
         return;
       }
 
-      cleanUpLegendsIndexes({ layer: page, legendItemIndexName });
+      cleanUpLegendsIndexes(artboard);
     });
   });
 }

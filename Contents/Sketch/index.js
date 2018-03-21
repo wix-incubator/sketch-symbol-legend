@@ -60,7 +60,7 @@ function legendifyArtboard({artboard, page, symbolsDictionary}) {
 
 function adjustToFitLegentArtboard(document) {
   document.pages().forEach(page => page.artboards().forEach(artboard => {
-    if (!isSketchStringsEqual(artboard.name(), LEGEND_ARTBOARD_NAME)) {
+    if (!artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
       return;
     }
 
