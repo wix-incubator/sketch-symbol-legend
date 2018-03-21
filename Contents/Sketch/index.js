@@ -10,7 +10,6 @@ const createLegendItem =  require('./utils/createLegendItem');
 const {
   ARTBOARD_GROUP_CLASS_NAME,
   SYMBOL_INSTANCE_CLASS_NAME,
-  LEGEND_ARTBOARD_NAME,
   LEGEND_ARTBOARD_MIN_WIDTH,
 } = require('./constants');
 
@@ -64,6 +63,24 @@ function legendify({
   });
 }
 
+function adjustToFitLegendArtboard(artboard) {
+  const artboardObject = artboard._object;
+  const artboardFrame = artboardObject.frame();
+
+  if (!artboardObject.layers().length) {
+    artboardObject.removeFromParent();
+    return;
+  }
+
+  artboard.adjustToFit();
+
+  if (artboardFrame.width() < LEGEND_ARTBOARD_MIN_WIDTH) {
+    artboardFrame.width = LEGEND_ARTBOARD_MIN_WIDTH;
+  }
+
+  artboardFrame.x = artboardFrame.x() - artboardFrame.width();
+}
+
 function legendifyArtboard({artboard, page, symbolsDictionary}) {
   const legendArtboard = createLegendArtboard({artboard, page});
   const getLegendItemIndex = createLegendItemIndexGenerator();
@@ -78,30 +95,7 @@ function legendifyArtboard({artboard, page, symbolsDictionary}) {
     getLegendItemOffsetTop,
   });
 
-  legendArtboard.adjustToFit();
-
-  // TODO: figure out how to update `legendArtboard.frame.x` here (see `adjustToFitLegentArtboard`)
-}
-
-function adjustToFitLegentArtboard(document) {
-  document.pages().forEach(page => page.artboards().forEach(artboard => {
-    if (!artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
-      return;
-    }
-
-    if (!artboard.layers().length) {
-      artboard.removeFromParent();
-      return;
-    }
-
-    const frame = artboard.frame();
-
-    if (frame.width() < LEGEND_ARTBOARD_MIN_WIDTH) {
-      frame.width = LEGEND_ARTBOARD_MIN_WIDTH;
-    }
-
-    frame.x = frame.x() - frame.width();
-  }));
+  adjustToFitLegendArtboard(legendArtboard);
 }
 
 function runCleanUpLegends({ document }) {
@@ -123,8 +117,6 @@ function runAddLegends({ document }) {
       }
     })
   });
-
-  adjustToFitLegentArtboard(document);
 }
 
 /* Export plugin commands handlers */
