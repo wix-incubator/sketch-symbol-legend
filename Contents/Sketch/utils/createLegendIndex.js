@@ -1,9 +1,12 @@
 const sketch = require('sketch');
 const Rectangle = require('sketch/dom').Rectangle;
 
+
+const { LEGEND_ITEM_INDEX_NAME } = require('../constants');
+
 const OFFSET_TOP = 15;
 
-function createLegendItemIndex({ name, layer, artboard, layerIndex, layerOffsetLeft, layerOffsetTop }) {
+function createLegendItemIndex({ layer, artboard, layerIndex, layerOffsetLeft, layerOffsetTop }) {
   const itemIndexOffsetLeft = Math.max(layer.frame().x() + layerOffsetLeft, 0);
   const itemIndexOffsetTop = Math.max(layer.frame().y() + layerOffsetTop - OFFSET_TOP, 0);
   const rect = new Rectangle(itemIndexOffsetLeft, itemIndexOffsetTop , layer.frame().width(), layer.frame().height());
@@ -15,7 +18,7 @@ function createLegendItemIndex({ name, layer, artboard, layerIndex, layerOffsetL
   });
 
   // NOTE: required for valid clean up on rerun
-  text.name = name;
+  text.name = LEGEND_ITEM_INDEX_NAME;
   text.adjustToFit();
 }
 

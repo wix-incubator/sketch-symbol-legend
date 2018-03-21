@@ -11,7 +11,6 @@ const {
   ARTBOARD_GROUP_CLASS_NAME,
   SYMBOL_INSTANCE_CLASS_NAME,
   LEGEND_ARTBOARD_NAME,
-  LEGEND_ITEM_INDEX_NAME,
   LEGEND_ARTBOARD_MIN_WIDTH,
 } = require('./constants');
 
@@ -48,7 +47,6 @@ function legendify({
       const legendItemIndex = getLegendItemIndex();
 
       createLegendItemIndex({
-        name: LEGEND_ITEM_INDEX_NAME,
         layer: childLayer,
         artboard: artboard,
         layerIndex: legendItemIndex,
