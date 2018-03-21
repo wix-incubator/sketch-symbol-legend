@@ -90,6 +90,11 @@ function adjustToFitLegentArtboard(document) {
       return;
     }
 
+    if (!artboard.layers().length) {
+      artboard.removeFromParent();
+      return;
+    }
+
     const frame = artboard.frame();
 
     if (frame.width() < LEGEND_ARTBOARD_MIN_WIDTH) {
