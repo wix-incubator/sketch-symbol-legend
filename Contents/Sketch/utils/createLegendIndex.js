@@ -19,6 +19,7 @@ function createLegendItemIndex({ layer, artboard, layerIndex, layerOffsetLeft, l
 
   // NOTE: required for valid clean up on rerun
   text.name = LEGEND_ITEM_INDEX_NAME;
+  text._object.style().contextSettings().opacity = 0.2;
   text.adjustToFit();
 }
 
