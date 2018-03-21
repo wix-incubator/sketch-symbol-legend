@@ -3,8 +3,10 @@ const Rectangle = require('sketch/dom').Rectangle;
 
 const OFFSET_TOP = 15;
 
-function createLegendItemIndex({ name, layer, artboard, layerIndex }) {
-  const rect = new Rectangle(layer.frame().x(), layer.frame().y() - OFFSET_TOP , layer.frame().width(), layer.frame().height());
+function createLegendItemIndex({ name, layer, artboard, layerIndex, layerOffsetLeft, layerOffsetTop }) {
+  const itemIndexOffsetLeft = Math.max(layer.frame().x() + layerOffsetLeft, 0);
+  const itemIndexOffsetTop = Math.max(layer.frame().y() + layerOffsetTop - OFFSET_TOP, 0);
+  const rect = new Rectangle(itemIndexOffsetLeft, itemIndexOffsetTop , layer.frame().width(), layer.frame().height());
   const text = new sketch.Text({
     parent: artboard,
     alignment: sketch.Text.Alignment.center,

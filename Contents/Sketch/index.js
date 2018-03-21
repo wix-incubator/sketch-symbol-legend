@@ -1,6 +1,7 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
 const cleanUpPageLegends = require('./utils/cleanUpPageLegends');
 const createLegendItemOffsetGenerator = require('./utils/createLegendItemOffsetGenerator');
+const createLegendItemIndexGenerator = require('./utils/createLegendItemIndexGenerator');
 const createLegendArtboard = require('./utils/createLegendArtboard');
 const createLegendItemIndex = require('./utils/createLegendIndex');
 const createSymbolsDictionary = require('./utils/createSymbolsDictionary');
@@ -13,33 +14,49 @@ const {
   LEGEND_ARTBOARD_MIN_WIDTH,
 } = require('./constants');
 
-function legendify({ currentLayer, parentArtboard, legendArtboard, layerIndex = 0, symbolsDictionary, getLegendItemOffsetTop }) {
-  if (!currentLayer.layers) {
+const WIX_STYLE_REACT_LAYER_PATTERN = /(\/\s*)?\d\.\d[^\/]+$/;
+
+function legendify({
+  layer,
+  layerOffsetTop = 0,
+  layerOffsetLeft = 0,
+  symbolsDictionary,
+  artboard,
+  legendArtboard,
+  getLegendItemIndex,
+  getLegendItemOffsetTop,
+}) {
+  if (!layer.layers) {
     return;
   }
-  currentLayer.layers().forEach((layer, index) => {
-    const currentLayerIndex = index + layerIndex;
-    if (!isSketchStringsEqual(layer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
+  layer.layers().forEach(childLayer => {
+    if (!isSketchStringsEqual(childLayer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
       legendify({
-        currentLayer: layer,
-        parentArtboard,
+        layer: childLayer,
+        artboard,
         legendArtboard,
-        layerIndex: currentLayerIndex,
+        layerOffsetTop: layerOffsetTop + childLayer.frame().y(),
+        layerOffsetLeft: layerOffsetTop + childLayer.frame().x(),
         symbolsDictionary,
-        getLegendItemOffsetTop
+        getLegendItemIndex,
+        getLegendItemOffsetTop,
       });
     }
 
-    if (layer.overrides) {
+    if (childLayer.overrides && WIX_STYLE_REACT_LAYER_PATTERN.test(childLayer.name())) {
+      const legendItemIndex = getLegendItemIndex();
+
       createLegendItemIndex({
         name: LEGEND_ITEM_INDEX_NAME,
-        layer,
-        artboard: parentArtboard,
-        layerIndex: currentLayerIndex,
+        layer: childLayer,
+        artboard: artboard,
+        layerIndex: legendItemIndex,
+        layerOffsetTop,
+        layerOffsetLeft,
       });
       createLegendItem({
-        layer,
-        layerIndex: currentLayerIndex,
+        layer: childLayer,
+        layerIndex: legendItemIndex,
         legendArtboard,
         symbolsDictionary,
         offsetTop: getLegendItemOffsetTop(),
@@ -50,13 +67,15 @@ function legendify({ currentLayer, parentArtboard, legendArtboard, layerIndex = 
 
 function legendifyArtboard({artboard, page, symbolsDictionary}) {
   const legendArtboard = createLegendArtboard({artboard, page});
+  const getLegendItemIndex = createLegendItemIndexGenerator();
   const getLegendItemOffsetTop = createLegendItemOffsetGenerator();
 
   legendify({
-    currentLayer: artboard,
-    parentArtboard: artboard,
+    layer: artboard,
+    artboard,
     legendArtboard,
     symbolsDictionary,
+    getLegendItemIndex,
     getLegendItemOffsetTop,
   });
 
