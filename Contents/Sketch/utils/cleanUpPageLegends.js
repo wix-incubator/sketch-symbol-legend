@@ -29,17 +29,15 @@ function cleanUpLegendsIndexes(layer) {
   });
 }
 
-function cleanUpLegends({ document }) {
-  document.pages().forEach(page => {
-    page.artboards().forEach(artboard => {
-      if (artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
-        artboard.removeFromParent();
-        return;
-      }
+function cleanUpPageLegends(page) {
+  page.artboards().forEach(artboard => {
+    if (artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
+      artboard.removeFromParent();
+      return;
+    }
 
-      cleanUpLegendsIndexes(artboard);
-    });
+    cleanUpLegendsIndexes(artboard);
   });
 }
 
-module.exports = cleanUpLegends;
+module.exports = cleanUpPageLegends;

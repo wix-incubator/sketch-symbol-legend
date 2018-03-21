@@ -1,5 +1,5 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
-const cleanUpLegends = require('./utils/cleanUpLegends');
+const cleanUpPageLegends = require('./utils/cleanUpPageLegends');
 const createLegendItemOffsetGenerator = require('./utils/createLegendItemOffsetGenerator');
 const createLegendArtboard = require('./utils/createLegendArtboard');
 const createLegendItemIndex = require('./utils/createLegendIndex');
@@ -75,10 +75,8 @@ function adjustToFitLegentArtboard(document) {
 }
 
 function runCleanUpLegends({ document }) {
-  cleanUpLegends({
-    document,
-    artboardName: LEGEND_ARTBOARD_NAME,
-    legendItemIndexName: LEGEND_ITEM_INDEX_NAME
+  document.pages().forEach(page => {
+    cleanUpPageLegends(page);
   });
 }
 
@@ -86,15 +84,13 @@ function runAddLegends({ document }) {
   const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
 
   // cleanup previous legends on rerun
-  cleanUpLegends({
-    document,
-    artboardName: LEGEND_ARTBOARD_NAME,
-    legendItemIndexName: LEGEND_ITEM_INDEX_NAME
-  });
+  document.pages().forEach(page => {
+    cleanUpPageLegends(page);
 
-  document.pages().forEach(page => page.artboards().forEach(artboard => {
-    legendifyArtboard({artboard, page, symbolsDictionary});
-  }));
+    page.artboards().forEach(artboard => {
+      legendifyArtboard({artboard, page, symbolsDictionary});
+    })
+  });
 
   adjustToFitLegentArtboard(document);
 }
