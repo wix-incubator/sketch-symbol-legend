@@ -6,11 +6,13 @@ function getLegendDescription({layer, layerIndex, symbolsDictionary}) {
   let description ='('+(layerIndex)+') '+layer.name()+'\n';
 
   for (const symbolKey in overrides) {
+    const override = overrides[symbolKey];
+
     if (symbolsDictionary[symbolKey]) {
       description += '        ' + symbolsDictionary[symbolKey].name();
 
-      if (overrides[symbolKey].symbolID) {
-        const symbolName = symbolsDictionary[overrides[symbolKey].symbolID];
+      if (override.symbolID && symbolsDictionary[override.symbolID]) {
+        const symbolName = symbolsDictionary[override.symbolID];
 
         description += ` = ${symbolName.name()}\n`;
       }

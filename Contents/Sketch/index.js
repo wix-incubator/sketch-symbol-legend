@@ -20,15 +20,22 @@ function legendify({ currentLayer, parentArtboard, legendArtboard, layerIndex = 
   currentLayer.layers().forEach((layer, index) => {
     const currentLayerIndex = index + layerIndex;
     if (!isSketchStringsEqual(layer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
-      legendify({currentLayer: layer, parentArtboard, legendArtboard, layerIndex: currentLayerIndex, symbolsDictionary});
+      legendify({
+        currentLayer: layer,
+        parentArtboard,
+        legendArtboard,
+        layerIndex: currentLayerIndex,
+        symbolsDictionary,
+        getLegendItemOffsetTop
+      });
     }
 
     if (layer.overrides) {
       createLegendItemIndex({
-        layer,
         name: LEGEND_ITEM_INDEX_NAME,
+        layer,
+        artboard: parentArtboard,
         layerIndex: currentLayerIndex,
-        artboard: parentArtboard
       });
       createLegendItem({
         layer,
