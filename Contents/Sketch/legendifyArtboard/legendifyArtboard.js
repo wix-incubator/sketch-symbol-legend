@@ -4,12 +4,11 @@ const createLegendArtboard = require('./createLegendArtboard');
 const createLegendItemIndex = require('./createLegendIndex');
 const createLegendItem = require('./createLegendItem');
 
-const {
-  SYMBOL_INSTANCE_CLASS_NAME,
-  LEGEND_ARTBOARD_MIN_WIDTH,
-} = require('../constants');
+const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
 const WIX_STYLE_REACT_LAYER_PATTERN = /(\/\s*)?\d\.\d[^\/]+$/;
+
+const LEGEND_PADDING = 20;
 
 function isWixStyleReactLayer(layer) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
@@ -77,11 +76,12 @@ function adjustToFitLegendArtboard(artboard) {
   }
 
   artboard.adjustToFit();
-
-  if (artboardFrame.width() < LEGEND_ARTBOARD_MIN_WIDTH) {
-    artboardFrame.width = LEGEND_ARTBOARD_MIN_WIDTH;
-  }
-
+  artboardFrame.width = artboardFrame.width() + LEGEND_PADDING * 2;
+  artboardFrame.height = artboardFrame.height() + LEGEND_PADDING * 2;
+  artboardObject.layers().forEach(layer => {
+    layer.frame().x = layer.frame().x() + LEGEND_PADDING;
+    layer.frame().y = layer.frame().y() + LEGEND_PADDING;
+  });
   artboardFrame.x = artboardFrame.x() - artboardFrame.width();
 }
 

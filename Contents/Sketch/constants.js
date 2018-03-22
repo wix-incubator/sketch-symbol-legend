@@ -4,7 +4,6 @@ const SYMBOL_MASTER_CLASS_NAME = 'MSSymbolMaster';
 
 const LEGEND_ARTBOARD_NAME = '~Legend';
 const LEGEND_ITEM_INDEX_NAME = '~LegendItemIndex';
-const LEGEND_ARTBOARD_MIN_WIDTH = 300;
 
 module.exports = {
   ARTBOARD_GROUP_CLASS_NAME,
@@ -12,5 +11,4 @@ module.exports = {
   SYMBOL_MASTER_CLASS_NAME,
   LEGEND_ARTBOARD_NAME,
   LEGEND_ITEM_INDEX_NAME,
-  LEGEND_ARTBOARD_MIN_WIDTH,
 };
