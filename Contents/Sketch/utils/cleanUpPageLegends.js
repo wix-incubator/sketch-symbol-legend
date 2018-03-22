@@ -4,8 +4,7 @@ const {
   LEGEND_ITEM_INDEX_NAME,
 } = require('../constants');
 
-
-function getLayersToRemove({layer, itemsToRemove = []}) {
+function getLayersToRemove({ layer, itemsToRemove = [] }) {
   if (isSketchStringsEqual(layer.name(), LEGEND_ITEM_INDEX_NAME)) {
     itemsToRemove.push(layer);
     return;
@@ -13,7 +12,7 @@ function getLayersToRemove({layer, itemsToRemove = []}) {
 
   if (layer.layers) {
     layer.layers().forEach(layer => {
-      getLayersToRemove({layer, itemsToRemove});
+      getLayersToRemove({ layer, itemsToRemove });
     });
   }
 
@@ -22,7 +21,7 @@ function getLayersToRemove({layer, itemsToRemove = []}) {
 
 function cleanUpLegendsIndexes(layer) {
   // sketch behave strange while deleting layers in loop, so remove items in two steps
-  const layersToRemove = getLayersToRemove({layer});
+  const layersToRemove = getLayersToRemove({ layer });
 
   layersToRemove.forEach(layer => {
     layer.removeFromParent();

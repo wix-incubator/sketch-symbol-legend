@@ -8,7 +8,7 @@ function createLegendItemOffsetGenerator() {
     lastItemOffsetTop += LEGEND_ITEM_HEIGHT;
 
     return curItemOffsetTop;
-  }
+  };
 }
 
 module.exports = createLegendItemOffsetGenerator;

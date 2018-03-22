@@ -7,9 +7,10 @@ const {
 function createSymbolsDictionary(symbols, dictionary = {}) {
   for (let i = 0; i < symbols.count(); i++) {
     const symbol = symbols.objectAtIndex(i);
-    if(
+    if (
       isSketchStringsEqual(symbol.class(), SYMBOL_INSTANCE_CLASS_NAME) ||
-      isSketchStringsEqual(symbol.class(), SYMBOL_MASTER_CLASS_NAME)) {
+      isSketchStringsEqual(symbol.class(), SYMBOL_MASTER_CLASS_NAME)
+    ) {
       if (symbol.layers) {
         createSymbolsDictionary(symbol.layers(), dictionary);
       }
