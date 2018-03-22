@@ -51,4 +51,5 @@ The plugin will be used automatically by Sketch.
 ## Important links:
 
 https://github.com/abynim/Sketch-Headers/
+
 https://developer.sketchapp.com/reference/api/
