@@ -76,13 +76,13 @@ function adjustToFitLegendArtboard(artboard) {
   }
 
   artboard.adjustToFit();
+  artboardFrame.x = artboardFrame.x() - artboardFrame.width();
   artboardFrame.width = artboardFrame.width() + LEGEND_PADDING * 2;
   artboardFrame.height = artboardFrame.height() + LEGEND_PADDING * 2;
   artboardObject.layers().forEach(layer => {
     layer.frame().x = layer.frame().x() + LEGEND_PADDING;
     layer.frame().y = layer.frame().y() + LEGEND_PADDING;
   });
-  artboardFrame.x = artboardFrame.x() - artboardFrame.width();
 }
 
 function legendifyArtboard({ artboard, page, symbolsDictionary }) {
