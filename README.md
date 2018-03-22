@@ -29,10 +29,10 @@ The plugin will be used automatically by Sketch.
 ---
 ## Known Issues and TODOs
 - ~Currently works only on artboards that are on (0,0) coordinates.~ Status: [V]
-- ~duplicate numbering on designs with groups. Status:~ [x]
+- ~duplicate numbering on designs with groups.~ Status: [V]
 - ~Currently works only on one page and one artboard.~ Status: [V]
 - ~Hard coded Legend sizes.~ Status: [V]
-- Hard coded Legend items sizes. Status: [x]
+- ~Hard coded Legend items sizes.~ Status: [V]
 - ~Filter out non wix-style-react components~ Status: [V]
 - ~Remove empty legends~ Status: [V]
 - ~Fixed legend indexes positions and names~ Status: [V]
