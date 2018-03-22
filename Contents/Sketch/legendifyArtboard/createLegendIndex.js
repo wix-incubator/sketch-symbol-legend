@@ -25,7 +25,7 @@ function createLegendItemIndex({
   );
   const text = new sketch.Text({
     parent: artboard,
-    alignment: sketch.Text.Alignment.center,
+    alignment: sketch.Text.Alignment.left,
     text: `(${layerIndex})`,
     frame: rect,
   });
