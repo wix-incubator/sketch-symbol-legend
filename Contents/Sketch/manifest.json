@@ -1,0 +1,24 @@
+{
+  "name": "Sketch Legend Plugin",
+  "identifier": "com.amimagid.legend-plugin",
+  "version": "1.0",
+  "description": "a Sketch legend for symbols ",
+  "authorEmail": "amimagid@gmail.com",
+  "author": "Ami Magid",
+  "commands": [
+    {
+      "script": "index.js",
+      "handler": "runAddLegends",
+      "shortcut": "command shift y",
+      "name": "Add legends",
+      "identifier": "com.amimagid.legend-plugin.add"
+    },
+    {
+      "script": "index.js",
+      "handler": "runCleanUpLegends",
+      "shortcut": "command shift d",
+      "name": "Cleanup legends",
+      "identifier": "com.amimagid.legend-plugin.cleanup"
+    }
+  ]
+}
