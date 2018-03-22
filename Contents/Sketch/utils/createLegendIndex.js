@@ -12,7 +12,7 @@ function createLegendItemIndex({
   layerOffsetLeft,
   layerOffsetTop,
 }) {
-  const itemIndexOffsetLeft = Math.max(layer.frame().x() + layerOffsetLeft, 0);
+  const itemIndexOffsetLeft = layer.frame().x() + layerOffsetLeft;
   const itemIndexOffsetTop = Math.max(
     layer.frame().y() + layerOffsetTop - OFFSET_TOP,
     0

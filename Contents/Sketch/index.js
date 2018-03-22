@@ -1,6 +1,5 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
 const cleanUpPageLegends = require('./utils/cleanUpPageLegends');
-const createLegendItemOffsetGenerator = require('./utils/createLegendItemOffsetGenerator');
 const createLegendItemIndexGenerator = require('./utils/createLegendItemIndexGenerator');
 const createLegendArtboard = require('./utils/createLegendArtboard');
 const createLegendItemIndex = require('./utils/createLegendIndex');
@@ -34,7 +33,6 @@ function legendify({
   artboard,
   legendArtboard,
   getLegendItemIndex,
-  getLegendItemOffsetTop,
 }) {
   if (!layer.layers) {
     return;
@@ -49,7 +47,6 @@ function legendify({
         layerOffsetLeft: layerOffsetTop + childLayer.frame().x(),
         symbolsDictionary,
         getLegendItemIndex,
-        getLegendItemOffsetTop,
       });
     }
 
@@ -68,7 +65,6 @@ function legendify({
         layerIndex: legendItemIndex,
         legendArtboard,
         symbolsDictionary,
-        offsetTop: getLegendItemOffsetTop(),
       });
     }
   });
@@ -95,7 +91,6 @@ function adjustToFitLegendArtboard(artboard) {
 function legendifyArtboard({ artboard, page, symbolsDictionary }) {
   const legendArtboard = createLegendArtboard({ artboard, page });
   const getLegendItemIndex = createLegendItemIndexGenerator();
-  const getLegendItemOffsetTop = createLegendItemOffsetGenerator();
 
   legendify({
     layer: artboard,
@@ -103,7 +98,6 @@ function legendifyArtboard({ artboard, page, symbolsDictionary }) {
     legendArtboard,
     symbolsDictionary,
     getLegendItemIndex,
-    getLegendItemOffsetTop,
   });
 
   adjustToFitLegendArtboard(legendArtboard);
