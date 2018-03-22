@@ -50,6 +50,12 @@ The plugin will be used automatically by Sketch.
 
 ## Important links:
 
+https://developer.sketchapp.com/guides/cocoascript/
+https://developer.sketchapp.com/reference/api/
+https://github.com/turbobabr/Sketch-Plugins-Cookbook
 https://github.com/abynim/Sketch-Headers/
 
-https://developer.sketchapp.com/reference/api/
+## Debugging:
+
+https://developer.sketchapp.com/guides/debugging-plugins/
+https://github.com/skpm/sketch-dev-tools
