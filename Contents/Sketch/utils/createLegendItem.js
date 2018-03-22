@@ -2,8 +2,10 @@ const sketch = require('sketch');
 const Rectangle = require('sketch/dom').Rectangle;
 
 function getLegendDescription({layer, layerIndex, symbolsDictionary}) {
+  const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
-  let description ='('+(layerIndex)+') '+layer.name()+'\n';
+
+  let description ='('+(layerIndex)+') '+ symbolMaster.name()+'\n';
 
   for (const symbolKey in overrides) {
     const override = overrides[symbolKey];

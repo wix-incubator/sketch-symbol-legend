@@ -15,6 +15,17 @@ const {
 
 const WIX_STYLE_REACT_LAYER_PATTERN = /(\/\s*)?\d\.\d[^\/]+$/;
 
+function isWixStyleReactLayer(layer) {
+  const symbolMaster = layer.symbolMaster && layer.symbolMaster();
+
+  return !!(
+    layer.overrides &&
+    symbolMaster &&
+    symbolMaster.name &&
+    WIX_STYLE_REACT_LAYER_PATTERN.test(symbolMaster.name())
+  );
+}
+
 function legendify({
   layer,
   layerOffsetTop = 0,
@@ -42,7 +53,7 @@ function legendify({
       });
     }
 
-    if (childLayer.overrides && WIX_STYLE_REACT_LAYER_PATTERN.test(childLayer.name())) {
+    if (isWixStyleReactLayer(childLayer)) {
       const legendItemIndex = getLegendItemIndex();
 
       createLegendItemIndex({
