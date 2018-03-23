@@ -23,7 +23,7 @@ Feature requests and pull requests are more than welcome :)
 
 `command+shift+d` - clean up legends
 
-## demo
+## Demo
 
 ## ![legend demo](https://github.com/amimagid/sketch-symbol-legend/blob/master/LegendPlugin.gif)
 
