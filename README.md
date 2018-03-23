@@ -82,7 +82,7 @@ The plugin will be used automatically by Sketch.
 * [ ] Place legend to the bottom of artboard
 * [ ] Add bg color to legend indexes(make them looks like bages)
 * [ ] Updated order of legend indexes(highest layers should be first)
-* [ ] Prototyping and links between legend indexes and legend
+* [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend
 
 ## Important links:
 
