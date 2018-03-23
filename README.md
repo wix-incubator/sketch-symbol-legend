@@ -44,6 +44,8 @@ Feature requests and pull requests are more than welcome :)
 
 OR
 
+> This way is better for plugin development
+
 * Go to sketch plugins directory
 ```sh
 cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugins
@@ -53,7 +55,6 @@ cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugi
 git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
 ```
 The plugin will be used automatically by Sketch. 
-This way is better for plugin development
 
 ---
 
