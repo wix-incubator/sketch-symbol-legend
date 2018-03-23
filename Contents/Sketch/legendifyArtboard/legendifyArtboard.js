@@ -2,7 +2,7 @@ const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const createLegendItemIndexGenerator = require('./createLegendItemIndexGenerator');
 const createLegendArtboard = require('./createLegendArtboard');
 const createLegendItemIndex = require('./createLegendIndex');
-const createLegendItem = require('./createLegendItem');
+const {createLegendItem, getLegendDescription} = require('./createLegendItem');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
@@ -29,6 +29,7 @@ function legendify({
   artboard,
   legendArtboard,
   getLegendItemIndex,
+  legendItems,
 }) {
   if (!layer.layers) {
     return;
@@ -43,6 +44,7 @@ function legendify({
         layerOffsetLeft: layerOffsetTop + childLayer.frame().x(),
         symbolsDictionary,
         getLegendItemIndex,
+        legendItems,
       });
     }
 
@@ -56,21 +58,22 @@ function legendify({
         layerOffsetTop,
         layerOffsetLeft,
       });
-      createLegendItem({
-        layer: childLayer,
-        layerIndex: legendItemIndex,
-        legendArtboard,
-        symbolsDictionary,
-      });
+      legendItems.push(
+        getLegendDescription({
+          layer: childLayer,
+          layerIndex: legendItemIndex,
+          symbolsDictionary
+        })
+      );
     }
   });
 }
 
-function adjustToFitLegendArtboard(artboard) {
+function adjustToFitLegendArtboard({artboard, isEmpty}) {
   const artboardObject = artboard._object;
   const artboardFrame = artboardObject.frame();
 
-  if (!artboardObject.layers().length) {
+  if (isEmpty) {
     artboardObject.removeFromParent();
     return;
   }
@@ -90,15 +93,19 @@ function legendifyArtboard({ artboard, page, symbolsDictionary }) {
   const legendArtboard = createLegendArtboard({ artboard, page });
   const getLegendItemIndex = createLegendItemIndexGenerator();
 
+  const legendItems = [];
+
   legendify({
     layer: artboard,
     artboard,
     legendArtboard,
     symbolsDictionary,
     getLegendItemIndex,
+    legendItems
   });
 
-  adjustToFitLegendArtboard(legendArtboard);
+  createLegendItem({legendArtboard, description: legendItems.join('\n\n')})
+  adjustToFitLegendArtboard({artboard: legendArtboard, isEmpty: !legendItems.length});
 }
 
 module.exports = legendifyArtboard;

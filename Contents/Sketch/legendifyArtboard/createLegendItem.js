@@ -6,6 +6,7 @@ const LEGEND_ITEM_PADDING = 15;
 function getLegendDescription({ layer, layerIndex, symbolsDictionary }) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
+
   let description = '(' + layerIndex + ') ' + symbolMaster.name() + '\n';
 
   for (const symbolKey in overrides) {
@@ -25,37 +26,23 @@ function getLegendDescription({ layer, layerIndex, symbolsDictionary }) {
   return description;
 }
 
-function getLegendItemOffsetTop(legendArtboard) {
-  const legendLayers = legendArtboard.layers;
-  const lastLegendLayer = legendLayers[legendLayers.length - 1];
-  return lastLegendLayer
-    ? lastLegendLayer.frame.y +
-        lastLegendLayer.frame.height +
-        LEGEND_ITEM_PADDING
-    : 0;
-}
-
-function createLegendItem({
-  layer,
-  layerIndex,
-  legendArtboard,
-  symbolsDictionary,
-}) {
+function createLegendItem({legendArtboard, description}) {
   const rect = new Rectangle(
     0,
-    getLegendItemOffsetTop(legendArtboard),
+    0,
     200,
     200
   );
   const text = new sketch.Text({
     parent: legendArtboard,
-    text: getLegendDescription({ layer, layerIndex, symbolsDictionary }),
+    text: description,
     frame: rect,
   });
-
   text._object.setIsLocked(true);
-
   return text;
 }
 
-module.exports = createLegendItem;
+module.exports = {
+  createLegendItem,
+  getLegendDescription
+};
