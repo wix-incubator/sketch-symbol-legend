@@ -77,6 +77,10 @@ The plugin will be used automatically by Sketch.
 * ~Fixed legend indexes positions and names~ Status: [V]
 * ~Add delete legends command~ Status: [V]
 * ~Add associations between arboards and legends~ Status: [V]
+* Place legend to the bottom of artboard Status: [x]
+* Add bg color to legend indexes(make them looks like bages) Status: [x]
+* Updated order of legend indexes(highest layers should be first): [x]
+* Prototyping and links between legend indexes and legend: [x]
 
 ## Important links:
 
