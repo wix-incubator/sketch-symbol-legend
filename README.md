@@ -2,6 +2,8 @@
 
 Legend plugin for sketch app.
 
+[download me](https://github.com/amimagid/sketch-symbol-legend/releases/download/v1.1.0/Legend.sketchplugin.zip)
+
 ## Motivation
 
 In some companies UX designers make an effort to align with the company's UX standard by creating Sketch symbols that are highly detailed.
