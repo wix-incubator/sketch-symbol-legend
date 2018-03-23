@@ -16,7 +16,7 @@ function getLayersToRemove({ layer, itemsToRemove = [] }) {
   return itemsToRemove;
 }
 
-function cleanUpLegendsIndexes(layer) {
+function cleanUpArtboardLegendsIndexes(layer) {
   // sketch behave strange while deleting layers in loop, so remove items in two steps
   const layersToRemove = getLayersToRemove({ layer });
 
@@ -25,15 +25,44 @@ function cleanUpLegendsIndexes(layer) {
   });
 }
 
+function isLegendArtboard(artboard) {
+  return artboard.name().endsWith(LEGEND_ARTBOARD_NAME);
+}
+
 function cleanUpPageLegends(page) {
   page.artboards().forEach(artboard => {
-    if (artboard.name().endsWith(LEGEND_ARTBOARD_NAME)) {
+    if (isLegendArtboard(artboard)) {
       artboard.removeFromParent();
       return;
     }
 
-    cleanUpLegendsIndexes(artboard);
+    cleanUpArtboardLegendsIndexes(artboard);
   });
 }
 
-module.exports = cleanUpPageLegends;
+function cleanUpArtboardLegends(artboard) {
+  const page = artboard.parentGroup();
+
+  if (isLegendArtboard(artboard)) {
+    return;
+  }
+
+  const legendArtboardName = `${artboard.name()}${LEGEND_ARTBOARD_NAME}`;
+  const legendArtboard = page
+    .artboards()
+    .find(_artboard =>
+      isSketchStringsEqual(_artboard.name(), legendArtboardName)
+    );
+
+  if (legendArtboard) {
+    legendArtboard.removeFromParent();
+  }
+
+  cleanUpArtboardLegendsIndexes(artboard);
+}
+
+module.exports = {
+  isLegendArtboard,
+  cleanUpPageLegends,
+  cleanUpArtboardLegends,
+};

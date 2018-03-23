@@ -24,7 +24,7 @@ function adjustToFitLegendArtboard({ legendArtboard, legendArtboardItems }) {
 
 function createLegendArtboard({ artboard, page, legendItems }) {
   const legendArtboard = new sketch.Artboard({
-    parent: page,
+    parent: page || artboard.parentGroup(),
     name: artboard.name() + String(LEGEND_ARTBOARD_NAME),
     flowStartPoint: true,
     frame: new Rectangle(artboard.frame().x(), artboard.frame().y()),
