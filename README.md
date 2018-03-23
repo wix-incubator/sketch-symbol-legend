@@ -79,8 +79,8 @@ The plugin will be used automatically by Sketch.
 * ~Add associations between arboards and legends~ Status: [V]
 * Place legend to the bottom of artboard Status: [x]
 * Add bg color to legend indexes(make them looks like bages) Status: [x]
-* Updated order of legend indexes(highest layers should be first): [x]
-* Prototyping and links between legend indexes and legend: [x]
+* Updated order of legend indexes(highest layers should be first) Status: [x]
+* Prototyping and links between legend indexes and legend Status: [x]
 
 ## Important links:
 
