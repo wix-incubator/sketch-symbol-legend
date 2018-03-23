@@ -23,6 +23,13 @@ Feature requests and pull requests are more than welcome :)
 
 `command+shift+d` - clean up legends
 
+## How to use
+
+1. Select artboards for export
+2. `cmd+shift+y` - add legends for selected artboards
+3. `cmd+ctrl+e` - export selected artboards to zeplin
+4. `cmd+shift+d` - cleanup legends for selected artboards
+
 ## Demo
 
 ## ![legend demo](https://github.com/amimagid/sketch-symbol-legend/blob/master/LegendPlugin.gif)
