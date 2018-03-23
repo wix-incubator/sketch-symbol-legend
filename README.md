@@ -45,8 +45,8 @@ Feature requests and pull requests are more than welcome :)
 ### From the sources
 
 * Clone or download the repo
-* Un-zip (if downloaded) 
-* Rename directory to `Legend.sketchplugin` 
+* Un-zip (if downloaded)
+* Rename directory to `Legend.sketchplugin`
 * Double-click on the `Legend.sketchplugin`
 
 OR
@@ -61,7 +61,7 @@ cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugi
 ```sh
 git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
 ```
-The plugin will be used automatically by Sketch. 
+The plugin will be used automatically by Sketch.
 
 ---
 
