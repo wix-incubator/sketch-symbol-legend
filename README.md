@@ -82,3 +82,7 @@ The plugin will be used automatically by Sketch.
 
 * https://developer.sketchapp.com/guides/debugging-plugins/
 * https://github.com/skpm/sketch-dev-tools
+
+## Create plugin archive from source
+
+To create `Legend.sketchplugin.zip`, run `./release.sh` script from root directory
