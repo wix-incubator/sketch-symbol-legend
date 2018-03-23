@@ -69,20 +69,20 @@ The plugin will be used automatically by Sketch.
 
 ## Known Issues and TODOs
 
-* ~Currently works only on artboards that are on (0,0) coordinates.~ Status: [V]
-* ~duplicate numbering on designs with groups.~ Status: [V]
-* ~Currently works only on one page and one artboard.~ Status: [V]
-* ~Hard coded Legend sizes.~ Status: [V]
-* ~Hard coded Legend items sizes.~ Status: [V]
-* ~Filter out non wix-style-react components~ Status: [V]
-* ~Remove empty legends~ Status: [V]
-* ~Fixed legend indexes positions and names~ Status: [V]
-* ~Add delete legends command~ Status: [V]
-* ~Add associations between arboards and legends~ Status: [V]
-* Place legend to the bottom of artboard Status: [x]
-* Add bg color to legend indexes(make them looks like bages) Status: [x]
-* Updated order of legend indexes(highest layers should be first) Status: [x]
-* Prototyping and links between legend indexes and legend Status: [x]
+* [x] ~Currently works only on artboards that are on (0,0) coordinates.~
+* [x] ~duplicate numbering on designs with groups.~
+* [x] ~Currently works only on one page and one artboard.~
+* [x] ~Hard coded Legend sizes.~
+* [x] ~Hard coded Legend items sizes.~
+* [x] ~Filter out non wix-style-react components~
+* [x] ~Remove empty legends~
+* [x] ~Fixed legend indexes positions and names~
+* [x] ~Add delete legends command~
+* [x] ~Add associations between arboards and legends~
+* [ ] Place legend to the bottom of artboard
+* [ ] Add bg color to legend indexes(make them looks like bages)
+* [ ] Updated order of legend indexes(highest layers should be first)
+* [ ] Prototyping and links between legend indexes and legend
 
 ## Important links:
 
