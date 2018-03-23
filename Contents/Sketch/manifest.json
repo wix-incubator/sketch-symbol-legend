@@ -8,17 +8,30 @@
   "commands": [
     {
       "script": "index.js",
-      "handler": "runAddLegends",
+      "handler": "runAddLegendsForSelected",
       "shortcut": "command shift y",
-      "name": "Add legends",
+      "name": "Add legends for selected",
+      "identifier": "com.amimagid.legend-plugin.add-selected"
+    },
+    {
+      "script": "index.js",
+      "handler": "runCleanUpLegendsForSelected",
+      "shortcut": "command shift d",
+      "name": "Cleanup legends for selected",
+      "identifier": "com.amimagid.legend-plugin.cleanup-selected"
+    },
+    {
+      "script": "index.js",
+      "handler": "runAddLegends",
+      "name": "Add legends for all",
       "identifier": "com.amimagid.legend-plugin.add"
     },
     {
       "script": "index.js",
       "handler": "runCleanUpLegends",
-      "shortcut": "command shift d",
-      "name": "Cleanup legends",
+      "name": "Cleanup legends for all",
       "identifier": "com.amimagid.legend-plugin.cleanup"
     }
+
   ]
 }
