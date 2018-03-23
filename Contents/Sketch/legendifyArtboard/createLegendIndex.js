@@ -34,6 +34,7 @@ function createLegendItemIndex({
   text.name = LEGEND_ITEM_INDEX_NAME;
   text._object.style().contextSettings().opacity = 0.2;
   text.adjustToFit();
+  text._object.setIsLocked(true);
 }
 
 module.exports = createLegendItemIndex;

@@ -6,7 +6,6 @@ const LEGEND_ITEM_PADDING = 15;
 function getLegendDescription({ layer, layerIndex, symbolsDictionary }) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
-
   let description = '(' + layerIndex + ') ' + symbolMaster.name() + '\n';
 
   for (const symbolKey in overrides) {
@@ -53,6 +52,8 @@ function createLegendItem({
     text: getLegendDescription({ layer, layerIndex, symbolsDictionary }),
     frame: rect,
   });
+
+  text._object.setIsLocked(true);
 
   return text;
 }
