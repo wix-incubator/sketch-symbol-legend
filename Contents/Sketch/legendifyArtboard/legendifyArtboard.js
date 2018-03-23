@@ -1,14 +1,12 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const createLegendItemIndexGenerator = require('./createLegendItemIndexGenerator');
-const createLegendArtboard = require('./createLegendArtboard');
 const createLegendItemIndex = require('./createLegendIndex');
-const {createLegendItem, getLegendDescription} = require('./createLegendItem');
+const getLegendItemDescription = require('./getLegendItemDescription');
+const createLegendArtboard = require('./createLegendArtboard');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
 const WIX_STYLE_REACT_LAYER_PATTERN = /(\/\s*)?\d+\.\d+[^\/]+$/;
-
-const LEGEND_PADDING = 20;
 
 function isWixStyleReactLayer(layer) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
@@ -27,7 +25,6 @@ function legendify({
   layerOffsetLeft = 0,
   symbolsDictionary,
   artboard,
-  legendArtboard,
   getLegendItemIndex,
   legendItems,
 }) {
@@ -39,7 +36,6 @@ function legendify({
       legendify({
         layer: childLayer,
         artboard,
-        legendArtboard,
         layerOffsetTop: layerOffsetTop + childLayer.frame().y(),
         layerOffsetLeft: layerOffsetTop + childLayer.frame().x(),
         symbolsDictionary,
@@ -59,38 +55,17 @@ function legendify({
         layerOffsetLeft,
       });
       legendItems.push(
-        getLegendDescription({
+        getLegendItemDescription({
           layer: childLayer,
           layerIndex: legendItemIndex,
-          symbolsDictionary
+          symbolsDictionary,
         })
       );
     }
   });
 }
 
-function adjustToFitLegendArtboard({artboard, isEmpty}) {
-  const artboardObject = artboard._object;
-  const artboardFrame = artboardObject.frame();
-
-  if (isEmpty) {
-    artboardObject.removeFromParent();
-    return;
-  }
-
-  artboard.adjustToFit();
-  artboardFrame.width = artboardFrame.width() + LEGEND_PADDING * 2;
-  artboardFrame.height = artboardFrame.height() + LEGEND_PADDING * 2;
-  artboardObject.layers().forEach(layer => {
-    layer.frame().x = layer.frame().x() + LEGEND_PADDING;
-    layer.frame().y = layer.frame().y() + LEGEND_PADDING;
-  });
-  // update x position after artboard size and paddings updated
-  artboardFrame.x = artboardFrame.x() - artboardFrame.width();
-}
-
 function legendifyArtboard({ artboard, page, symbolsDictionary }) {
-  const legendArtboard = createLegendArtboard({ artboard, page });
   const getLegendItemIndex = createLegendItemIndexGenerator();
 
   const legendItems = [];
@@ -98,14 +73,18 @@ function legendifyArtboard({ artboard, page, symbolsDictionary }) {
   legendify({
     layer: artboard,
     artboard,
-    legendArtboard,
     symbolsDictionary,
     getLegendItemIndex,
-    legendItems
+    legendItems,
   });
 
-  createLegendItem({legendArtboard, description: legendItems.join('\n\n')})
-  adjustToFitLegendArtboard({artboard: legendArtboard, isEmpty: !legendItems.length});
+  if (legendItems.length) {
+    createLegendArtboard({
+      page,
+      artboard,
+      legendItems,
+    });
+  }
 }
 
 module.exports = legendifyArtboard;

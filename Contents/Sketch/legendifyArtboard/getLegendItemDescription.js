@@ -1,9 +1,4 @@
-const sketch = require('sketch');
-const Rectangle = require('sketch/dom').Rectangle;
-
-const LEGEND_ITEM_PADDING = 15;
-
-function getLegendDescription({ layer, layerIndex, symbolsDictionary }) {
+function getLegendItemDescription({ layer, layerIndex, symbolsDictionary }) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
 
@@ -26,23 +21,4 @@ function getLegendDescription({ layer, layerIndex, symbolsDictionary }) {
   return description;
 }
 
-function createLegendItem({legendArtboard, description}) {
-  const rect = new Rectangle(
-    0,
-    0,
-    200,
-    200
-  );
-  const text = new sketch.Text({
-    parent: legendArtboard,
-    text: description,
-    frame: rect,
-  });
-  text._object.setIsLocked(true);
-  return text;
-}
-
-module.exports = {
-  createLegendItem,
-  getLegendDescription
-};
+module.exports = getLegendItemDescription;
