@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# To release new plugin as `Legend.sketchplugin.zip`:
+#
+# 1. update version in `./Contents/Sketch/manifest.json`
+# 2. add+push new git tag with updated version
+# 3. run `./release.sh` and attach created file to latest release on https://github.com/amimagid/sketch-symbol-legend/releases page
+
 PLUGIN_NAME=Legend.sketchplugin
 PLUGIN_ZIP_NAME="$PLUGIN_NAME.zip"
 
