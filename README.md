@@ -29,14 +29,31 @@ Feature requests and pull requests are more than welcome :)
 
 ## Installation
 
-Go to sketch plugins directory and clone repo with name `Legend.sketchplugin`;
+### From a release (simplest)
 
+* [Download](https://github.com/amimagid/sketch-symbol-legend/releases/latest) `Legend.sketchplugin.zip` from the latest release of the plugin
+* Un-zip
+* Double-click on the sketch plugin
+
+### From the sources
+
+* Clone or download the repo
+* Un-zip (if downloaded) 
+* Rename directory to `Legend.sketchplugin` 
+* Double-click on the `Legend.sketchplugin`
+
+OR
+
+* Go to sketch plugins directory
 ```sh
 cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugins
+```
+* Clone the repo with name `Legend.sketchplugin`
+```sh
 git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
 ```
-
-The plugin will be used automatically by Sketch.
+The plugin will be used automatically by Sketch. 
+This way is better for plugin development
 
 ---
 
