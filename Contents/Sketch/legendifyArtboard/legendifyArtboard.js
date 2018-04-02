@@ -31,6 +31,7 @@ function legendify({
   if (!layer.layers) {
     return;
   }
+  
   layer.layers().forEach(childLayer => {
     if (!isSketchStringsEqual(childLayer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
       legendify({
@@ -54,6 +55,7 @@ function legendify({
         layerOffsetTop,
         layerOffsetLeft,
       });
+
       legendItems.push(
         getLegendItemDescription({
           layer: childLayer,
@@ -67,7 +69,6 @@ function legendify({
 
 function legendifyArtboard({ artboard, page, symbolsDictionary }) {
   const getLegendItemIndex = createLegendItemIndexGenerator();
-
   const legendItems = [];
 
   legendify({
