@@ -1,8 +1,10 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
-const { LEGEND_ARTBOARD_NAME, LEGEND_ITEM_INDEX_NAME } = require('./constants');
+const { LEGEND_ARTBOARD_NAME, LEGEND_BADGE_NAME } = require('./constants');
 
 function getLayersToRemove({ layer, itemsToRemove = [] }) {
-  if (isSketchStringsEqual(layer.name(), LEGEND_ITEM_INDEX_NAME)) {
+  const name = layer.name();
+
+  if (isSketchStringsEqual(name, LEGEND_BADGE_NAME)) {
     itemsToRemove.push(layer);
     return;
   }

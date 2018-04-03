@@ -31,43 +31,64 @@ function legendify({
   if (!layer.layers) {
     return;
   }
-  layer.layers().forEach(childLayer => {
-    if (!isSketchStringsEqual(childLayer.class(), SYMBOL_INSTANCE_CLASS_NAME)) {
-      legendify({
-        layer: childLayer,
-        artboard,
-        layerOffsetTop: layerOffsetTop + childLayer.frame().y(),
-        layerOffsetLeft: layerOffsetTop + childLayer.frame().x(),
-        symbolsDictionary,
-        getLegendItemIndex,
-        legendItems,
-      });
-    }
 
-    if (isWixStyleReactLayer(childLayer)) {
-      const legendItemIndex = getLegendItemIndex();
+  const layers = Array.from(layer.layers());
 
-      createLegendItemIndex({
-        layer: childLayer,
-        artboard: artboard,
-        layerIndex: legendItemIndex,
-        layerOffsetTop,
-        layerOffsetLeft,
-      });
-      legendItems.push(
-        getLegendItemDescription({
-          layer: childLayer,
-          layerIndex: legendItemIndex,
-          symbolsDictionary,
-        })
-      );
-    }
+  const layersCache = layers.map(layer => {
+    const frame = layer.frame();
+    return {
+      x: frame.x(),
+      y: frame.y(),
+      cls: layer.class(),
+      isWixStyleReactLayer: isWixStyleReactLayer(layer),
+      layer,
+    };
   });
+
+  layersCache
+    .sort((a, b) => (
+      (a.y - b.y) < 0 ||
+      (a.x - b.x) < 0 ?
+        -1 :
+        1
+    ))
+    .forEach(({ layer, x, y, cls, isWixStyleReactLayer }) => {
+      if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
+        legendify({
+          layer,
+          artboard,
+          layerOffsetTop: layerOffsetTop + y,
+          layerOffsetLeft: layerOffsetTop + x,
+          symbolsDictionary,
+          getLegendItemIndex,
+          legendItems,
+        });
+      }
+
+      if (isWixStyleReactLayer) {
+        const legendItemIndex = getLegendItemIndex();
+
+        createLegendItemIndex({
+          layer,
+          artboard: artboard,
+          layerIndex: legendItemIndex,
+          layerOffsetTop,
+          layerOffsetLeft,
+        });
+
+        legendItems.push(
+          getLegendItemDescription({
+            layer,
+            layerIndex: legendItemIndex,
+            symbolsDictionary,
+          })
+        );
+      }
+    });
 }
 
 function legendifyArtboard({ artboard, page, symbolsDictionary }) {
   const getLegendItemIndex = createLegendItemIndexGenerator();
-
   const legendItems = [];
 
   legendify({
