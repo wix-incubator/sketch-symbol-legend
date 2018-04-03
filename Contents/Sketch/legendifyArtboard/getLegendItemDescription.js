@@ -2,27 +2,23 @@ function getLegendItemDescription({ layer, layerIndex, symbolsDictionary }) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
 
-  let description = `${symbolMaster.name()}\n`;
+  let description = '(' + layerIndex + ')  ' + symbolMaster.name() + '\n';
 
-  for (let symbolKey in overrides) {
+  for (const symbolKey in overrides) {
     const override = overrides[symbolKey];
 
     if (symbolsDictionary[symbolKey]) {
-      description += `        ${symbolsDictionary[symbolKey].name()}`;
+      description += '        ' + symbolsDictionary[symbolKey].name();
 
-      const { symbolID } = override;
+      if (override.symbolID && symbolsDictionary[override.symbolID]) {
+        const symbolName = symbolsDictionary[override.symbolID];
 
-      if (symbolID && symbolsDictionary[symbolID]) {
-        const symbolName = symbolsDictionary[symbolID];
         description += ` = ${symbolName.name()}\n`;
       }
     }
   }
 
-  return {
-    layerIndex,
-    description,
-  };
+  return description;
 }
 
 module.exports = getLegendItemDescription;

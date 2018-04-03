@@ -7,8 +7,6 @@ const { getLibraryName } = require('../utils/symbol');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
-const WIX_STYLE_REACT_LAYER_PATTERN = /(\/\s*)?\d+\.\d+[^\/]+$/;
-
 function isWixStyleReactLayer(layer) {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
 
