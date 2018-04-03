@@ -3,6 +3,7 @@ const createLegendItemIndexGenerator = require('./createLegendItemIndexGenerator
 const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
+const { getLibraryName } = require('../utils/symbol');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
@@ -14,8 +15,7 @@ function isWixStyleReactLayer(layer) {
   return !!(
     layer.overrides &&
     symbolMaster &&
-    symbolMaster.name &&
-    WIX_STYLE_REACT_LAYER_PATTERN.test(symbolMaster.name())
+    isSketchStringsEqual(getLibraryName(symbolMaster), 'Wix Style')
   );
 }
 
