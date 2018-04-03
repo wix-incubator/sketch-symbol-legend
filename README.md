@@ -85,10 +85,11 @@ The plugin will be used automatically by Sketch.
 * [ ] Place legend to the bottom of artboard and perform shifts if needed. The width of the legend artboard should be equal to the original artboard.
 * [ ] Add bg color to legend indexes(make them looks like bages) and remove the "()".
 * [ ] Identify the wsr components by “if connected from outside” and not by prefix name regex on number index - . - number - overrides. only external first level labels.
-* [ ] Scan the components in the correct order, then apply the indexing respectively.
+* [ ] Display all the overrides, even if in their default state.
 
 ======= None blockers ========
 
+* [ ] Scan the components in the correct order, then apply the indexing respectively.
 * [ ] In the legend artboard create one string with \n as separator, instead of multiple text labels because it affects the left sidebar in sketch.
 * [ ] Updated order of legend indexes(highest layers should be first).
 * [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend
