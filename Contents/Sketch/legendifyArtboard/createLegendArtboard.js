@@ -1,7 +1,8 @@
 const sketch = require('sketch');
-const Rectangle = require('sketch/dom').Rectangle;
+const { Rectangle, Group } = require('sketch/dom');
+const drawBadge = require('../drawers/badge');
 
-const { LEGEND_ARTBOARD_NAME } = require('../constants');
+const { LEGEND_ARTBOARD_NAME, LEGEND_GROUP_NAME } = require('../constants');
 
 const LEGEND_PADDING = 20;
 
@@ -12,8 +13,7 @@ function adjustToFitLegendArtboard({ legendArtboard, legendArtboardItems }) {
   legendArtboard.adjustToFit();
 
   legendArtboardFrame.width = legendArtboardFrame.width() + LEGEND_PADDING * 2;
-  legendArtboardFrame.height =
-    legendArtboardFrame.height() + LEGEND_PADDING * 2;
+  legendArtboardFrame.height = legendArtboardFrame.height() + LEGEND_PADDING * 2;
 
   legendArtboardItemsFrame.x = legendArtboardItemsFrame.x() + LEGEND_PADDING;
   legendArtboardItemsFrame.y = legendArtboardItemsFrame.y() + LEGEND_PADDING;
@@ -30,10 +30,27 @@ function createLegendArtboard({ artboard, page, legendItems }) {
     frame: new Rectangle(artboard.frame().x(), artboard.frame().y()),
   });
 
-  const legendArtboardItems = new sketch.Text({
+  const TEXT_OFFSET = 3 * LEGEND_PADDING;
+
+  const layers = legendItems.reduce(({ items, offsetTop }, { description, layerIndex }) => {
+    const descriptionNode = new sketch.Text({
+      text: description,
+      frame: new Rectangle(TEXT_OFFSET, offsetTop),
+    });
+
+    const [ badgeNode, textNode ] = drawBadge(0, offsetTop, layerIndex);
+    const linesCount = description.split('\n').length;
+
+    return {
+      items: [...items, descriptionNode, badgeNode, textNode],
+      offsetTop: offsetTop + linesCount * 15,
+    };
+  }, { items: [], offsetTop: 0 });
+
+  const legendArtboardItems = new Group({
     parent: legendArtboard,
-    text: legendItems.join('\n\n'),
-    frame: new Rectangle(0, 0),
+    name: LEGEND_GROUP_NAME,
+    layers: layers.items,
   });
 
   legendArtboardItems._object.setIsLocked(true);

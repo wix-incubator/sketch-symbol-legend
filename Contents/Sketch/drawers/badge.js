@@ -7,11 +7,11 @@ const BADGE_COLOR_OPACITY = 40;
 const BADGE_COLOR = `#3899ec${BADGE_COLOR_OPACITY}`;
 const getDigitsCount = num => num.toString().length;
 
-module.exports = (x, y, parent, layerIndex) => {
+module.exports = (x, y, layerIndex, parent) => {
   const dimensions = [ getDigitsCount(layerIndex) * WIDTH_PER_DIGIT, WIDTH_PER_DIGIT ];
 
   const badgeNode = new Shape({
-    parent,
+    ...(parent && {parent}),
     frame: new Rectangle(x / 2, y / 2, ...dimensions),
     style: {
       fills: [BADGE_COLOR],
@@ -20,7 +20,7 @@ module.exports = (x, y, parent, layerIndex) => {
   });
 
   const textNode = new sketch.Text({
-    parent,
+    ...(parent && {parent}),
     alignment: sketch.Text.Alignment.center,
     text: layerIndex.toString(),
     frame: new Rectangle(x, y, ...dimensions)
@@ -34,4 +34,6 @@ module.exports = (x, y, parent, layerIndex) => {
       item.name = LEGEND_BADGE_NAME;
       item._object.setIsLocked(true);
     });
+
+  return [ badgeNode, textNode ];
 };
