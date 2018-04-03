@@ -4,12 +4,14 @@ function getLegendItemDescription({ layer, layerIndex, symbolsDictionary }) {
 
   const availableOverrideNames = Array
     .from(symbolMaster.availableOverrides())
-    .map(override => override.currentValue())
-    .map(value => symbolsDictionary[value])
-    .map(s => s && s.name())
-    .filter(Boolean);
+    .reduce((names, override) => {
+      const symbol = symbolsDictionary[override.currentValue()];
+      const name = symbol && symbol.name();
+      return name ? [...names, name] : names;
+    }, []);
 
-  const defaultOverrides = Array.from(symbolMaster.overridePoints())
+  const defaultOverrides = Array
+    .from(symbolMaster.overridePoints())
     .reduce((defaultOverrides, overridePoint, index) => ({
       ...defaultOverrides,
       [overridePoint.layerID()]: {
@@ -18,31 +20,25 @@ function getLegendItemDescription({ layer, layerIndex, symbolsDictionary }) {
       }
     }), {});
 
-  const descriptionParts = [
-    `(${layerIndex})  ${symbolMaster.name()}\n`
-  ];
+  return Object.keys(defaultOverrides)
+    .reduce((descriptionParts, symbolKey) => {
+      const override = overrides[symbolKey];
 
-  for (let symbolKey in defaultOverrides) {
-    const override = overrides[symbolKey];
-
-    if (override && symbolsDictionary[symbolKey]) {
-      descriptionParts.push(`          + ${symbolsDictionary[symbolKey].name()}`);
-
-      if (override.symbolID && symbolsDictionary[override.symbolID]) {
-        const symbolName = symbolsDictionary[override.symbolID];
-
-        descriptionParts.push(` = ${symbolName.name()}\n`);
+      if (override && symbolsDictionary[symbolKey]) {
+        descriptionParts = [...descriptionParts, `          + ${symbolsDictionary[symbolKey].name()}`];
+        const symbol = override.symbolID && symbolsDictionary[override.symbolID];
+        return symbol ?
+          [...descriptionParts, ` = ${symbol.name()}\n`] :
+          descriptionParts;
       }
-    } else {
-      let defaultOverride = defaultOverrides[symbolKey];
 
-      if (defaultOverride.value) {
-        descriptionParts.push(`          - ${defaultOverride.type} = ${defaultOverride.value}\n`);
-      }
-    }
-  }
+      const defaultOverride = defaultOverrides[symbolKey];
 
-  return descriptionParts.join('');
+      return defaultOverride.value ?
+        [...descriptionParts, `          - ${defaultOverride.type} = ${defaultOverride.value}\n`] :
+        descriptionParts;
+    }, [`(${layerIndex})  ${symbolMaster.name()}\n`])
+    .join('');
 }
 
 module.exports = getLegendItemDescription;
