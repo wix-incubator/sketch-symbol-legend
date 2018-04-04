@@ -53,7 +53,7 @@ function runAddLegendsForSelected(context) {
 
     cleanUpArtboardLegends(artboard);
 
-    legendifyArtboard({ artboard, symbolsDictionary });
+    legendifyArtboard({ document, artboard, symbolsDictionary });
   });
 }
 
