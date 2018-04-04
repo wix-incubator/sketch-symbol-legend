@@ -6,7 +6,7 @@ const {
   cleanUpPageLegends,
   cleanUpArtboardLegends,
 } = require('./cleanUp');
-const legendifyArtboard = require('./legendifyArtboard');
+const legendifyArtboard = require('./legendifyArtboard/legendifyArtboard');
 
 const { ARTBOARD_GROUP_CLASS_NAME } = require('./constants');
 

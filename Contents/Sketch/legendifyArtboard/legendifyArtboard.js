@@ -3,19 +3,9 @@ const createLegendItemIndexGenerator = require('./createLegendItemIndexGenerator
 const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
-const { getLibraryName } = require('../utils/symbol');
+const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
-
-function isWixStyleReactLayer(layer) {
-  const symbolMaster = layer.symbolMaster && layer.symbolMaster();
-
-  return !!(
-    layer.overrides &&
-    symbolMaster &&
-    isSketchStringsEqual(getLibraryName(symbolMaster), 'Wix Style')
-  );
-}
 
 function legendify({
   layer,
@@ -26,7 +16,7 @@ function legendify({
   document,
   getLegendItemIndex,
   legendItems,
-  onDone,
+  onDone = () => {},
 }) {
   if (!layer.layers) {
     return;
@@ -34,18 +24,18 @@ function legendify({
 
   let doneLayersCount = 0;
 
-  const layers = Array.from(layer.layers());
-
-  const layersCache = layers.map(layer => {
-    const frame = layer.frame();
-    return {
-      x: frame.x(),
-      y: frame.y(),
-      cls: layer.class(),
-      isWixStyleReactLayer: isWixStyleReactLayer(layer),
-      layer,
-    };
-  });
+  const layersCache = Array
+    .from(layer.layers())
+    .map(layer => {
+      const frame = layer.frame();
+      return {
+        x: frame.x(),
+        y: frame.y(),
+        cls: layer.class(),
+        isWixStyleReactLayer: isWixStyleReactLayer(layer),
+        layer,
+      };
+    });
 
   layersCache
     .sort((a, b) => (
@@ -55,11 +45,11 @@ function legendify({
         1
     ))
     .forEach(({ layer, x, y, cls, isWixStyleReactLayer }) => {
-      coscript.shouldKeepAround = true;
-      coscript.scheduleWithInterval_jsFunction(0.01, () => {
+      coscript.scheduleWithInterval_jsFunction(0, () => {
         document.showMessage(
           `Processing Artboard: ${artboard.name()} !!! PLEASE DO NOT REMOVE ANY ELEMENTS !!!`
         );
+
         if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
           legendify({
             layer,
@@ -68,8 +58,7 @@ function legendify({
             layerOffsetLeft: layerOffsetTop + x,
             symbolsDictionary,
             getLegendItemIndex,
-            legendItems,
-            onDone() {}
+            legendItems
           });
         }
 
@@ -92,12 +81,10 @@ function legendify({
             })
           );
         }
-        doneLayersCount++;
 
-        if (doneLayersCount === layersCache.length) {
+        if (++doneLayersCount === layersCache.length) {
           onDone();
         }
-        coscript.shouldKeepAround = false;
       });
     });
 }
@@ -105,6 +92,8 @@ function legendify({
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
   const getLegendItemIndex = createLegendItemIndexGenerator();
   const legendItems = [];
+
+  coscript.shouldKeepAround = true;
 
   legendify({
     layer: artboard,
@@ -114,14 +103,18 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
     getLegendItemIndex,
     legendItems,
     onDone() {
-      if (legendItems.length) {
-        document.showMessage('All Artboards processed.');
-        createLegendArtboard({
-          page,
-          artboard,
-          legendItems,
-        });
+      if (!legendItems.length) {
+        return;
       }
+
+      document.showMessage('All Artboards processed.');
+      coscript.shouldKeepAround = false;
+
+      createLegendArtboard({
+        page,
+        artboard,
+        legendItems,
+      });
     }
   });
 }

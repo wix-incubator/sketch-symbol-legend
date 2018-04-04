@@ -50,11 +50,9 @@ function cleanUpArtboardLegends(artboard) {
   }
 
   const legendArtboardName = `${artboard.name()}${LEGEND_ARTBOARD_NAME}`;
-  const legendArtboard = page
-    .artboards()
-    .find(_artboard =>
-      isSketchStringsEqual(_artboard.name(), legendArtboardName)
-    );
+  const legendArtboard = page.artboards().find(_artboard =>
+    isSketchStringsEqual(_artboard.name(), legendArtboardName)
+  );
 
   if (legendArtboard) {
     legendArtboard.removeFromParent();
