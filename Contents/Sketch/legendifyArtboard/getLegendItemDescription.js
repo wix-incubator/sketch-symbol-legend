@@ -12,13 +12,16 @@ function getLegendItemDescription({ layer, layerIndex, symbolsDictionary }) {
 
   const defaultOverrides = Array
     .from(symbolMaster.overridePoints())
-    .reduce((defaultOverrides, overridePoint, index) => ({
-      ...defaultOverrides,
-      [overridePoint.layerID()]: {
-        type: overridePoint.layerName(),
-        value: availableOverrideNames[index]
+    .reduce((defaultOverrides, overridePoint, index) => (Object.assign(
+      {},
+      defaultOverrides,
+      {
+        [overridePoint.layerID()]: {
+          type: overridePoint.layerName(),
+          value: availableOverrideNames[index]
+        }
       }
-    }), {});
+    )), {});
 
   return Object.keys(defaultOverrides)
     .reduce((descriptionParts, symbolKey) => {

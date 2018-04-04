@@ -10,21 +10,27 @@ const getDigitsCount = num => num.toString().length;
 module.exports = (x, y, layerIndex, parent) => {
   const dimensions = [ getDigitsCount(layerIndex) * WIDTH_PER_DIGIT, WIDTH_PER_DIGIT ];
 
-  const badgeNode = new Shape({
-    ...(parent && {parent}),
-    frame: new Rectangle(x / 2, y / 2, ...dimensions),
-    style: {
-      fills: [BADGE_COLOR],
-      borders: [BADGE_COLOR]
+  const badgeNode = new Shape(Object.assign(
+    {},
+    (parent && {parent}),
+    {
+      frame: new Rectangle(x / 2, y / 2, ...dimensions),
+      style: {
+        fills: [BADGE_COLOR],
+        borders: [BADGE_COLOR]
+      }
     }
-  });
+  ));
 
-  const textNode = new sketch.Text({
-    ...(parent && {parent}),
-    alignment: sketch.Text.Alignment.center,
-    text: layerIndex.toString(),
-    frame: new Rectangle(x, y, ...dimensions)
-  });
+  const textNode = new sketch.Text(Object.assign(
+    {},
+    (parent && {parent}),
+    {
+      alignment: sketch.Text.Alignment.center,
+      text: layerIndex.toString(),
+      frame: new Rectangle(x, y, ...dimensions)
+    }
+  ));
 
   textNode.adjustToFit();
 
