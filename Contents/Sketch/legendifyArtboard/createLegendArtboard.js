@@ -31,7 +31,7 @@ function createLegendArtboard({ artboard, page, legendItems }) {
   const legendArtboardFrame = legendArtboard._object.frame();
   const legendArtboardItemsFrame = legendArtboardItems._object.frame();
 
-  legendArtboardItems._object.setTextBehaviour(1);
+  legendArtboardItems._object.setTextBehaviour(1); // 1 = auto
   legendArtboardItemsFrame.width = artboardWidth - LEGEND_PADDING * 2;
   legendArtboardFrame.width = artboardWidth;
   legendArtboardFrame.height = legendArtboardItemsFrame.height() + LEGEND_PADDING * 2;
