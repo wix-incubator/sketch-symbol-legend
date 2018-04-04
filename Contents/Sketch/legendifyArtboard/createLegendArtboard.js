@@ -6,10 +6,11 @@ const { LEGEND_ARTBOARD_NAME } = require('../constants');
 const LEGEND_PADDING = 20;
 
 function createLegendArtboard({ artboard, page, legendItems }) {
-  const artboardHeight = artboard.frame().height();
-  const artboardWidth = artboard.frame().width();
-  const artboardX = artboard.frame().x();
-  const artboardY = artboard.frame().y();
+  const artboardFrame = artboard.frame();
+  const artboardHeight = artboardFrame.height();
+  const artboardWidth = artboardFrame.width();
+  const artboardX = artboardFrame.x();
+  const artboardY = artboardFrame.y();
 
   const legendArtboard = new sketch.Artboard({
     parent: page || artboard.parentGroup(),
