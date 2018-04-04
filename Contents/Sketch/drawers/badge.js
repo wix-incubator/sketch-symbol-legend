@@ -1,6 +1,5 @@
 const sketch = require('sketch');
 const { Rectangle, Shape } = require('sketch/dom');
-const { LEGEND_BADGE_NAME } = require('../constants');
 
 const WIDTH_PER_DIGIT = 15;
 const BADGE_COLOR_OPACITY = 40;
@@ -30,8 +29,8 @@ module.exports = (x, y, layerIndex, parent) => {
 
   [badgeNode, textNode]
     .forEach(item => {
-      // NOTE: name is required to identify these nodes on cleanup.
-      item.name = LEGEND_BADGE_NAME;
       item._object.setIsLocked(true);
     });
+
+  return [badgeNode, textNode];
 };

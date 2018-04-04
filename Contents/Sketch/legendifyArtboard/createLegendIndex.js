@@ -11,7 +11,7 @@ function createLegendItemIndex({
 }) {
   const frame = layer.frame();
 
-  drawBadge(
+  return drawBadge(
     frame.x() + layerOffsetLeft,
     Math.max(frame.y() + layerOffsetTop - OFFSET_TOP, 0),
     layerIndex,
