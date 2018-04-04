@@ -15,7 +15,7 @@ function legendify({
   artboard,
   document,
   getLegendItemIndex,
-  legendItems,
+  legendItems = [],
   onDone = () => {},
 }) {
   if (!layer.layers) {
@@ -84,7 +84,7 @@ function legendify({
         }
 
         if (++doneLayersCount === layersCache.length) {
-          onDone({ legendIndexItems });
+          onDone({ legendIndexItems, legendItems });
         }
       });
     });
@@ -92,8 +92,8 @@ function legendify({
 
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
   const getLegendItemIndex = createLegendItemIndexGenerator();
-  const legendItems = [];
 
+  //https://github.com/airbnb/react-sketchapp/issues/97
   coscript.shouldKeepAround = true;
 
   const legendItemsGroup = new Group({
@@ -107,8 +107,7 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
     document,
     symbolsDictionary,
     getLegendItemIndex,
-    legendItems,
-    onDone({ legendIndexItems }) {
+    onDone({ legendIndexItems, legendItems }) {
       if (!legendItems.length) {
         return;
       }
