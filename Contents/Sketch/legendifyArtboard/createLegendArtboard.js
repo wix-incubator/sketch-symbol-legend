@@ -6,7 +6,7 @@ const { LEGEND_ARTBOARD_NAME } = require('../constants');
 const LEGEND_PADDING = 20;
 const ARTBOARD_MARGIN = 30;
 
-function isNotArtboardAndLagend(artboard) {
+function isNotArtboardAndLegend(artboard) {
   const name = String(artboard.name());
   const legendName = `${name}~Legend`;
   const ignoreNames = [name, legendName];
@@ -21,7 +21,7 @@ function getArtboardsBelow({artboard, page}) {
   const width = frame.width();
   const height = frame.height();
 
-  const otherArtboards = Array.from(page.artboards()).filter(isNotArtboardAndLagend(artboard));
+  const otherArtboards = Array.from(page.artboards()).filter(isNotArtboardAndLegend(artboard));
 
   const artboardsBelow = otherArtboards.reduce((acc, otherArtboard) => {
     const otherFrame = otherArtboard.frame();
@@ -89,8 +89,9 @@ function createLegendArtboard({ artboard, page, legendItems }) {
     const closestArtboard = artboardsBelow[0].artboard;
     const closestArtboardFrame = closestArtboard.frame();
     const closestArtboardY = closestArtboardFrame.y();
-    if (closestArtboardY < legendArtboardFrame.y() + legendArtboardHeight) {
-      const delta = Math.abs(closestArtboardY - (legendArtboardFrame.y() + legendArtboardHeight));
+    const legendArtboardY = legendArtboardFrame.y();
+    if (closestArtboardY < legendArtboardY + legendArtboardHeight) {
+      const delta = Math.abs(closestArtboardY - (legendArtboardY + legendArtboardHeight));
       artboardsBelow.forEach(a => {
         const frame = a.artboard.frame();
         frame.y = frame.y() + delta + ARTBOARD_MARGIN;
