@@ -1,5 +1,6 @@
 const { getLibraryName } = require('../utils/symbol');
 const { WIX_STYLE_LIBRARY_NAME } = require('../constants');
+const isSketchStringsEqual = require('./isSketchStringsEqual');
 
 module.exports = layer => {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();

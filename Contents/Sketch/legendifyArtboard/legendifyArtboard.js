@@ -1,9 +1,11 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
-const createLegendItemIndexGenerator = require('./createLegendItemIndexGenerator');
+const createIndexGenerator = require('../utils/createIndexGenerator');
+const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
+
 const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
-const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
+
 const { Group } = require('sketch/dom');
 const { SYMBOL_INSTANCE_CLASS_NAME, LEGEND_GROUP_NAME } = require('../constants');
 
@@ -33,25 +35,26 @@ function legendify({
         x: frame.x(),
         y: frame.y(),
         cls: layer.class(),
-        isWixStyleReactLayer: isWixStyleReactLayer(layer),
         layer,
       };
     });
 
   layersCache
     .sort((a, b) => (
-      (a.y - b.y) < 0 ||
-      (a.x - b.x) < 0 ?
-        -1 :
+      (a.y - b.y) >= 0 ||
+      (a.x - b.x) >= 0 ?
+        1 :
         1
     ))
-    .forEach(({ layer, x, y, cls, isWixStyleReactLayer }) => {
+    .forEach(({ layer, x, y, cls }) => {
       coscript.scheduleWithInterval_jsFunction(0, () => {
         artboard.setIsLocked(true);
 
-        document.showMessage(
-          `Processing Artboard: ${artboard.name()}`
-        );
+        try {
+          document.showMessage(`Processing Artboard: ${artboard.name()}`);
+        } catch (e) {
+          //TODO: investigate why errors are coming after everything processed, even though all messages are shown
+        }
 
         if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
           legendify({
@@ -65,16 +68,18 @@ function legendify({
           });
         }
 
-        if (isWixStyleReactLayer) {
+        if (isWixStyleReactLayer(layer)) {
           const legendItemIndex = getLegendItemIndex();
 
-          legendIndexItems = [...legendIndexItems, ...createLegendItemIndex({
-            layer,
-            artboard: artboard,
-            layerIndex: legendItemIndex,
-            layerOffsetTop,
-            layerOffsetLeft,
-          })];
+          legendIndexItems = [
+            ...legendIndexItems,
+            ...createLegendItemIndex({
+              layer,
+              layerIndex: legendItemIndex,
+              layerOffsetTop,
+              layerOffsetLeft,
+            })
+          ];
 
           legendItems.push(
             getLegendItemDescription({
@@ -95,8 +100,6 @@ function legendify({
 }
 
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
-  const getLegendItemIndex = createLegendItemIndexGenerator();
-
   //https://github.com/airbnb/react-sketchapp/issues/97
   coscript.shouldKeepAround = true;
 
@@ -110,7 +113,7 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
     artboard,
     document,
     symbolsDictionary,
-    getLegendItemIndex,
+    getLegendItemIndex: createIndexGenerator(),
     onDone({ legendIndexItems, legendItems }) {
       if (!legendItems.length) {
         return;
