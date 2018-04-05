@@ -37,7 +37,7 @@ function legendify({
         layer,
       };
     })
-    .sort((a, b) => (a.x - b.x) + (a.y - b.y));
+    .sort((a, b) => a.y - b.y || a.x - b.x);
 
   const processLayer = ({ layer, x, y, cls }) => {
     artboard.setIsLocked(true);
