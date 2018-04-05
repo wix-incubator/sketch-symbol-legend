@@ -47,8 +47,10 @@ function legendify({
     ))
     .forEach(({ layer, x, y, cls, isWixStyleReactLayer }) => {
       coscript.scheduleWithInterval_jsFunction(0, () => {
+        artboard.setIsLocked(true);
+
         document.showMessage(
-          `Processing Artboard: ${artboard.name()} !!! PLEASE DO NOT REMOVE ANY ELEMENTS !!!`
+          `Processing Artboard: ${artboard.name()}`
         );
 
         if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
@@ -82,6 +84,8 @@ function legendify({
             })
           );
         }
+
+        artboard.setIsLocked(false);
 
         if (++doneLayersCount === layersCache.length) {
           onDone({ legendIndexItems, legendItems });

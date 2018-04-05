@@ -11,6 +11,7 @@ const legendifyArtboard = require('./legendifyArtboard/legendifyArtboard');
 const { ARTBOARD_GROUP_CLASS_NAME } = require('./constants');
 
 function runCleanUpLegendsForSelected(context) {
+  coscript.shouldKeepAround = false;
   const document = context.document;
   const artboards = getSelectedArtboards(context);
 
@@ -32,6 +33,7 @@ function runCleanUpLegendsForSelected(context) {
 }
 
 function runAddLegendsForSelected(context) {
+  coscript.shouldKeepAround = false;
   const document = context.document;
   const artboards = getSelectedArtboards(context);
 
@@ -53,17 +55,23 @@ function runAddLegendsForSelected(context) {
 
     cleanUpArtboardLegends(artboard);
 
-    legendifyArtboard({ document, artboard, symbolsDictionary });
+    legendifyArtboard({
+      document,
+      artboard,
+      symbolsDictionary,
+    });
   });
 }
 
 function runCleanUpLegends({ document }) {
+  coscript.shouldKeepAround = false;
   document.pages().forEach(page => {
     cleanUpPageLegends(page);
   });
 }
 
 function runAddLegends({ document }) {
+  coscript.shouldKeepAround = false;
   const symbolsDictionary = createSymbolsDictionary(
     document.documentData().allSymbols()
   );
