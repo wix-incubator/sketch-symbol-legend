@@ -4,6 +4,52 @@ const Rectangle = require('sketch/dom').Rectangle;
 const { LEGEND_ARTBOARD_NAME } = require('../constants');
 
 const LEGEND_PADDING = 20;
+const ARTBOARD_MARGIN = 30;
+
+function isNotArtboardAndLagend(artboard) {
+  const name = String(artboard.name());
+  const legendName = `${name}~Legend`;
+  const ignoreNames = [name, legendName];
+  return otherArtboard => !ignoreNames.includes(String(otherArtboard.name()));
+}
+
+function getArtboardsBelow({artboard, page}) {
+  page = page || artboard.parentGroup();
+  const frame = artboard.frame();
+  const x = frame.x();
+  const y = frame.y();
+  const width = frame.width();
+  const height = frame.height();
+
+  const otherArtboards = Array.from(page.artboards()).filter(isNotArtboardAndLagend(artboard));
+
+  const artboardsBelow = otherArtboards.reduce((acc, otherArtboard) => {
+    const otherFrame = otherArtboard.frame();
+    const otherX = otherFrame.x();
+    const otherY = otherFrame.y();
+    const otherWidth = otherFrame.width();
+    const otherHeight = otherFrame.height();
+
+    const otherInXRange = otherX + otherWidth > x && otherX < x + width;
+    const otherBelow = otherY > y + height;
+
+    if (otherInXRange && otherBelow) {
+      acc.push({
+        name: String(otherArtboard.name()),
+        distanceY: Math.abs(y + height - otherY),
+        artboard: otherArtboard
+      });
+    }
+
+    return acc;
+  }, []);
+
+  artboardsBelow.sort((a, b) => {
+    return a.distanceY - b.distanceY;
+  });
+
+  return artboardsBelow;
+}
 
 function createLegendArtboard({ artboard, page, legendItems }) {
   const artboardFrame = artboard.frame();
@@ -33,8 +79,24 @@ function createLegendArtboard({ artboard, page, legendItems }) {
 
   legendArtboardItems._object.setTextBehaviour(1); // 1 = auto
   legendArtboardItemsFrame.width = artboardWidth - LEGEND_PADDING * 2;
+  const legendArtboardHeight = legendArtboardItemsFrame.height() + LEGEND_PADDING * 2;
   legendArtboardFrame.width = artboardWidth;
-  legendArtboardFrame.height = legendArtboardItemsFrame.height() + LEGEND_PADDING * 2;
+  legendArtboardFrame.height = legendArtboardHeight;
+
+  const artboardsBelow = getArtboardsBelow({page, artboard});
+
+  if (artboardsBelow.length) {
+    const closestArtboard = artboardsBelow[0].artboard;
+    const closestArtboardFrame = closestArtboard.frame();
+    const closestArtboardY = closestArtboardFrame.y();
+    if (closestArtboardY < legendArtboardFrame.y() + legendArtboardHeight) {
+      const delta = Math.abs(closestArtboardY - (legendArtboardFrame.y() + legendArtboardHeight));
+      artboardsBelow.forEach(a => {
+        const frame = a.artboard.frame();
+        frame.y = frame.y() + delta + ARTBOARD_MARGIN;
+      });
+    }
+  }
 
   return legendArtboard;
 }
