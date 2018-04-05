@@ -44,7 +44,7 @@ function legendify({
       (a.y - b.y) >= 0 ||
       (a.x - b.x) >= 0 ?
         1 :
-        1
+        -1
     ))
     .forEach(({ layer, x, y, cls }) => {
       coscript.scheduleWithInterval_jsFunction(0, () => {
