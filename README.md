@@ -84,7 +84,7 @@ The plugin will be used automatically by Sketch.
 
 * [ ] Place legend to the bottom of artboard and perform shifts if needed. The width of the legend artboard should be equal to the original artboard.
 * [x] Add bg color to legend indexes(make them looks like bages) and remove the "()".
-* [ ] Identify the wsr components by “if connected from outside” and not by prefix name regex on number index - . - number - overrides. only external first level labels.
+* [ ] Identify the wsr components by Library Name; if detached recursively go inside of folder and scan it for wsr components using same detection technique.
 * [x] Display all the overrides, even if in their default state.
 
 ======= None blockers ========
