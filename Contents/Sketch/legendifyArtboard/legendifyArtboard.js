@@ -1,6 +1,7 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const createIndexGenerator = require('../utils/createIndexGenerator');
 const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
+const asyncForEach = require('../utils/asyncForEach');
 
 const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
@@ -17,15 +18,13 @@ function legendify({
   artboard,
   document,
   getLegendItemIndex,
-  legendItems = [],
-  onDone = () => {},
+  legendItems,
+  legendIndexItems,
+  onDone
 }) {
   if (!layer.layers) {
     return;
   }
-
-  let doneLayersCount = 0;
-  let legendIndexItems = [];
 
   const layersCache = Array
     .from(layer.layers())
@@ -37,76 +36,72 @@ function legendify({
         cls: layer.class(),
         layer,
       };
-    });
+    })
+    .sort((a, b) => (a.x - b.x) + (a.y - b.y));
 
-  layersCache
-    .sort((a, b) => (
-      (a.y - b.y) >= 0 ||
-      (a.x - b.x) >= 0 ?
-        1 :
-        -1
-    ))
-    .forEach(({ layer, x, y, cls }) => {
-      coscript.scheduleWithInterval_jsFunction(0, () => {
-        artboard.setIsLocked(true);
+  const processLayer = ({ layer, x, y, cls }) => {
+    artboard.setIsLocked(true);
 
-        try {
-          document.showMessage(`Processing Artboard: ${artboard.name()}`);
-        } catch (e) {
-          //TODO: investigate why errors are coming after everything processed, even though all messages are shown
-        }
+    try {
+      document.showMessage(`Processing Artboard: ${artboard.name()}`);
+    } catch (e) {
+      //TODO: investigate why errors are coming after everything processed, even though all messages are shown
+    }
 
-        if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
-          legendify({
-            layer,
-            artboard,
-            layerOffsetTop: layerOffsetTop + y,
-            layerOffsetLeft: layerOffsetTop + x,
-            symbolsDictionary,
-            getLegendItemIndex,
-            legendItems
-          });
-        }
-
-        if (isWixStyleReactLayer(layer)) {
-          const legendItemIndex = getLegendItemIndex();
-
-          legendIndexItems = [
-            ...legendIndexItems,
-            ...createLegendItemIndex({
-              layer,
-              layerIndex: legendItemIndex,
-              layerOffsetTop,
-              layerOffsetLeft,
-            })
-          ];
-
-          legendItems.push(
-            getLegendItemDescription({
-              layer,
-              layerIndex: legendItemIndex,
-              symbolsDictionary,
-            })
-          );
-        }
-
-        artboard.setIsLocked(false);
-
-        if (++doneLayersCount === layersCache.length) {
-          onDone({ legendIndexItems, legendItems });
-        }
+    if (!isSketchStringsEqual(cls, SYMBOL_INSTANCE_CLASS_NAME)) {
+      legendify({
+        layer,
+        artboard,
+        layerOffsetTop: layerOffsetTop + y,
+        layerOffsetLeft: layerOffsetTop + x,
+        symbolsDictionary,
+        getLegendItemIndex,
+        legendItems,
+        legendIndexItems,
       });
-    });
+    }
+
+    if (isWixStyleReactLayer(layer)) {
+      const legendItemIndex = getLegendItemIndex();
+
+      legendIndexItems.push.apply(
+        legendIndexItems,
+        createLegendItemIndex({
+          layer,
+          layerIndex: legendItemIndex,
+          layerOffsetTop,
+          layerOffsetLeft,
+        })
+      );
+
+      legendItems.push(
+        getLegendItemDescription({
+          layer,
+          layerIndex: legendItemIndex,
+          symbolsDictionary,
+        })
+      );
+    }
+
+    artboard.setIsLocked(false);
+  };
+
+  if (onDone) {
+    asyncForEach(layersCache, processLayer, onDone);
+    return;
+  }
+
+  layersCache.forEach(processLayer);
 }
 
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
-  //https://github.com/airbnb/react-sketchapp/issues/97
-  coscript.shouldKeepAround = true;
-
   const legendItemsGroup = new Group({
     name: LEGEND_GROUP_NAME,
     parent: artboard,
   });
+
+  let legendItems = [];
+  let legendIndexItems = [];
 
   legendify({
     layer: artboard,
@@ -114,7 +109,9 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
     document,
     symbolsDictionary,
     getLegendItemIndex: createIndexGenerator(),
-    onDone({ legendIndexItems, legendItems }) {
+    legendItems,
+    legendIndexItems,
+    onDone() {
       if (!legendItems.length) {
         return;
       }
