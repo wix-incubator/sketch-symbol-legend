@@ -4,7 +4,7 @@
 #
 # 1. update version in `./Contents/Sketch/manifest.json`
 # 2. add+push new git tag with updated version
-# 3. run `./release.sh` and attach created file to latest release on https://github.com/amimagid/sketch-symbol-legend/releases page
+# 3. run `./release.sh` and attach created file to latest release on https://github.com/wix-incubator/sketch-symbol-legend/releases page
 # 4. update download link in `README.md`
 
 PLUGIN_NAME=Legend.sketchplugin
