@@ -92,6 +92,8 @@ The plugin will be used automatically by Sketch.
 * [x] Scan the components in the correct order, then apply the indexing respectively.
 * [x] In the legend artboard create one string with \n as separator, instead of multiple text labels because it affects the left sidebar in sketch.
 * [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend (POC is in the branch feature/prototyping-and-links)
+  * Hotspots https://sketchapp.com/docs/prototyping/hotspots
+  * Hotspot API https://developer.sketchapp.com/reference/api/#hotspot
 
 ## Important links:
 
