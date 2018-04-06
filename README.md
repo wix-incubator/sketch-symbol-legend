@@ -82,16 +82,16 @@ The plugin will be used automatically by Sketch.
 
 ======= Blockers ========
 
-* [ ] Place legend to the bottom of artboard and perform shifts if needed. The width of the legend artboard should be equal to the original artboard.
+* [x] Place legend to the bottom of artboard and perform shifts if needed. The width of the legend artboard should be equal to the original artboard.
 * [x] Add bg color to legend indexes(make them looks like bages) and remove the "()".
-* [ ] Identify the wsr components by Library Name; if detached recursively go inside of folder and scan it for wsr components using same detection technique.
+* [x] Identify the wsr components by Library Name; if detached recursively go inside of folder and scan it for wsr components using same detection technique.
 * [x] Display all the overrides, even if in their default state.
 
 ======= None blockers ========
 
 * [x] Scan the components in the correct order, then apply the indexing respectively.
 * [x] In the legend artboard create one string with \n as separator, instead of multiple text labels because it affects the left sidebar in sketch.
-* [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend
+* [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend (POC is in the branch feature/prototyping-and-links)
 
 ## Important links:
 
@@ -108,3 +108,9 @@ The plugin will be used automatically by Sketch.
 ## Create plugin archive from source
 
 To create `Legend.sketchplugin.zip`, run `./release.sh` script from root directory
+
+## Notes (tips, caveats, issues)
+
+* Some newer ES features don't work in Mac OS <= Sierra (e.g. spread operator on objects)
+* Plugin works in Sierra and High Sierra
+
