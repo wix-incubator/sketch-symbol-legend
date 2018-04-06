@@ -31,7 +31,12 @@
       "handler": "runCleanUpLegends",
       "name": "Cleanup legends for all",
       "identifier": "com.amimagid.legend-plugin.cleanup"
+    },
+    {
+      "script": "index.js",
+      "handler": "runChangeActiveLibrary",
+      "name": "Change active library",
+      "identifier": "com.amimagid.legend-plugin.change-active-lib"
     }
-
   ]
 }
