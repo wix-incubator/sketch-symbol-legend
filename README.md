@@ -104,9 +104,6 @@ The plugin will be used automatically by Sketch.
 
 * https://developer.sketchapp.com/guides/debugging-plugins/
 * https://github.com/skpm/sketch-dev-tools
-* `Object.class()` result maps 1-to-1 to ObjectiveC headers from Sketch.  
-These are extremely helpful for debugging and finding all the possible methods/properties and their signatures.  
-https://github.com/abynim/Sketch-Headers/blob/master/Headers/MSSymbolMaster.h
 
 ## Create plugin archive from source
 
@@ -116,4 +113,11 @@ To create `Legend.sketchplugin.zip`, run `./release.sh` script from root directo
 
 * Some newer ES features don't work in Mac OS <= Sierra (e.g. spread operator on objects)
 * Plugin works in Sierra and High Sierra
+* `Object.class()` result maps 1-to-1 to ObjectiveC headers from Sketch.  
+These are extremely helpful for debugging and finding all the possible methods/properties and their signatures.  
+https://github.com/abynim/Sketch-Headers/blob/master/Headers/MSSymbolMaster.h
+* You can run your code async, consider the following snippet from `skpm`  
+https://github.com/airbnb/react-sketchapp/issues/97
+* Most of collections support `forEach`, but not other native `Array` methods,  
+consider casting to array with `Array.from` before doing `map/reduce/filter/includes` etc.
 
