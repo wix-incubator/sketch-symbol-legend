@@ -104,6 +104,9 @@ The plugin will be used automatically by Sketch.
 
 * https://developer.sketchapp.com/guides/debugging-plugins/
 * https://github.com/skpm/sketch-dev-tools
+* `Object.class()` result maps 1-to-1 to ObjectiveC headers from Sketch.  
+These are extremely helpful for debugging and finding all the possible methods/properties and their signatures.  
+https://github.com/abynim/Sketch-Headers/blob/master/Headers/MSSymbolMaster.h
 
 ## Create plugin archive from source
 
