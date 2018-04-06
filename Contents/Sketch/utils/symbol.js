@@ -11,6 +11,15 @@ const getLibraryName = symbolMaster => {
   return library ? library.name() : '';
 };
 
+const getUserLibraries = () =>
+  Array.from(
+    AppController
+      .sharedInstance()
+      .librariesController()
+      .userLibraries()
+  );
+
 module.exports = {
+  getUserLibraries,
   getLibraryName
 };
