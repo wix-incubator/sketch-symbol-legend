@@ -65,37 +65,6 @@ git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
 ```
 The plugin will be used automatically by Sketch.
 
----
-
-## Known Issues and TODOs
-
-* [x] ~Currently works only on artboards that are on (0,0) coordinates.~
-* [x] ~duplicate numbering on designs with groups.~
-* [x] ~Currently works only on one page and one artboard.~
-* [x] ~Hard coded Legend sizes.~
-* [x] ~Hard coded Legend items sizes.~
-* [x] ~Filter out non wix-style-react components~
-* [x] ~Remove empty legends~
-* [x] ~Fixed legend indexes positions and names~
-* [x] ~Add delete legends command~
-* [x] ~Add associations between arboards and legends~
-
-======= Blockers ========
-
-* [x] Place legend to the bottom of artboard and perform shifts if needed. The width of the legend artboard should be equal to the original artboard.
-* [x] Add bg color to legend indexes(make them looks like bages) and remove the "()".
-* [x] Identify the wsr components by Library Name; if detached recursively go inside of folder and scan it for wsr components using same detection technique.
-* [x] Display all the overrides, even if in their default state.
-
-======= None blockers ========
-
-* [x] Scan the components in the correct order, then apply the indexing respectively.
-* [x] In the legend artboard create one string with \n as separator, instead of multiple text labels because it affects the left sidebar in sketch.
-* [ ] [Prototyping and links](https://blog.zeplin.io/flows-in-zeplin-round-one-c56550f23f0f) between legend indexes and legend (POC is in the branch feature/prototyping-and-links)
-  * Links and hotspots can link to another arboard only (you can't link to an element inside another artboard)
-  * Hotspots https://sketchapp.com/docs/prototyping/hotspots
-  * Hotspot API https://developer.sketchapp.com/reference/api/#hotspot
-
 ## Important links:
 
 * https://developer.sketchapp.com/guides/cocoascript/
