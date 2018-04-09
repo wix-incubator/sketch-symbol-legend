@@ -9,10 +9,12 @@ module.exports = () => {
       id: index + 1,
     }));
 
-  const message = `Please select active library, type: ${libs.map(l => `${l.id} for ${l.name}`)}`;
+  const libraries = libs.map(l => l.name);
 
-  const nextActiveLibId = ui.getStringFromUser(message);
-  const nextActiveLib = libs.find(({ id }) => id === Number(nextActiveLibId))
+  const selection = ui.getSelectionFromUser("Please select active library", libraries);
+
+  const nextActiveLibId = selection[1] + 1;
+  const nextActiveLib = libs.find(({ id }) => id === Number(nextActiveLibId));
 
   if (nextActiveLib) {
     ui.message(`Now using: ${nextActiveLib.name}`);
