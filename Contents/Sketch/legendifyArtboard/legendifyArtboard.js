@@ -97,7 +97,7 @@ function legendify({
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
   const legendItemsGroup = new Group({
     name: LEGEND_GROUP_NAME,
-    parent: artboard,
+    parent: artboard
   });
 
   let legendItems = [];
@@ -117,7 +117,6 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
       }
 
       legendItemsGroup.layers = legendIndexItems;
-      legendItemsGroup._object.setIsLocked(true);
 
       document.showMessage('All Artboards processed.');
       coscript.shouldKeepAround = false;

@@ -24,10 +24,5 @@ module.exports = (x, y, layerIndex) => {
 
   textNode.adjustToFit();
 
-  [badgeNode, textNode]
-    .forEach(item => {
-      item._object.setIsLocked(true);
-    });
-
   return [badgeNode, textNode];
 };
