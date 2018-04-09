@@ -5,6 +5,7 @@ const { LEGEND_ARTBOARD_NAME } = require('../constants');
 
 const LEGEND_PADDING = 20;
 const ARTBOARD_MARGIN = 30;
+const LEGEND_ARTBOARD_MARGIN = 50;
 
 function isNotArtboardAndLegend(artboard) {
   const name = String(artboard.name());
@@ -62,7 +63,7 @@ function createLegendArtboard({ artboard, page, legendItems }) {
     parent: page || artboard.parentGroup(),
     name: artboard.name() + String(LEGEND_ARTBOARD_NAME),
     flowStartPoint: true,
-    frame: new Rectangle(artboardX, artboardY + artboardHeight),
+    frame: new Rectangle(artboardX, artboardY + artboardHeight + ARTBOARD_MARGIN),
   });
 
   const legendArtboardItems = new sketch.Text({
@@ -94,7 +95,7 @@ function createLegendArtboard({ artboard, page, legendItems }) {
       const delta = Math.abs(closestArtboardY - (legendArtboardY + legendArtboardHeight));
       artboardsBelow.forEach(a => {
         const frame = a.artboard.frame();
-        frame.y = frame.y() + delta + ARTBOARD_MARGIN;
+        frame.y = frame.y() + delta + LEGEND_ARTBOARD_MARGIN;
       });
     }
   }
