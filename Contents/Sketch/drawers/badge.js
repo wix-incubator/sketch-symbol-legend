@@ -3,7 +3,7 @@ const { Rectangle, Shape } = require('sketch/dom');
 
 const WIDTH_PER_DIGIT = 15;
 const BADGE_COLOR_OPACITY = 40;
-const BADGE_COLOR = `#3899ec${BADGE_COLOR_OPACITY}`;
+const BADGE_COLOR = '#ff6666';
 const getDigitsCount = num => num.toString().length;
 
 module.exports = (x, y, layerIndex) => {
@@ -12,8 +12,7 @@ module.exports = (x, y, layerIndex) => {
   const badgeNode = new Shape({
     frame: new Rectangle(x / 2, y / 2, ...dimensions),
     style: {
-      fills: [BADGE_COLOR],
-      borders: [BADGE_COLOR]
+      fills: [BADGE_COLOR]
     }
   });
 
