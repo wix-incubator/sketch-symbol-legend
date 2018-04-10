@@ -7,8 +7,7 @@ const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
 
-const { Group } = require('sketch/dom');
-const { SYMBOL_INSTANCE_CLASS_NAME, LEGEND_GROUP_NAME } = require('../constants');
+const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
 function legendify({
   layer,
@@ -71,6 +70,7 @@ function legendify({
           layerIndex: legendItemIndex,
           layerOffsetTop,
           layerOffsetLeft,
+          parent: artboard,
         })
       );
 
@@ -95,11 +95,6 @@ function legendify({
 }
 
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
-  const legendItemsGroup = new Group({
-    name: LEGEND_GROUP_NAME,
-    parent: artboard
-  });
-
   let legendItems = [];
   let legendIndexItems = [];
 
@@ -115,8 +110,6 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
       if (!legendItems.length) {
         return;
       }
-
-      legendItemsGroup.layers = legendIndexItems;
 
       document.showMessage('All Artboards processed.');
       coscript.shouldKeepAround = false;
