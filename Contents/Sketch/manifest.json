@@ -1,42 +1,42 @@
 {
   "name": "🏷 Sketch Legend",
-  "identifier": "com.amimagid.legend-plugin",
-  "version": "1.5.0",
+  "identifier": "com.fed-infra.legend-plugin",
+  "version": "1.6.0",
   "description": "a Sketch legend for symbols ",
-  "authorEmail": "amimagid@gmail.com",
-  "author": "Ami Magid",
+  "authorEmail": "fed-infra@wix.com",
+  "author": "Wix.com",
   "commands": [
     {
       "script": "index.js",
       "handler": "runAddLegendsForSelected",
       "shortcut": "command shift y",
       "name": "Add legends for selected",
-      "identifier": "com.amimagid.legend-plugin.add-selected"
+      "identifier": "com.fed-infra.legend-plugin.add-selected"
     },
     {
       "script": "index.js",
       "handler": "runCleanUpLegendsForSelected",
       "shortcut": "command shift d",
       "name": "Cleanup legends for selected",
-      "identifier": "com.amimagid.legend-plugin.cleanup-selected"
+      "identifier": "com.fed-infra.legend-plugin.cleanup-selected"
     },
     {
       "script": "index.js",
       "handler": "runAddLegends",
       "name": "Add legends for all",
-      "identifier": "com.amimagid.legend-plugin.add"
+      "identifier": "com.fed-infra.legend-plugin.add"
     },
     {
       "script": "index.js",
       "handler": "runCleanUpLegends",
       "name": "Cleanup legends for all",
-      "identifier": "com.amimagid.legend-plugin.cleanup"
+      "identifier": "com.fed-infra.legend-plugin.cleanup"
     },
     {
       "script": "index.js",
       "handler": "runChangeActiveLibrary",
       "name": "Change active library",
-      "identifier": "com.amimagid.legend-plugin.change-active-lib"
+      "identifier": "com.fed-infra.legend-plugin.change-active-lib"
     }
   ]
 }

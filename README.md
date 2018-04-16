@@ -34,13 +34,13 @@ Feature requests and pull requests are more than welcome :)
 
 ## Demo
 
-## ![legend demo](https://github.com/amimagid/sketch-symbol-legend/blob/master/LegendPlugin.gif)
+## ![legend demo](https://github.com/wix-incubator/sketch-symbol-legend/blob/master/LegendPlugin.gif)
 
 ## Installation
 
 ### From a release (simplest)
 
-* [Download](https://github.com/amimagid/sketch-symbol-legend/releases/latest) `Legend.sketchplugin.zip` from the latest release of the plugin
+* [Download](https://github.com/wix-incubator/sketch-symbol-legend/releases/latest) `Legend.sketchplugin.zip` from the latest release of the plugin
 * Un-zip
 * Double-click on the sketch plugin
 
@@ -61,7 +61,7 @@ cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugi
 ```
 * Clone the repo with name `Legend.sketchplugin`
 ```sh
-git clone git@github.com:amimagid/sketch-symbol-legend.git Legend.sketchplugin
+git clone git@github.com:wix-incubator/sketch-symbol-legend.git Legend.sketchplugin
 ```
 The plugin will be used automatically by Sketch.
 
