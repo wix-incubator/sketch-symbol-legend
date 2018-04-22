@@ -27,10 +27,10 @@ Feature requests and pull requests are more than welcome :)
 
 ## How to use
 
-1. Select artboards for export
-2. `cmd+shift+y` - add legends for selected artboards
-3. `cmd+ctrl+e` - export selected artboards to zeplin
-4. `cmd+shift+d` - cleanup legends for selected artboards
+1.  Select artboards for export
+2.  `cmd+shift+y` - add legends for selected artboards
+3.  `cmd+ctrl+e` - export selected artboards to zeplin
+4.  `cmd+shift+d` - cleanup legends for selected artboards
 
 ## Demo
 
@@ -56,13 +56,17 @@ OR
 > This way is better for plugin development
 
 * Go to sketch plugins directory
+
 ```sh
-cd /Users/$(whoami)/Library/Application Support/com.bohemiancoding.sketch3/Plugins
+cd "$HOME/Library/Application Support/com.bohemiancoding.sketch3/Plugins"
 ```
+
 * Clone the repo with name `Legend.sketchplugin`
+
 ```sh
 git clone git@github.com:wix-incubator/sketch-symbol-legend.git Legend.sketchplugin
 ```
+
 The plugin will be used automatically by Sketch.
 
 ## Important links:
@@ -85,11 +89,10 @@ To create `Legend.sketchplugin.zip`, run `./release.sh` script from root directo
 
 * Some newer ES features don't work in Mac OS <= Sierra (e.g. spread operator on objects)
 * Plugin works in Sierra and High Sierra
-* `Object.class()` result maps 1-to-1 to ObjectiveC headers from Sketch.  
-These are extremely helpful for debugging and finding all the possible methods/properties and their signatures.  
-https://github.com/abynim/Sketch-Headers/blob/master/Headers/MSSymbolMaster.h
-* You can run your code async, consider the following snippet from `skpm`  
-https://github.com/airbnb/react-sketchapp/issues/97
-* Most of collections support `forEach`, but not other native `Array` methods,  
-consider casting to array with `Array.from` before doing `map/reduce/filter/includes` etc.
-
+* `Object.class()` result maps 1-to-1 to ObjectiveC headers from Sketch.
+  These are extremely helpful for debugging and finding all the possible methods/properties and their signatures.
+  https://github.com/abynim/Sketch-Headers/blob/master/Headers/MSSymbolMaster.h
+* You can run your code async, consider the following snippet from `skpm`
+  https://github.com/airbnb/react-sketchapp/issues/97
+* Most of collections support `forEach`, but not other native `Array` methods,
+  consider casting to array with `Array.from` before doing `map/reduce/filter/includes` etc.
