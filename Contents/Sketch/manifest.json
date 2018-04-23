@@ -23,12 +23,14 @@
     {
       "script": "index.js",
       "handler": "runAddLegends",
+      "shortcut": "command shift ctrl y",
       "name": "Add legends for all",
       "identifier": "com.fed-infra.legend-plugin.add"
     },
     {
       "script": "index.js",
       "handler": "runCleanUpLegends",
+      "shortcut": "command shift ctrl d",
       "name": "Cleanup legends for all",
       "identifier": "com.fed-infra.legend-plugin.cleanup"
     },

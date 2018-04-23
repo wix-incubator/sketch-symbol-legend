@@ -3,12 +3,11 @@ const createIndexGenerator = require('../utils/createIndexGenerator');
 const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
 const asyncForEach = require('../utils/asyncForEach');
 
-const createLegendItemIndex = require('./createLegendIndex');
+const { createLegendBadge, createLegendBadgesGroup } = require('./createLegendBadges');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
 
-const { Group } = require('sketch/dom'); // eslint-disable-line node/no-missing-require
-const { SYMBOL_INSTANCE_CLASS_NAME, LEGEND_GROUP_NAME } = require('../constants');
+const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
 function legendify({
   layer,
@@ -20,14 +19,13 @@ function legendify({
   getLegendItemIndex,
   legendItems,
   legendIndexItems,
-  onDone
+  onDone,
 }) {
   if (!layer.layers) {
     return;
   }
 
-  const layersCache = Array
-    .from(layer.layers())
+  const layersCache = Array.from(layer.layers())
     .map(layer => {
       const frame = layer.frame();
       return {
@@ -66,7 +64,7 @@ function legendify({
 
       legendIndexItems.push.apply(
         legendIndexItems,
-        createLegendItemIndex({
+        createLegendBadge({
           layer,
           layerIndex: legendItemIndex,
           layerOffsetTop,
@@ -95,10 +93,7 @@ function legendify({
 }
 
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
-  const legendItemsGroup = new Group({
-    name: LEGEND_GROUP_NAME,
-    parent: artboard,
-  });
+  const legendItemsGroup = createLegendBadgesGroup(artboard);
 
   const legendItems = [];
   const legendIndexItems = [];
@@ -126,7 +121,7 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
         artboard,
         legendItems,
       });
-    }
+    },
   });
 }
 
