@@ -5,7 +5,7 @@ const version = require('./package.json').version;
 
 const updateReadmeVersion = async () => {
   const fileString = fs.readFileSync(fileName, 'utf8');
-  const result = fileString.replace(/download\/v[0-9.]*\/Legend\.sketchplugin\.zip/, `download/v${version}/Sketch.zip`);
+  const result = fileString.replace(/download\/v[0-9.]*\/Sketch\.zip/, `download/v${version}/Sketch.zip`);
   fs.writeFileSync(fileName, result, 'utf8');
   await exec(`git add ${fileName}`);
   await exec(`git commit -m "Updated readme download link to version ${version}"`);
