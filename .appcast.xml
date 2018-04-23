@@ -4,8 +4,5 @@
     <item>
       <enclosure url="https://github.com/wix-incubator/sketch-symbol-legend/releases/download/v1.7.0/Sketch.zip" sparkle:version="1.7.0"/>
     </item>
-    <item>
-      <enclosure url="https://github.com/wix-incubator/sketch-symbol-legend/releases/download/v0.2.0/Sketch.zip" sparkle:version="0.2.0"/>
-    </item>
   </channel>
 </rss>
