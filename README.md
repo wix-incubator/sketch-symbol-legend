@@ -21,9 +21,13 @@ Feature requests and pull requests are more than welcome :)
 
 ## Shortcuts
 
-`command+shift+y` - add legends
+`command+shift+y` - add legends to selected artboards
 
-`command+shift+d` - clean up legends
+`command+shift+d` - clean up legends for selected artboards
+
+`command+shift+ctrl+y` - add legends to all artboards
+
+`command+shift+ctrl+d` - clean up legends for all artboards
 
 ## How to use
 
@@ -38,36 +42,19 @@ Feature requests and pull requests are more than welcome :)
 
 ## Installation
 
-### From a release (simplest)
-
-* [Download](https://github.com/wix-incubator/sketch-symbol-legend/releases/latest) `Legend.sketchplugin.zip` from the latest release of the plugin
-* Un-zip
-* Double-click on the sketch plugin
-
-### From the sources
-
-* Clone or download the repo
-* Un-zip (if downloaded)
-* Rename directory to `Legend.sketchplugin`
-* Double-click on the `Legend.sketchplugin`
-
-OR
-
-> This way is better for plugin development
-
-* Go to sketch plugins directory
-
 ```sh
-cd "$HOME/Library/Application Support/com.bohemiancoding.sketch3/Plugins"
+# clone the repo
+git clone git@github.com:wix-incubator/sketch-symbol-legend.git
+cd sketch-symbol-legend
+# install packages, it will add the plugin to the Sketch app
+npm install --no-lockfile
 ```
 
-* Clone the repo with name `Legend.sketchplugin`
+## Logs output
 
 ```sh
-git clone git@github.com:wix-incubator/sketch-symbol-legend.git Legend.sketchplugin
+npm run sketch:log
 ```
-
-The plugin will be used automatically by Sketch.
 
 ## Important links:
 
@@ -81,9 +68,17 @@ The plugin will be used automatically by Sketch.
 * https://developer.sketchapp.com/guides/debugging-plugins/
 * https://github.com/skpm/sketch-dev-tools
 
-## Create plugin archive from source
+## Release
 
-To create `Legend.sketchplugin.zip`, run `./release.sh` script from root directory
+The following command will create a release with zipped artifact in this repository.
+That's why you need to generate [Github access token](https://github.com/settings/tokens).
+
+You need to specify a version bump, it can be one of the following:
+`<new-version> | major | minor | patch | premajor | preminor | prepatch | prerelease`.
+
+```sh
+GITHUB_ACCESS_TOKEN=<token> SKETCH_RELEASE=<version-bump> npm run sketch:release
+```
 
 ## Notes (tips, caveats, issues)
 
