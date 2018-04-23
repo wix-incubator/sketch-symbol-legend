@@ -1,14 +1,15 @@
+const { exec } = require('@skpm/internal-utils/exec'); // eslint-disable-line
 const fs = require('fs');
-const fileName = './README.MD';
+const fileName = 'README.md';
 const version = require('./package.json').version;
 
-fs.readFile(fileName, 'utf8', (err,data) => {
-  if (err) {
-    return console.log(err);
-  }
+const updateReadmeVersion = async () => {
+  const fileString = fs.readFileSync(fileName, 'utf8');
+  const result = fileString.replace(/download\/v[0-9.]*\/Legend\.sketchplugin\.zip/, `download/v${version}/Legend.sketchplugin.zip`);
+  fs.writeFileSync(fileName, result, 'utf8');
+  await exec(`git add ${fileName}`);
+  await exec(`git commit -m "Updated readme download link to version ${version}"`);
+  await exec('git push origin HEAD');
+}
 
-  const result = data.replace(/download\/v[0-9.]*\/Legend\.sketchplugin\.zip/, `download/v${version}/Legend.sketchplugin.zip`);
-  fs.writeFile(fileName, result, 'utf8', err => {
-     if (err) return console.log(err);
-  });
-});
+updateReadmeVersion();
