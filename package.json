@@ -8,14 +8,17 @@
   "skpm": {
     "name": "Legend",
     "manifest": "manifest.json",
-    "main": "Contents/Sketch"
+    "main": "Legend.sketchplugin/Contents/Sketch"
   },
   "scripts": {
-    "lint": "eslint Contents/Sketch",
+    "lint": "eslint Legend.sketchplugin",
     "prettier:base": "prettier --write",
     "prettify": "npm run prettier:base \"./src/**/*.js\"",
+    "sketch:log": "skpm log -f",
     "sketch:watch": "defaults write ~/Library/Preferences/com.bohemiancoding.sketch3.plist AlwaysReloadScript -bool YES",
-    "postinstall": "npm run sketch:watch"
+    "sketch:link": "ln -sf \"$PWD/Legend.sketchplugin\" \"$HOME/Library/Application Support/com.bohemiancoding.sketch3/Plugins\"",
+    "sketch:release": "skpm publish $SKETCH_RELEASE --skip-registry",
+    "postinstall": "npm run sketch:watch && npm run sketch:link"
   },
   "devDependencies": {
     "@skpm/builder": "^0.5.4",
