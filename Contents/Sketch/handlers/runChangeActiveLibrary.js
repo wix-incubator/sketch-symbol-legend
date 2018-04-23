@@ -1,4 +1,4 @@
-const ui = require('sketch/ui');
+const ui = require('sketch/ui'); // eslint-disable-line node/no-missing-require
 const settings = require('../utils/settings');
 const { getUserLibraries } = require('../utils/symbol');
 

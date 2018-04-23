@@ -1,9 +1,7 @@
-const sketch = require('sketch');
-const { Group, Rectangle, Shape, Text } = require('sketch/dom');
+const { Group, Rectangle, Shape, Text } = require('sketch/dom'); // eslint-disable-line node/no-missing-require
 const setTextColor = require('../utils/setTextColor');
 
 const WIDTH_PER_DIGIT = 15;
-const BADGE_COLOR_OPACITY = 40;
 const BADGE_COLOR = '#ff6666';
 const BORDER_COLOR = '#ffffff00';
 const getDigitsCount = num => num.toString().length;
@@ -38,7 +36,7 @@ const createTextNode = (frame, layerIndex) => {
   return textNode;
 }
 
-module.exports = (x, y, layerIndex) => {
+const drawBadge = (x, y, layerIndex) => {
   const dimensions = [ getDigitsCount(layerIndex) * WIDTH_PER_DIGIT, WIDTH_PER_DIGIT ];
   const frame = new Rectangle(0, 0, ...dimensions);
 
@@ -53,3 +51,5 @@ module.exports = (x, y, layerIndex) => {
 
   return [groupNode];
 };
+
+module.exports = drawBadge;

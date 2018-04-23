@@ -1,20 +1,20 @@
-const drawBadge = require('../drawers/badge');
+const drawBadge = require("../drawers/badge");
 
 const OFFSET_TOP = 15;
 
-function createLegendItemIndex({
+const createLegendItemIndex = ({
   layer,
   layerIndex,
   layerOffsetLeft,
-  layerOffsetTop,
-}) {
+  layerOffsetTop
+}) => {
   const frame = layer.frame();
 
   return drawBadge(
     frame.x() + layerOffsetLeft,
     Math.max(frame.y() + layerOffsetTop - OFFSET_TOP, 0),
-    layerIndex,
-  )
-}
+    layerIndex
+  );
+};
 
 module.exports = createLegendItemIndex;

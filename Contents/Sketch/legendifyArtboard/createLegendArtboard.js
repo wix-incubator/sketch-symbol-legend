@@ -1,5 +1,4 @@
-const sketch = require('sketch');
-const Rectangle = require('sketch/dom').Rectangle;
+const Rectangle = require('sketch/dom').Rectangle; // eslint-disable-line node/no-missing-require
 
 const { LEGEND_ARTBOARD_NAME } = require('../constants');
 
@@ -15,21 +14,20 @@ function isNotArtboardAndLegend(artboard) {
 }
 
 function getArtboardsBelow({artboard, page}) {
-  page = page || artboard.parentGroup();
+  const currentPage = page || artboard.parentGroup();
   const frame = artboard.frame();
   const x = frame.x();
   const y = frame.y();
   const width = frame.width();
   const height = frame.height();
 
-  const otherArtboards = Array.from(page.artboards()).filter(isNotArtboardAndLegend(artboard));
+  const otherArtboards = Array.from(currentPage.artboards()).filter(isNotArtboardAndLegend(artboard));
 
   const artboardsBelow = otherArtboards.reduce((acc, otherArtboard) => {
     const otherFrame = otherArtboard.frame();
     const otherX = otherFrame.x();
     const otherY = otherFrame.y();
     const otherWidth = otherFrame.width();
-    const otherHeight = otherFrame.height();
 
     const otherInXRange = otherX + otherWidth > x && otherX < x + width;
     const otherBelow = otherY > y + height;
