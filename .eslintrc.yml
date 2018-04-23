@@ -1,0 +1,24 @@
+---
+root: true
+globals:
+  coscript: false
+  sketch: false
+parserOptions:
+  ecmaVersion: 8
+  sourceType: module
+extends:
+  - wix/esnext
+  - plugin:node/recommended
+  - prettier
+  - sketch
+plugins:
+  - node
+  - prettier
+env:
+  node: true
+rules:
+  consistent-return: 0
+  no-param-reassign: 0
+  no-plusplus: 0
+  no-shadow: 0
+  no-underscore-dangle: 0

@@ -1,0 +1,35 @@
+{
+  "name": "sketch-symbol-legend",
+  "version": "0.1.0",
+  "engines": {
+    "sketch": ">=3.0",
+    "node": ">=8"
+  },
+  "skpm": {
+    "name": "Legend",
+    "manifest": "manifest.json",
+    "main": "Contents/Sketch"
+  },
+  "scripts": {
+    "lint": "eslint Contents/Sketch",
+    "prettier:base": "prettier --write",
+    "prettify": "npm run prettier:base \"./src/**/*.js\""
+  },
+  "devDependencies": {
+    "@skpm/builder": "^0.5.4",
+    "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-sketch": "^0.2.2",
+    "eslint-config-wix": "^1.1.18",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.3.1",
+    "prettier": "^1.7.4",
+    "skpm": "^1.0.15"
+  },
+  "author": "Wix.com",
+  "url": "https://github.com/wix-incubator/sketch-symbol-legend/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wix-incubator/sketch-symbol-legend"
+  }
+}

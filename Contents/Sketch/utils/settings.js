@@ -1,4 +1,4 @@
-const settings = require('sketch/settings');
+const settings = require('sketch/settings'); // eslint-disable-line node/no-missing-require
 const { ACTIVE_LIB_NAME_SETTING, WIX_STYLE_LIBRARY_NAME } = require('../constants');
 
 module.exports = {

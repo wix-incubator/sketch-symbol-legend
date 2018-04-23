@@ -7,7 +7,7 @@ const createLegendItemIndex = require('./createLegendIndex');
 const getLegendItemDescription = require('./getLegendItemDescription');
 const createLegendArtboard = require('./createLegendArtboard');
 
-const { Group } = require('sketch/dom');
+const { Group } = require('sketch/dom'); // eslint-disable-line node/no-missing-require
 const { SYMBOL_INSTANCE_CLASS_NAME, LEGEND_GROUP_NAME } = require('../constants');
 
 function legendify({
@@ -97,11 +97,11 @@ function legendify({
 function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
   const legendItemsGroup = new Group({
     name: LEGEND_GROUP_NAME,
-    parent: artboard
+    parent: artboard,
   });
 
-  let legendItems = [];
-  let legendIndexItems = [];
+  const legendItems = [];
+  const legendIndexItems = [];
 
   legendify({
     layer: artboard,
