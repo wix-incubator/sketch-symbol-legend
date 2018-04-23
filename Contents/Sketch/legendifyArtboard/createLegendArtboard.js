@@ -1,4 +1,4 @@
-const Rectangle = require('sketch/dom').Rectangle; // eslint-disable-line node/no-missing-require
+const { Rectangle, Artboard, Text } = require('sketch/dom'); // eslint-disable-line node/no-missing-require
 
 const { LEGEND_ARTBOARD_NAME } = require('../constants');
 
@@ -57,14 +57,14 @@ function createLegendArtboard({ artboard, page, legendItems }) {
   const artboardX = artboardFrame.x();
   const artboardY = artboardFrame.y();
 
-  const legendArtboard = new sketch.Artboard({
+  const legendArtboard = new Artboard({
     parent: page || artboard.parentGroup(),
     name: artboard.name() + String(LEGEND_ARTBOARD_NAME),
     flowStartPoint: true,
     frame: new Rectangle(artboardX, artboardY + artboardHeight + ARTBOARD_MARGIN),
   });
 
-  const legendArtboardItems = new sketch.Text({
+  const legendArtboardItems = new Text({
     parent: legendArtboard,
     text: legendItems.join('\n\n'),
     frame: new Rectangle(LEGEND_PADDING, LEGEND_PADDING),

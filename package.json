@@ -13,7 +13,9 @@
   "scripts": {
     "lint": "eslint Contents/Sketch",
     "prettier:base": "prettier --write",
-    "prettify": "npm run prettier:base \"./src/**/*.js\""
+    "prettify": "npm run prettier:base \"./src/**/*.js\"",
+    "sketch:watch": "defaults write ~/Library/Preferences/com.bohemiancoding.sketch3.plist AlwaysReloadScript -bool YES",
+    "postinstall": "npm run sketch:watch"
   },
   "devDependencies": {
     "@skpm/builder": "^0.5.4",
