@@ -19,7 +19,7 @@
     "sketch:link": "ln -sf \"$PWD/Legend.sketchplugin\" \"$HOME/Library/Application Support/com.bohemiancoding.sketch3/Plugins\"",
     "sketch:release": "skpm publish $SKETCH_RELEASE --skip-registry",
     "postinstall": "npm run sketch:watch && npm run sketch:link",
-    "prepublish": "PACKAGE_VERSION=$(node -p -e \"require('./package.json').version\") && sed -i.bak 's|download/v[0-9.]*/Legend.sketchplugin.zip|download/v'$PACKAGE_VERSION'/Legend.sketchplugin.zip|g' README.MD && rm README.MD.bak"
+    "prepublish": "node prepublish.js"
   },
   "devDependencies": {
     "@skpm/builder": "^0.5.4",
