@@ -19,7 +19,6 @@ module.exports = ({ document }) => {
       if (isSketchStringsEqual(artboard.class(), ARTBOARD_GROUP_CLASS_NAME)) {
         legendifyArtboard({
           artboard,
-          page,
           symbolsDictionary,
           document,
         });

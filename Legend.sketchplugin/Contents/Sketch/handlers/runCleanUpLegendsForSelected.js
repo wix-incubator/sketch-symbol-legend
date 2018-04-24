@@ -1,5 +1,5 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
-const { isLegendArtboard, cleanUpArtboardLegends } = require('../cleanUp');
+const { cleanUpArtboardLegends } = require('../cleanUp');
 
 module.exports = context => {
   coscript.shouldKeepAround = false;
@@ -15,11 +15,6 @@ module.exports = context => {
   }
 
   artboards.forEach(artboard => {
-    if (isLegendArtboard(artboard)) {
-      artboard.removeFromParent();
-      return;
-    }
-
     cleanUpArtboardLegends(artboard);
   });
 };

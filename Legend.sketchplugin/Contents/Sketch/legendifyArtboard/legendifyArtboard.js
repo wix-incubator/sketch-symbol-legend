@@ -5,7 +5,7 @@ const asyncForEach = require('../utils/asyncForEach');
 
 const { createLegendBadge, createLegendBadgesGroup } = require('./createLegendBadges');
 const getLegendItemDescription = require('./getLegendItemDescription');
-const createLegendArtboard = require('./createLegendArtboard');
+const createLegendGroup = require('./createLegendGroup');
 
 const { SYMBOL_INSTANCE_CLASS_NAME } = require('../constants');
 
@@ -92,7 +92,7 @@ function legendify({
   layersCache.forEach(processLayer);
 }
 
-function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
+function legendifyArtboard({ artboard, document, symbolsDictionary }) {
   const legendItemsGroup = createLegendBadgesGroup(artboard);
 
   const legendItems = [];
@@ -116,8 +116,7 @@ function legendifyArtboard({ artboard, document, page, symbolsDictionary }) {
       document.showMessage('All Artboards processed.');
       coscript.shouldKeepAround = false;
 
-      createLegendArtboard({
-        page,
+      createLegendGroup({
         artboard,
         legendItems,
       });

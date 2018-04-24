@@ -1,10 +1,11 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
-const { LEGEND_ARTBOARD_NAME, LEGEND_GROUP_NAME } = require('./constants');
+const { adjustArtboardHeight } = require('./utils/adjustArtboardHeight');
+const { LEGEND_CONTENT_NAME, LEGEND_BADGES_NAME } = require('./constants');
 
 function getLayersToRemove({ layer, itemsToRemove = [] }) {
   const name = layer.name();
 
-  if (isSketchStringsEqual(name, LEGEND_GROUP_NAME)) {
+  if (isSketchStringsEqual(name, LEGEND_BADGES_NAME) || isSketchStringsEqual(name, LEGEND_CONTENT_NAME)) {
     itemsToRemove.push(layer);
     return;
   }
@@ -18,51 +19,28 @@ function getLayersToRemove({ layer, itemsToRemove = [] }) {
   return itemsToRemove;
 }
 
-function cleanUpArtboardLegendsIndexes(layer) {
-  // sketch behave strange while deleting layers in loop, so remove items in two steps
-  const layersToRemove = getLayersToRemove({ layer });
+function cleanUpArtboardLegendGroups(artboard) {
+  // sketch behaves strange while deleting layers in loop, so remove items in two steps
+  const layersToRemove = getLayersToRemove({ layer: artboard });
 
   layersToRemove.forEach(layer => {
     layer.removeFromParent();
   });
-}
 
-function isLegendArtboard(artboard) {
-  return artboard.name().endsWith(LEGEND_ARTBOARD_NAME);
+  adjustArtboardHeight(artboard);
 }
 
 function cleanUpPageLegends(page) {
   page.artboards().forEach(artboard => {
-    if (isLegendArtboard(artboard)) {
-      artboard.removeFromParent();
-      return;
-    }
-
-    cleanUpArtboardLegendsIndexes(artboard);
+    cleanUpArtboardLegendGroups(artboard);
   });
 }
 
 function cleanUpArtboardLegends(artboard) {
-  const page = artboard.parentGroup();
-
-  if (isLegendArtboard(artboard)) {
-    return;
-  }
-
-  const legendArtboardName = `${artboard.name()}${LEGEND_ARTBOARD_NAME}`;
-  const legendArtboard = page.artboards().find(_artboard =>
-    isSketchStringsEqual(_artboard.name(), legendArtboardName)
-  );
-
-  if (legendArtboard) {
-    legendArtboard.removeFromParent();
-  }
-
-  cleanUpArtboardLegendsIndexes(artboard);
+  cleanUpArtboardLegendGroups(artboard);
 }
 
 module.exports = {
-  isLegendArtboard,
   cleanUpPageLegends,
   cleanUpArtboardLegends,
 };
