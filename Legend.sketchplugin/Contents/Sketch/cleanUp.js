@@ -19,7 +19,7 @@ function getLayersToRemove({ layer, itemsToRemove = [] }) {
   return itemsToRemove;
 }
 
-function cleanUpArtboardLegendGroups(artboard) {
+function cleanUpLegend(artboard) {
   // sketch behaves strange while deleting layers in loop, so remove items in two steps
   const layersToRemove = getLayersToRemove({ layer: artboard });
 
@@ -32,12 +32,12 @@ function cleanUpArtboardLegendGroups(artboard) {
 
 function cleanUpPageLegends(page) {
   page.artboards().forEach(artboard => {
-    cleanUpArtboardLegendGroups(artboard);
+    cleanUpLegend(artboard);
   });
 }
 
 function cleanUpArtboardLegends(artboard) {
-  cleanUpArtboardLegendGroups(artboard);
+  cleanUpLegend(artboard);
 }
 
 module.exports = {

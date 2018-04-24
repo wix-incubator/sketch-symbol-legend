@@ -3,10 +3,10 @@ const adjustLayerFrame = require('../utils/adjustLayerFrame');
 const LEGEND_PADDING = 20;
 const ARTBOARD_MARGIN = 30;
 
-const adjustArtboardFrame = (artboard, legendGroupItems) => {
+const adjustArtboardFrame = (artboard, legendGroupBackground) => {
   adjustLayerFrame(artboard, {
-    height: artboard.frame().height() + legendGroupItems._object.frame().height() + ARTBOARD_MARGIN + LEGEND_PADDING *2,
-  })
+    height: artboard.frame().height() + legendGroupBackground._object.frame().height() + ARTBOARD_MARGIN,
+  });
 }
 
 const adjustLegendGroupFrame = (artboard, legendGroup, legendGroupItems) => {
@@ -21,7 +21,18 @@ const adjustLegendGroupFrame = (artboard, legendGroup, legendGroupItems) => {
     y: artboardHeight + ARTBOARD_MARGIN,
     width: artboardWidth,
     height: legendGroupItemsHeight + LEGEND_PADDING * 2,
-  })
+  });
+}
+
+const adjustLegendGroupBackgroundFrame = (legendGroup, legendGroupBackground) => {
+  const legendGroupFrame = legendGroup._object.frame();
+  const newFrame = {
+    x: 0,
+    y: 0,
+    width: legendGroupFrame.width(),
+    height: legendGroupFrame.height()
+  };
+  adjustLayerFrame(legendGroupBackground._object, newFrame)
 }
 
 const adjustLegendGroupItemsFrame = (artboard, legendGroupItems) => {
@@ -33,13 +44,14 @@ const adjustLegendGroupItemsFrame = (artboard, legendGroupItems) => {
     x: LEGEND_PADDING,
     y: LEGEND_PADDING,
     width: artboardWidth - LEGEND_PADDING * 2,
-  })
+  });
 }
 
-const adjustLegendFrames = (artboard, legendGroup, legendGroupItems) => {
+const adjustLegendFrames = (artboard, legendGroup, legendGroupBackground, legendGroupItems) => {
   adjustLegendGroupFrame(artboard, legendGroup, legendGroupItems);
+  adjustLegendGroupBackgroundFrame(legendGroup, legendGroupBackground);
   adjustLegendGroupItemsFrame(artboard, legendGroupItems);
-  adjustArtboardFrame(artboard, legendGroupItems);
+  adjustArtboardFrame(artboard, legendGroupBackground);
 }
 
 module.exports = adjustLegendFrames;
