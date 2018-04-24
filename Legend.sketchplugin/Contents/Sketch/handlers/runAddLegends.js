@@ -1,5 +1,6 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
+const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
 const { cleanUpPageLegends } = require('../cleanUp');
 const { ARTBOARD_GROUP_CLASS_NAME } = require('../constants');
@@ -24,5 +25,7 @@ module.exports = ({ document }) => {
         });
       }
     });
+
+    adjustArtboardPositions(page.artboards());
   });
 };

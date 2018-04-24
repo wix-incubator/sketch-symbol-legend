@@ -1,7 +1,8 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
-const { cleanUpArtboardLegends } = require('../cleanUp');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
+const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
+const { cleanUpArtboardLegends } = require('../cleanUp');
 
 module.exports = context => {
   coscript.shouldKeepAround = false;
@@ -29,4 +30,6 @@ module.exports = context => {
       symbolsDictionary,
     });
   });
+
+  adjustArtboardPositions(artboards);
 };
