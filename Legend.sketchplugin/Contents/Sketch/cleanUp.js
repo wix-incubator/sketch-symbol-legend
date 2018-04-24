@@ -1,5 +1,6 @@
 const isSketchStringsEqual = require('./utils/isSketchStringsEqual');
-const { adjustArtboardHeight } = require('./utils/adjustArtboardHeight');
+const { calculateArtboardSize } = require('./utils/calculateArtboardSize');
+const adjustLayerFrame = require('./utils/adjustLayerFrame');
 const { LEGEND_CONTENT_NAME, LEGEND_BADGES_NAME } = require('./constants');
 
 function getLayersToRemove({ layer, itemsToRemove = [] }) {
@@ -27,7 +28,7 @@ function cleanUpLegend(artboard) {
     layer.removeFromParent();
   });
 
-  adjustArtboardHeight(artboard);
+  adjustLayerFrame(artboard, calculateArtboardSize(artboard));
 }
 
 function cleanUpPageLegends(page) {

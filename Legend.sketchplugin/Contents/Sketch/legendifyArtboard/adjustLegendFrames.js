@@ -1,11 +1,10 @@
 const adjustLayerFrame = require('../utils/adjustLayerFrame');
 
 const LEGEND_PADDING = 20;
-const ARTBOARD_MARGIN = 30;
 
 const adjustArtboardFrame = (artboard, legendGroupBackground) => {
   adjustLayerFrame(artboard, {
-    height: artboard.frame().height() + legendGroupBackground._object.frame().height() + ARTBOARD_MARGIN,
+    height: artboard.frame().height() + legendGroupBackground._object.frame().height(),
   });
 }
 
@@ -18,7 +17,7 @@ const adjustLegendGroupFrame = (artboard, legendGroup, legendGroupItems) => {
 
   adjustLayerFrame(legendGroup._object, {
     x: 0,
-    y: artboardHeight + ARTBOARD_MARGIN,
+    y: artboardHeight,
     width: artboardWidth,
     height: legendGroupItemsHeight + LEGEND_PADDING * 2,
   });
