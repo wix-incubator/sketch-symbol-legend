@@ -17,7 +17,8 @@
     "sketch:log": "skpm log -f",
     "sketch:watch": "defaults write ~/Library/Preferences/com.bohemiancoding.sketch3.plist AlwaysReloadScript -bool YES",
     "sketch:link": "ln -sf \"$PWD/Legend.sketchplugin\" \"$HOME/Library/Application Support/com.bohemiancoding.sketch3/Plugins\"",
-    "sketch:release": "skpm publish $SKETCH_RELEASE --skip-registry",
+    "sketch:prerelease": "rm -f package-lock.json",
+    "sketch:release": "npm run sketch:prerelease && skpm publish $SKETCH_RELEASE --skip-registry",
     "postinstall": "npm run sketch:watch && npm run sketch:link",
     "prepublish": "node prepublish.js"
   },
