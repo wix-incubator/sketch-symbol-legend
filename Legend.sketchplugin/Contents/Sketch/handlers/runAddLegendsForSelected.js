@@ -1,5 +1,5 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
-const { isLegendArtboard, cleanUpArtboardLegends } = require('../cleanUp');
+const { cleanUpArtboardLegends } = require('../cleanUp');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
 const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
 
@@ -21,10 +21,6 @@ module.exports = context => {
   );
 
   artboards.forEach(artboard => {
-    if (isLegendArtboard(artboard)) {
-      return;
-    }
-
     cleanUpArtboardLegends(artboard);
 
     legendifyArtboard({
