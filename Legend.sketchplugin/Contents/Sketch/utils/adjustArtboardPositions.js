@@ -12,8 +12,9 @@ const getRowMaxHeight = artboards => Math.max(...artboards.map(artboard => {
 }));
 
 const getRows = artboards => {
-  let currentRow = { index: 0, y: artboards[0].frame().y() };
-  return artboards.sort(artboard => artboard.frame().y()).reduce((acc, artboard) => {
+  const sortedArtboards = artboards.sort(artboard => artboard.frame().y());
+  let currentRow = { index: 0, y: sortedArtboards[0].frame().y() };
+  return sortedArtboards.reduce((acc, artboard) => {
     if (!isBetween(currentRow.y, artboard.frame().y())) {
       // log(`${currentRow.y} ${artboard.frame().y()}`);
       currentRow = { index: currentRow.index + 1, y: artboard.frame().y() };
