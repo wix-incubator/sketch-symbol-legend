@@ -21,6 +21,7 @@ module.exports = context => {
     document.documentData().allSymbols()
   );
 
+  let artboardsProcessed = 0;
   artboards.forEach(artboard => {
     cleanUpArtboardLegends(artboard);
 
@@ -28,8 +29,14 @@ module.exports = context => {
       document,
       artboard,
       symbolsDictionary,
+      onProcessed() {
+        artboardsProcessed++;
+        if (artboardsProcessed === artboards.length) {
+          artboardsProcessed = 0;
+          adjustArtboardPositions(artboards);
+          document.showMessage('All Artboards processed.');
+        }
+      }
     });
   });
-
-  adjustArtboardPositions(artboards);
 };

@@ -92,7 +92,7 @@ function legendify({
   layersCache.forEach(processLayer);
 }
 
-function legendifyArtboard({ artboard, document, symbolsDictionary }) {
+function legendifyArtboard({ artboard, document, symbolsDictionary, onProcessed }) {
   const legendItemsGroup = createLegendBadgesGroup(artboard);
 
   const legendItems = [];
@@ -112,14 +112,14 @@ function legendifyArtboard({ artboard, document, symbolsDictionary }) {
       }
 
       legendItemsGroup.layers = legendIndexItems;
-
-      document.showMessage('All Artboards processed.');
       coscript.shouldKeepAround = false;
 
       createLegendGroup({
         artboard,
         legendItems,
       });
+
+      onProcessed && onProcessed();
     },
   });
 }

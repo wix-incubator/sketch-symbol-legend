@@ -15,16 +15,23 @@ module.exports = ({ document }) => {
     // cleanup previous legends on rerun
     cleanUpPageLegends(page);
 
+    let artboardsProcessed = 0;
     page.artboards().forEach(artboard => {
       if (isArtboard(artboard)) {
         legendifyArtboard({
           artboard,
           symbolsDictionary,
           document,
+          onProcessed() {
+            artboardsProcessed++;
+            if (artboardsProcessed === page.artboards().length) {
+              artboardsProcessed = 0;
+              adjustArtboardPositions(page.artboards());
+              document.showMessage('All Artboards processed.');
+            }
+          }
         });
       }
     });
-
-    adjustArtboardPositions(page.artboards());
   });
 };
