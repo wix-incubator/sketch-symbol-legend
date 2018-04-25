@@ -1,9 +1,8 @@
-const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
+const { isArtboard } = require('../utils/classMatchers');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
 const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
 const { cleanUpPageLegends } = require('../cleanUp');
-const { ARTBOARD_GROUP_CLASS_NAME } = require('../constants');
 
 module.exports = ({ document }) => {
   coscript.shouldKeepAround = false;
@@ -17,7 +16,7 @@ module.exports = ({ document }) => {
     cleanUpPageLegends(page);
 
     page.artboards().forEach(artboard => {
-      if (isSketchStringsEqual(artboard.class(), ARTBOARD_GROUP_CLASS_NAME)) {
+      if (isArtboard(artboard)) {
         legendifyArtboard({
           artboard,
           symbolsDictionary,

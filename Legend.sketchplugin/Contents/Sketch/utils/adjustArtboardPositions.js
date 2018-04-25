@@ -1,72 +1,68 @@
-const isSketchStringsEqual = require('./isSketchStringsEqual');
+const adjustLayerFrame = require('./adjustLayerFrame');
 const { isArtboard } = require('./classMatchers');
 
-const adjustArtboardPosition = artboard => {
-  const currentPage = artboard.parentGroup();
-  const frame = artboard.frame();
-  const x = frame.x();
-  const y = frame.y();
-  const width = frame.width();
-  const height = frame.height();
+const SAME_ROW_THRESHOLD = 100;
+const ROW_MARGIN = 100;
 
-  const otherArtboards = Array.from(currentPage.artboards()).filter(otherArtboard =>
-    !isSketchStringsEqual(artboard.name(), otherArtboard.name())
-  );
+const isBetween = (base, value) => base - SAME_ROW_THRESHOLD < value && base + SAME_ROW_THRESHOLD > value;
+const getFirstRowTop = artboards => Math.min(...artboards.map(artboard => artboard.frame().y()));
+const getRowMaxHeight = artboards => Math.max(...artboards.map(artboard => {
+  log(`${artboard.rect().size.height} ${artboard}`);
+  return artboard.frame().height();
+}));
 
-  const artboardsBelow = otherArtboards.reduce((acc, otherArtboard) => {
-    const otherFrame = otherArtboard.frame();
-    const otherX = otherFrame.x();
-    const otherY = otherFrame.y();
-    const otherWidth = otherFrame.width();
-
-    const otherInXRange = otherX + otherWidth > x && otherX < x + width;
-    log(`x ${x}`);
-    log(`width ${width}`);
-    log(`otherX ${otherX}`);
-    log(`otherWidth ${otherWidth}`);
-    const otherBelow = otherY > y + height;
-    log(`y ${y}`);
-    log(`otherY ${otherY}`);
-    log(`height ${height}`);
-
-    if (otherInXRange && otherBelow) {
-      acc.push({
-        name: String(otherArtboard.name()),
-        distanceY: Math.abs(y + height - otherY),
-        artboard: otherArtboard
-      });
+const getRows = artboards => {
+  let currentRow = { index: 0, y: artboards[0].frame().y() };
+  return artboards.sort(artboard => artboard.frame().y()).reduce((acc, artboard) => {
+    if (!isBetween(currentRow.y, artboard.frame().y())) {
+      // log(`${currentRow.y} ${artboard.frame().y()}`);
+      currentRow = { index: currentRow.index + 1, y: artboard.frame().y() };
     }
-
+    acc[currentRow.index] = (acc[currentRow.index] || []).concat(artboard);
     return acc;
   }, []);
+};
 
-  artboardsBelow.sort((a, b) => {
-    return a.distanceY - b.distanceY;
+const getRowYs = rows => {
+  let currentRowBottom = getFirstRowTop(rows[0]);
+
+  return rows.map(artboards => {
+    const y = currentRowBottom;
+    currentRowBottom = currentRowBottom + getRowMaxHeight(artboards) + ROW_MARGIN;
+    log(getRowMaxHeight(artboards))
+    return y;
   });
-
-  if (artboardsBelow.length) {
-    const closestArtboard = artboardsBelow[0].artboard;
-    const closestArtboardFrame = closestArtboard.frame();
-    const closestArtboardY = closestArtboardFrame.y();
-    const artboardFrame = artboard.frame();
-    const legendArtboardBottom = artboardFrame.y() + artboardFrame.height();
-    if (closestArtboardY < legendArtboardBottom) {
-      const delta = Math.abs(closestArtboardY - (legendArtboardBottom));
-      artboardsBelow.forEach(a => {
-        const frame = a.artboard.frame();
-        frame.y = frame.y() + delta;
-      });
-    }
-  }
-}
+};
 
 const adjustArtboardPositions = artboards => {
-  const artboardRows = [];
-  Array.from(artboards)
-    .filter(isArtboard)
-    .forEach(artboard => {
-      log(artboard.name());
+  const applicableArtboards = Array.from(artboards).filter(isArtboard);
+  if (!applicableArtboards.length) return;
+
+  const artboardRows = getRows(applicableArtboards);
+  log(artboardRows);
+  log(JSON.stringify(getRowYs(artboardRows)));
+  getRowYs(artboardRows).forEach((y, index) => {
+    artboardRows[index].forEach(artboard => {
+      log(`${artboard.name()} y ${y}`);
+      adjustLayerFrame(artboard, { y });
     })
-}
+  })
+};
+
+// const data = [
+//   { y: 0, height: 300, id: 1 },
+//   { y: 30, height: 500, id: 2 },
+//   { y: -40, height: 240, id: 3 },
+//   { y: 200, height: 500, id: 4 },
+//   { y: 800, height: 200, id: 5 },
+//   { y: 760, height: 400, id: 6 },
+// ];
+
+// log(isBetween(-40, -40));
+// log(JSON.stringify(getRows(data)));
+
+// log(JSON.stringify(getRowYs()));
+
+log('');
 
 module.exports = adjustArtboardPositions;
