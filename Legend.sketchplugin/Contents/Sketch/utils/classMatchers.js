@@ -7,8 +7,7 @@ const isSymbol = isClass(SYMBOL_INSTANCE_CLASS_NAME);
 
 const isArtboard = isClass(ARTBOARD_GROUP_CLASS_NAME);
 
-
 module.exports = {
   isSymbol,
   isArtboard,
-}
+};
