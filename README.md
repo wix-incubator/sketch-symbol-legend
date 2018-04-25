@@ -12,7 +12,7 @@ After exporting to `Zeplin`, most of the data is lost.
 
 ---
 
-This plugin provides indexing of Symbols in your artboard and creates a new artboard next to it with detailed legend.
+This plugin provides indexing of Symbols in your artboard with a detailed legend.
 
 It creates a text symbol with the Symbol's index above the Symbol and on the `Legend` artboard it adds the definition of the symbol as well as it's `overrides` if there are any.
 Note that it will add an `override` only if it was overriden on the `SymbolInstance`.
