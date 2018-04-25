@@ -1,3 +1,4 @@
+const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const { cleanUpPageLegends } = require('../cleanUp');
 
 module.exports = ({ document }) => {
@@ -5,5 +6,6 @@ module.exports = ({ document }) => {
 
   document.pages().forEach(page => {
     cleanUpPageLegends(page);
+    adjustArtboardPositions(page.artboards());
   });
 };

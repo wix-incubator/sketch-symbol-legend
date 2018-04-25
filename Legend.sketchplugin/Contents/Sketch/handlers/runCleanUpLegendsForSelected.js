@@ -1,4 +1,5 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
+const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const { cleanUpArtboardLegends } = require('../cleanUp');
 
 module.exports = context => {
@@ -17,4 +18,6 @@ module.exports = context => {
   artboards.forEach(artboard => {
     cleanUpArtboardLegends(artboard);
   });
+
+  adjustArtboardPositions(artboards);
 };
