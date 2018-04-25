@@ -1,7 +1,8 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
-const { cleanUpArtboardLegends } = require('../cleanUp');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
+const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
+const { cleanUpArtboardLegends } = require('../cleanUp');
 
 module.exports = context => {
   coscript.shouldKeepAround = false;
@@ -20,6 +21,7 @@ module.exports = context => {
     document.documentData().allSymbols()
   );
 
+  let artboardsProcessed = 0;
   artboards.forEach(artboard => {
     cleanUpArtboardLegends(artboard);
 
@@ -27,6 +29,14 @@ module.exports = context => {
       document,
       artboard,
       symbolsDictionary,
+      onProcessed() {
+        artboardsProcessed++;
+        if (artboardsProcessed === artboards.length) {
+          artboardsProcessed = 0;
+          adjustArtboardPositions(artboards);
+          document.showMessage('All Artboards processed.');
+        }
+      }
     });
   });
 };

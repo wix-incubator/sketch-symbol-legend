@@ -1,6 +1,6 @@
 //SOURCE: https://github.com/zhifengkoh/resize_artboard/
 
-function adjustArtboardHeight(artboard) {
+function calculateArtboardSize(artboard) {
   const layers = artboard.layers();
   if (layers.count() == 0) {
     return;
@@ -39,17 +39,10 @@ function adjustArtboardHeight(artboard) {
     }
   }
 
-  //Resize the artboard
-  const rect = artboard.rect();
-  rect.size.width = (maxX - minX);
-  rect.size.height = (maxY - minY);
-  artboard.setRect(rect);
-}
-
-function setArtboardHeight(artboard, height) {
-  const rect = artboard.rect();
-  rect.size.height =height;
-  artboard.setRect(rect);
+  return {
+    width: (maxX - minX),
+    height: (maxY - minY),
+  };
 }
 
 function getLeftEdge(cgrect) {
@@ -66,7 +59,6 @@ function getBottomEdge(cgrect) {
 }
 
 module.exports = {
-  adjustArtboardHeight,
-  setArtboardHeight
+  calculateArtboardSize,
 };
 
