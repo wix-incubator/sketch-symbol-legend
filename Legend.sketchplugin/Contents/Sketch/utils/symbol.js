@@ -19,7 +19,10 @@ const getUserLibraries = () =>
       .userLibraries()
   );
 
+const getDefaultUserLibrary = () => getUserLibraries()[0]
+
 module.exports = {
   getUserLibraries,
+  getDefaultUserLibrary,
   getLibraryName
 };

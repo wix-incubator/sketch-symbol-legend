@@ -1,6 +1,6 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const createIndexGenerator = require('../utils/createIndexGenerator');
-const isWixStyleReactLayer = require('../utils/isWixStyleReactLayer');
+const isActiveLibraryLayer = require('../utils/isActiveLibraryLayer');
 const asyncForEach = require('../utils/asyncForEach');
 
 const { createLegendBadge, createLegendBadgesGroup } = require('./createLegendBadges');
@@ -59,7 +59,7 @@ function legendify({
       });
     }
 
-    if (isWixStyleReactLayer(layer)) {
+    if (isActiveLibraryLayer(layer)) {
       const legendItemIndex = getLegendItemIndex();
 
       legendIndexItems.push.apply(

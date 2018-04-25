@@ -5,7 +5,6 @@ const SYMBOL_MASTER_CLASS_NAME = 'MSSymbolMaster';
 const LEGEND_CONTENT_NAME = '~LegendContent';
 const LEGEND_BADGES_NAME = '~LegendBadges';
 
-const WIX_STYLE_LIBRARY_NAME = 'Wix Style';
 const ACTIVE_LIB_NAME_SETTING = 'ActiveLibName';
 
 module.exports = {
@@ -14,6 +13,5 @@ module.exports = {
   SYMBOL_MASTER_CLASS_NAME,
   LEGEND_CONTENT_NAME,
   LEGEND_BADGES_NAME,
-  WIX_STYLE_LIBRARY_NAME,
   ACTIVE_LIB_NAME_SETTING
 };
