@@ -1,9 +1,9 @@
-const { cleanUpPageLegends } = require('../cleanUp');
+const { cleanUpLegends } = require('../cleanUp');
 
 module.exports = ({ document }) => {
   coscript.shouldKeepAround = false;
 
   document.pages().forEach(page => {
-    cleanUpPageLegends(page);
+    cleanUpLegends(page.artboards());
   });
 };

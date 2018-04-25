@@ -1,30 +1,26 @@
-const { isArtboard } = require('../utils/classMatchers');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
-const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
-const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
-const { cleanUpPageLegends } = require('../cleanUp');
+const Promifill = require('../utils/promifill');
+const { sketchWaitForCompletion } = require('../utils/async');
+const legendifyArtboards = require('../legendifyArtboard/legendifyArtboards');
+const { cleanUpLegends } = require('../cleanUp');
 
-module.exports = ({ document }) => {
-  coscript.shouldKeepAround = false;
+const addLegends = ({ document }) => {
+  document.showMessage('Generating legends for all artboards');
 
-  const symbolsDictionary = createSymbolsDictionary(
-    document.documentData().allSymbols()
-  );
+  const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
+  document.pages().forEach(page => cleanUpLegends(page.artboards()));
 
-  document.pages().forEach(page => {
-    // cleanup previous legends on rerun
-    cleanUpPageLegends(page);
-
-    page.artboards().forEach(artboard => {
-      if (isArtboard(artboard)) {
-        legendifyArtboard({
-          artboard,
-          symbolsDictionary,
-          document,
-        });
-      }
-    });
-
-    adjustArtboardPositions(page.artboards());
-  });
+  return Promifill.all(
+    Array.from(document.pages()).map(page =>
+      legendifyArtboards({ document, symbolsDictionary, artboards: page.artboards() })
+    )
+  )
+    .then(() => document.showMessage('All Artboards processed.'))
+    .catch(() => document.showMessage('Processing failed!'));
 };
+
+const runAddLegends = context => {
+  sketchWaitForCompletion(() => addLegends(context));
+};
+
+module.exports = runAddLegends;

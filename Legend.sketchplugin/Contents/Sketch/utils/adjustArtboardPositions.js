@@ -7,13 +7,14 @@ const ROW_MARGIN = 100;
 const isBetween = (base, value) => base - SAME_ROW_THRESHOLD < value && base + SAME_ROW_THRESHOLD > value;
 const getFirstRowTop = artboards => Math.min(...artboards.map(artboard => artboard.frame().y()));
 const getRowMaxHeight = artboards => Math.max(...artboards.map(artboard => {
-  log(`${artboard.rect().size.height} ${artboard}`);
+  // log(`${artboard.rect().size.height} ${artboard}`);
   return artboard.frame().height();
 }));
 
 const getRows = artboards => {
-  let currentRow = { index: 0, y: artboards[0].frame().y() };
-  return artboards.sort(artboard => artboard.frame().y()).reduce((acc, artboard) => {
+  const sortedArtboards = artboards.sort(artboard => artboard.frame().y());
+  let currentRow = { index: 0, y: sortedArtboards[0].frame().y() };
+  return sortedArtboards.reduce((acc, artboard) => {
     if (!isBetween(currentRow.y, artboard.frame().y())) {
       // log(`${currentRow.y} ${artboard.frame().y()}`);
       currentRow = { index: currentRow.index + 1, y: artboard.frame().y() };
@@ -29,7 +30,7 @@ const getRowYs = rows => {
   return rows.map(artboards => {
     const y = currentRowBottom;
     currentRowBottom = currentRowBottom + getRowMaxHeight(artboards) + ROW_MARGIN;
-    log(getRowMaxHeight(artboards))
+    // log(getRowMaxHeight(artboards))
     return y;
   });
 };
@@ -39,11 +40,11 @@ const adjustArtboardPositions = artboards => {
   if (!applicableArtboards.length) return;
 
   const artboardRows = getRows(applicableArtboards);
-  log(artboardRows);
-  log(JSON.stringify(getRowYs(artboardRows)));
+  // log(artboardRows);
+  // log(JSON.stringify(getRowYs(artboardRows)));
   getRowYs(artboardRows).forEach((y, index) => {
     artboardRows[index].forEach(artboard => {
-      log(`${artboard.name()} y ${y}`);
+      // log(`${artboard.name()} y ${y}`);
       adjustLayerFrame(artboard, { y });
     })
   })
