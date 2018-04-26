@@ -8,7 +8,7 @@ const sketchWaitForCompletion = (asyncFn) => {
 
   const fiber = createFiber();
   try {
-    asyncFn().then(() => fiber.cleanup());
+    asyncFn().finally(() => fiber.cleanup());
   } catch (error) {
     fiber.cleanup();
     throw new TypeError(`Async action ${Object.prototype.toString.call(asyncFn)} did not return a promise`);
