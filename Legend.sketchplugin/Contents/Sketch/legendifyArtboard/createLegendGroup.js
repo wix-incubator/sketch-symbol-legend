@@ -10,6 +10,8 @@ const createLegendGroup = ({ artboard, legendItems }) => {
     name: String(LEGEND_CONTENT_NAME)
   });
 
+  legendGroup._object.setIsLocked(true);
+
   const legendGroupBackground = new Shape({
     name: 'Background',
     parent: legendGroup,

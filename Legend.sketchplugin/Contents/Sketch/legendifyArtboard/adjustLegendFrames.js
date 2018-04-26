@@ -37,7 +37,6 @@ const adjustLegendGroupBackgroundFrame = (legendGroup, legendGroupBackground) =>
 const adjustLegendGroupItemsFrame = (artboard, legendGroupItems) => {
   const artboardWidth = artboard.frame().width();
   legendGroupItems._object.setTextBehaviour(1); // 1 = auto
-  legendGroupItems._object.setIsLocked(true);
 
   adjustLayerFrame(legendGroupItems._object, {
     x: LEGEND_PADDING,

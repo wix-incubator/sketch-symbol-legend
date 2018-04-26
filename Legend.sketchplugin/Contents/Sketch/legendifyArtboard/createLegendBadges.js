@@ -13,12 +13,14 @@ const createLegendBadge = ({ layer, layerIndex, layerOffsetLeft, layerOffsetTop 
 
 const createLegendBadgesGroup = (artboard, badges) => {
   const artboardFrame = artboard.frame();
-  return new Group({
+  const legendBadgesGroup = new Group({
     name: LEGEND_BADGES_NAME,
     parent: artboard,
     frame: new Rectangle(0, 0, artboardFrame.width(), artboardFrame.height()),
     layers: badges,
   });
+  legendBadgesGroup._object.setIsLocked(true);
+  return legendBadgesGroup;
 };
 
 module.exports = {
