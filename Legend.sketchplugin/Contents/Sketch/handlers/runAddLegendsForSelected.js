@@ -1,12 +1,10 @@
+const legendifyArtboards = require('../legendifyArtboard/legendifyArtboards');
+const { cleanUpLegends } = require('../cleanUp');
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
-const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
-const legendifyArtboard = require('../legendifyArtboard/legendifyArtboard');
-const { cleanUpArtboardLegends } = require('../cleanUp');
+const { sketchWaitForCompletion } = require('../utils/async');
 
-module.exports = context => {
-  coscript.shouldKeepAround = false;
-
+const addLegends = (context) => {
   const document = context.document;
   const artboards = getSelectedArtboards(context);
 
@@ -17,26 +15,16 @@ module.exports = context => {
     return;
   }
 
-  const symbolsDictionary = createSymbolsDictionary(
-    document.documentData().allSymbols()
-  );
+  const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
+  cleanUpLegends(artboards);
 
-  let artboardsProcessed = 0;
-  artboards.forEach(artboard => {
-    cleanUpArtboardLegends(artboard);
-
-    legendifyArtboard({
-      document,
-      artboard,
-      symbolsDictionary,
-      onProcessed() {
-        artboardsProcessed++;
-        if (artboardsProcessed === artboards.length) {
-          artboardsProcessed = 0;
-          adjustArtboardPositions(artboards);
-          document.showMessage('All Artboards processed.');
-        }
-      }
-    });
-  });
+  return legendifyArtboards({ document, symbolsDictionary, artboards })
+    .then(() => document.showMessage('Selected artboards processed.'))
+    .catch(() => document.showMessage('Processing failed!'));
 };
+
+const runAddLegendsForSelected = context => {
+  sketchWaitForCompletion(() => addLegends(context));
+};
+
+module.exports = runAddLegendsForSelected;

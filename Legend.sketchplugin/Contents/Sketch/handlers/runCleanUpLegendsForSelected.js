@@ -1,6 +1,6 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
 const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
-const { cleanUpArtboardLegends } = require('../cleanUp');
+const { cleanUpLegends } = require('../cleanUp');
 
 module.exports = context => {
   coscript.shouldKeepAround = false;
@@ -15,9 +15,6 @@ module.exports = context => {
     return;
   }
 
-  artboards.forEach(artboard => {
-    cleanUpArtboardLegends(artboard);
-  });
-
+  cleanUpLegends(artboards);
   adjustArtboardPositions(artboards);
 };

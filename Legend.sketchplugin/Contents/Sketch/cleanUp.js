@@ -31,17 +31,10 @@ function cleanUpLegend(artboard) {
   adjustLayerFrame(artboard, calculateArtboardSize(artboard));
 }
 
-function cleanUpPageLegends(page) {
-  page.artboards().forEach(artboard => {
-    cleanUpLegend(artboard);
-  });
-}
-
-function cleanUpArtboardLegends(artboard) {
-  cleanUpLegend(artboard);
+function cleanUpLegends(artboards) {
+  artboards.forEach(cleanUpLegend);
 }
 
 module.exports = {
-  cleanUpPageLegends,
-  cleanUpArtboardLegends,
+  cleanUpLegends,
 };

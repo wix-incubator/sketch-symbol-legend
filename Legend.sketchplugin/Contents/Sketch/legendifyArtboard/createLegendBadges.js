@@ -11,12 +11,13 @@ const createLegendBadge = ({ layer, layerIndex, layerOffsetLeft, layerOffsetTop 
   return drawBadge(frame.x() + layerOffsetLeft, Math.max(frame.y() + layerOffsetTop - OFFSET_TOP, 0), layerIndex);
 };
 
-const createLegendBadgesGroup = artboard => {
+const createLegendBadgesGroup = (artboard, badges) => {
   const artboardFrame = artboard.frame();
   return new Group({
     name: LEGEND_BADGES_NAME,
     parent: artboard,
     frame: new Rectangle(0, 0, artboardFrame.width(), artboardFrame.height()),
+    layers: badges,
   });
 };
 
