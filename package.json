@@ -1,6 +1,6 @@
 {
   "name": "sketch-symbol-legend",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "engines": {
     "sketch": ">=3.0",
     "node": ">=8"
