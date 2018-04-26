@@ -1,6 +1,6 @@
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
 const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
-const { cleanUpLegends } = require('../cleanUp');
+const { cleanUpLegends } = require('../cleanup/legends');
 
 module.exports = context => {
   coscript.shouldKeepAround = false;

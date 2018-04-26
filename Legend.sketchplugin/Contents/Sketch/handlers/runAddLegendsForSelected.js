@@ -1,5 +1,5 @@
 const legendifyArtboards = require('../legendifyArtboard/legendifyArtboards');
-const { cleanUpLegends } = require('../cleanUp');
+const { cleanUpLegends } = require('../cleanup/legends');
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
 const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
 const { sketchWaitForCompletion } = require('../utils/async');

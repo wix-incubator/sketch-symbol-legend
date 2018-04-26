@@ -1,5 +1,5 @@
 const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
-const { cleanUpLegends } = require('../cleanUp');
+const { cleanUpLegends } = require('../cleanup/legends');
 
 module.exports = ({ document }) => {
   coscript.shouldKeepAround = false;
