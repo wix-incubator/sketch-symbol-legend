@@ -22,7 +22,7 @@ const createLegendGroup = ({ artboard, legendItems }) => {
 
   const legendGroupItems = new Text({
     parent: legendGroup,
-    text: legendItems.join('\n\n'),
+    text: legendItems.join('\n'),
     fixedWidth: false,
   });
 
