@@ -16,7 +16,7 @@ const legendifyArtboards = ({ document, symbolsDictionary, artboards }) =>
         })
       )
   )
-    .then(() => adjustArtboardPositions(artboards))
+    .then(() => adjustArtboardPositions(document))
     .catch(error => log(error))
 
 module.exports = legendifyArtboards;

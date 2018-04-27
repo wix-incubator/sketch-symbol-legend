@@ -4,6 +4,7 @@ const SYMBOL_MASTER_CLASS_NAME = 'MSSymbolMaster';
 
 const LEGEND_CONTENT_NAME = '~LegendContent';
 const LEGEND_BADGES_NAME = '~LegendBadges';
+const LEGEND_WIDTH = 700;
 
 const ACTIVE_LIB_NAME_SETTING = 'ActiveLibName';
 
@@ -13,5 +14,6 @@ module.exports = {
   SYMBOL_MASTER_CLASS_NAME,
   LEGEND_CONTENT_NAME,
   LEGEND_BADGES_NAME,
-  ACTIVE_LIB_NAME_SETTING
+  LEGEND_WIDTH,
+  ACTIVE_LIB_NAME_SETTING,
 };

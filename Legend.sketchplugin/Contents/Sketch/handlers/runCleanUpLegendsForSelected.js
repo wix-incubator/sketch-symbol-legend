@@ -16,5 +16,5 @@ module.exports = context => {
   }
 
   cleanUpLegends(artboards);
-  adjustArtboardPositions(artboards);
+  adjustArtboardPositions(document);
 };
