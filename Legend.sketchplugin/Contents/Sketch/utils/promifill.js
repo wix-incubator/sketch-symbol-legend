@@ -21,7 +21,9 @@ class Promifill {
 
   constructor(executor) {
     if (typeof executor != 'function') {
-      throw new TypeError(`Promise resolver ${Object.prototype.toString.call(executor)} is not a function`);
+      throw new TypeError(
+        `Promise resolver ${Object.prototype.toString.call(executor)} is not a function`
+      );
     }
 
     defineProperty(this, 'chain', []);
@@ -220,20 +222,16 @@ const defineProperty = (obj, propName, propValue) => {
   Object.defineProperty(obj, propName, { value: propValue });
 };
 
-const defer = handler => (...args) => {
-  setTimeout(handler, 0, ...args);
-};
-
 const thrower = error => {
   throw error instanceof Error ? error : new Error(error);
 };
 
-const raiseUnhandledPromiseRejectionException = defer((error, promise) => {
+const raiseUnhandledPromiseRejectionException = (error, promise) => {
   if (promise.preventThrow || promise.chain.length > 0) {
     return;
   }
   thrower(error);
-});
+};
 
 class CoscriptStrategy {
   constructor(handler) {
@@ -281,7 +279,9 @@ const validateIterable = subject => {
     return;
   }
 
-  throw new TypeError(`Cannot read property 'Symbol(Symbol.iterator)' of ${Object.prototype.toString.call(subject)}.`);
+  throw new TypeError(
+    `Cannot read property 'Symbol(Symbol.iterator)' of ${Object.prototype.toString.call(subject)}.`
+  );
 };
 
 const isEmptyIterable = subject => {
