@@ -1,6 +1,8 @@
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 
 const getSymbolDescription = (symbolKey, override, symbolsDictionary) => {
+  if (!symbolKey) return;
+
   const symbolID = override && override.symbolID;
   if (!symbolID) return;
 
@@ -17,19 +19,13 @@ const getSymbolKey = override =>
   Object.keys(override).find(key => !isSketchStringsEqual(key, 'symbolID'));
 
 const getOverrideSymbols = (override, symbolKey, symbolsDictionary) => {
-  const symbolDescriptions = [];
-  let currentOverride = override;
-  let currentKey = symbolKey;
-
-  while (currentOverride) {
-    if (currentKey) {
-      symbolDescriptions.push(getSymbolDescription(currentKey, currentOverride, symbolsDictionary));
-    }
-    currentKey = getSymbolKey(currentOverride);
-    currentOverride = currentOverride[currentKey];
+  if (!override) {
+    return [];
   }
 
-  return symbolDescriptions.filter(Boolean);
+  const description = getSymbolDescription(symbolKey, override, symbolsDictionary);
+  const nextKey = getSymbolKey(override);
+  return [...[description], ...getOverrideSymbols(override[nextKey], nextKey, symbolsDictionary)];
 };
 
 const getLegendItemDescription = ({ layer, layerIndex, symbolsDictionary }) => {
