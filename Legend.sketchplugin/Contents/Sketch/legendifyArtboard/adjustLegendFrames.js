@@ -3,9 +3,12 @@ const { LEGEND_WIDTH } = require('../constants');
 
 const LEGEND_PADDING = 20;
 
-const adjustArtboardFrame = (artboard) => {
+const adjustArtboardFrame = (artboard, legendGroupItems) => {
+  const artboardFrame = artboard.frame();
+  const legendGroupItemsHeight = legendGroupItems._object.frame().height();
   adjustLayerFrame(artboard, {
     width: artboard.frame().width() + LEGEND_WIDTH,
+    height: Math.max(legendGroupItemsHeight + LEGEND_PADDING, artboardFrame.height()),
   });
 };
 
@@ -45,7 +48,7 @@ const adjustLegendFrames = (artboard, legendGroup, legendGroupBackground, legend
   adjustLegendGroupItemsFrame(artboard, legendGroupItems);
   adjustLegendGroupFrame(artboard, legendGroup, legendGroupItems);
   adjustLegendGroupBackgroundFrame(legendGroup, legendGroupBackground);
-  adjustArtboardFrame(artboard, legendGroupBackground);
+  adjustArtboardFrame(artboard, legendGroupItems);
 };
 
 module.exports = adjustLegendFrames;
