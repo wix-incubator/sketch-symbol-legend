@@ -9,7 +9,7 @@ function restoreArtboardDimensions(artboard) {
   }
 
   adjustLayerFrame(artboard, {
-    width: artboard.frame().width() - legendContentGroup.frame().width(),
+    width: legendContentGroup.frame().x(),
   });
 }
 
