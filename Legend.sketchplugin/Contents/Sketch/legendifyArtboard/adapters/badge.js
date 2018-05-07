@@ -5,11 +5,12 @@ const getBadgeProps = (symbolData) => {
   const type =symbolMasterData[1] && symbolMasterData[1].trim();
   const prefixIcon =symbolMasterData[2] && symbolMasterData[2].trim() === "Icon Prefix";
   const iconKey = Object.keys(overridedValues).find(x => x.indexOf('Icon') > -1)
-
+log({overridedValues})
   return {
     type,
     skin: overridedValues.Type.split('/')[4].trim(),
-    prefixIcon: prefixIcon && overridedValues[iconKey].split('/')[3].trim()
+    prefixIcon: prefixIcon && overridedValues[iconKey].split('/')[3].trim(),
+    text: overridedValues.text
   }
 };
 

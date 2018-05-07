@@ -1,7 +1,6 @@
 const {getComponentData} = require('./adapters');
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 
-
 const getSymbolKey = override =>
   Object.keys(override).find(key => !isSketchStringsEqual(key, 'symbolID'));
 
@@ -14,29 +13,40 @@ const getSymbolKey = override =>
 
     const value = symbolsDictionary[symbolID];
     if (!value) return;
+
     return {
       type: attribute.name(),
       value: value.name()
     };
-    // return `          + ${attribute.name()} = ${value.name()}\n`;
   };
+
+const getSymbolText = (override) => {
+  const textKey = Object.keys(override).find(x => x.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i));
+  if (override[textKey]) {
+    return {
+      type: "text",
+      value:override[textKey]
+    }
+  }
+}
 
 const getOverrideSymbols = (override, symbolKey, symbolsDictionary) => {
   const symbolDescriptions = [];
   let currentOverride = override;
   let currentKey = symbolKey;
-
   while (currentOverride) {
     if (currentKey) {
       symbolDescriptions.push(getSymbolDescription(currentKey, currentOverride, symbolsDictionary));
+      const text = getSymbolText(currentOverride)
+      if (text){
+        symbolDescriptions.push(text);
+      }
     }
     currentKey = getSymbolKey(currentOverride);
     currentOverride = currentOverride[currentKey];
   }
-
   return symbolDescriptions.filter(Boolean);
 };
-
 
 const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
   const availableOverrideNames = Array.from(symbolMaster.availableOverrides()).reduce(
@@ -59,18 +69,21 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
     {}
   );
 
+  log({defaultOverrides})
   const finalOverrides = Object.keys(defaultOverrides).map(defaultOverrideKey => {
     const override = overrides[defaultOverrideKey];
     if (override && symbolsDictionary[defaultOverrideKey]) {
       const overrideSymbols = getOverrideSymbols(override, defaultOverrideKey, symbolsDictionary);
-      return overrideSymbols[0] || defaultOverrides[defaultOverrideKey];
+      return [defaultOverrides[defaultOverrideKey], ...overrideSymbols];
     }
-    return  defaultOverrides[defaultOverrideKey];
+    return [defaultOverrides[defaultOverrideKey]];
   })
 
+
+log({finalOverrides})
+  const flatten = [].concat.apply([], finalOverrides);
   const returnObject = {};
-  log({finalOverrides})
-  finalOverrides.forEach(x => {
+  flatten.forEach(x => {
     returnObject[x.type] = x.value;
   })
 
@@ -81,7 +94,6 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
 const getLegendItemDescription = ({ layer, layerIndex, symbolsDictionary }) => {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
-  log({overrides})
   const componentName = symbolMaster.name().split('/')[1].trim();
   const overridedValues = getOverridesValues(symbolMaster, symbolsDictionary, overrides)
   const data = getComponentData(componentName, {symbolMaster, symbolsDictionary, overridedValues});
