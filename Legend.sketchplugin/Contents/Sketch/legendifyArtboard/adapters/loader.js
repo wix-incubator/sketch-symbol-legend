@@ -12,13 +12,11 @@ const getLoaderProps = (symbolData) => {
     }
 
   return {
-    props: {
       size,
       text: message
     }
-  }
-}
+};
 
 module.exports = {
   getLoaderProps
-}
+};

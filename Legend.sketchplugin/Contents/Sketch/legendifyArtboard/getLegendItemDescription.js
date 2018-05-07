@@ -3,8 +3,8 @@ const {getComponentData} = require('./adapters');
 const getLegendItemDescription = ({ layer, layerIndex, symbolsDictionary }) => {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
-  const componentName = symbolMaster.name().split('/')[1].trim()
-  const data = getComponentData(componentName, {symbolMaster, symbolsDictionary, overrides}).props;
+  const componentName = symbolMaster.name().split('/')[1].trim();
+  const data = getComponentData(componentName, {symbolMaster, symbolsDictionary, overrides});
   const propsArr = Object.keys(data).map(x=> {
     return `- ${x}: ${data[x]}`
   });
