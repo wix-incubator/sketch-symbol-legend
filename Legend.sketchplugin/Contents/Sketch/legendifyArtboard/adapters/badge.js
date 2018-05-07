@@ -10,7 +10,7 @@ log({overridedValues})
     type,
     skin: overridedValues.Type.split('/')[4].trim(),
     prefixIcon: prefixIcon && overridedValues[iconKey].split('/')[3].trim(),
-    text: overridedValues.text
+    text: overridedValues.text || "Badge"
   }
 };
 

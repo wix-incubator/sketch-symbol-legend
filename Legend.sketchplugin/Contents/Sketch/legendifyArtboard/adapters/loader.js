@@ -5,7 +5,7 @@ const getLoaderProps = (symbolData) => {
   const size =symbolMasterData[1].trim();
   return {
       size,
-      text: overridedValues.text,
+      text: overridedValues.text || "LOADING, PLEASE WAIT...",
     }
 };
 
