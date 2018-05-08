@@ -7,18 +7,20 @@ const getSymbolKey = override =>
   Object.keys(override).find(key => !isSketchStringsEqual(key, 'symbolID'));
 
   const getSymbolDescription = (symbolKey, override, symbolsDictionary) => {
+    const isNoneValue = (symbolID) => isSketchStringsEqual(symbolID, "" );
     const symbolID = override && override.symbolID;
     if (!symbolID) return;
 
     const attribute = symbolsDictionary[symbolKey];
     if (!attribute) return;
 
-    const value = symbolsDictionary[symbolID];
+    const value = isNoneValue(symbolID) ? "None" : symbolsDictionary[symbolID];
+    log({value, attribute, symbolKey, override});
     if (!value) return;
 
     return {
       type: attribute.name(),
-      value: value.name()
+      value: !isSketchUndefined(value.name) ? value.name() : value
     };
   };
 
@@ -35,7 +37,7 @@ const getSymbolKey = override =>
 
 const getTextLayerValue = (currentKey, override, symbolsDictionary) => {
   const overrideDictionaryValue = symbolsDictionary[currentKey];
-  const isTextLayer = overrideDictionaryValue && String(overrideDictionaryValue.class()) == TEXT_LAYER_CLASS_NAME;
+  const isTextLayer = overrideDictionaryValue && String(overrideDictionaryValue.class()) === TEXT_LAYER_CLASS_NAME;
   return isTextLayer && !isSketchUndefined(overrideDictionaryValue) && overrideDictionaryValue;
 }
 
