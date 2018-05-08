@@ -96,7 +96,7 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
     }
     return [defaultOverrides[defaultOverrideKey]];
   })
-log({finalOverrides})
+
   const flatten = [].concat.apply([], finalOverrides);
   const returnObject = {};
   flatten.forEach(x => {
