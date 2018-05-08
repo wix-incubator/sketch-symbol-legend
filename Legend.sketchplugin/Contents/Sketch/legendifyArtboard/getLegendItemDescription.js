@@ -3,9 +3,6 @@ const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const isSketchUndefined = require('../utils/isSketchUndefined');
 const {TEXT_LAYER_CLASS_NAME} = require('../constants');
 
-const getSymbolKey = override =>
-  Object.keys(override).find(key => !isSketchStringsEqual(key, 'symbolID'));
-
   const getSymbolDescription = (symbolKey, override, symbolsDictionary) => {
     const isNoneValue = (symbolID) => isSketchStringsEqual(symbolID, "" );
     const symbolID = override && override.symbolID;
@@ -37,15 +34,12 @@ const getSymbolKey = override =>
 
 const getTextLayerValue = (currentKey, override, symbolsDictionary) => {
   const overrideDictionaryValue = symbolsDictionary[currentKey];
-  const isTextLayer = overrideDictionaryValue && String(overrideDictionaryValue.class()) === TEXT_LAYER_CLASS_NAME;
+  const isTextLayer = overrideDictionaryValue && isSketchStringsEqual(overrideDictionaryValue.class(), TEXT_LAYER_CLASS_NAME);
   return isTextLayer && !isSketchUndefined(overrideDictionaryValue) && overrideDictionaryValue;
-}
+};
 
-const getOverrideSymbols = (override, symbolKey, symbolsDictionary) => {
-  const symbolDescriptions = [];
-  let currentOverride = override;
-  let currentKey = symbolKey;
-  while (currentOverride) {
+const getOverrideSymbols = (currentOverride , currentKey, symbolsDictionary, symbolDescriptions = []) => {
+  if (currentOverride) {
     if (currentKey) {
       const symbolDescription = getSymbolDescription(currentKey, currentOverride, symbolsDictionary);
       if (symbolDescription) {
@@ -58,8 +52,11 @@ const getOverrideSymbols = (override, symbolKey, symbolsDictionary) => {
         symbolDescriptions.push(textDescription);
       }
   }
-    currentKey = getSymbolKey(currentOverride);
-    currentOverride = currentOverride[currentKey];
+    Object.keys(currentOverride)
+      .filter(key=> !isSketchStringsEqual(key, 'symbolID'))
+      .forEach(key => {
+        getOverrideSymbols(currentOverride[key], key, symbolsDictionary, symbolDescriptions);
+    })
   }
   return symbolDescriptions.filter(Boolean);
 };
