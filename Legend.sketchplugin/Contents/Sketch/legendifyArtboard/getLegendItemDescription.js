@@ -27,19 +27,14 @@ const getSymbolKey = override =>
       return;
     }
 
-    const valueKey = Object.keys(override)[0];
-    if (!valueKey) {
-      return;
-    }
-
     return {
       type: overrideDictionaryValue.name(),
-      value: override[valueKey],
+      value: override,
     };
   };
 
-const getTextLayerValue = (override, symbolsDictionary) => {
-  const overrideDictionaryValue = symbolsDictionary[Object.keys(override)[0]];
+const getTextLayerValue = (currentKey, override, symbolsDictionary) => {
+  const overrideDictionaryValue = symbolsDictionary[currentKey];
   const isTextLayer = overrideDictionaryValue && String(overrideDictionaryValue.class()) == TEXT_LAYER_CLASS_NAME;
   return isTextLayer && !isSketchUndefined(overrideDictionaryValue) && overrideDictionaryValue;
 }
@@ -53,9 +48,9 @@ const getOverrideSymbols = (override, symbolKey, symbolsDictionary) => {
       const symbolDescription = getSymbolDescription(currentKey, currentOverride, symbolsDictionary);
       if (symbolDescription) {
         symbolDescriptions.push(symbolDescription);
-        delete currentOverride.symbolID;
       }
-      const textLayerValue = getTextLayerValue(currentOverride, symbolsDictionary);
+
+      const textLayerValue = getTextLayerValue(currentKey, currentOverride, symbolsDictionary);
       if (textLayerValue) {
         const textDescription = getTextDescription(textLayerValue, currentOverride);
         symbolDescriptions.push(textDescription);
