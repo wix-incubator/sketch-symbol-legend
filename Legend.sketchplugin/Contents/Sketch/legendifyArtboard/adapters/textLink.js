@@ -5,7 +5,6 @@ const getTextLinkProps = (symbolData) => {
   const size =symbolMasterData[1].trim();
   const affixType = overridedValues.Affix && overridedValues.Affix.split('/')[4];
   const iconKey = Object.keys(overridedValues).find(x => x.indexOf('Icon') > -1);
-  log({overridedValues})
   const props = {
     size,
     type: overridedValues.Type && overridedValues.Type.split('/')[3],
