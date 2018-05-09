@@ -5,12 +5,14 @@ const legendifyArtboards = require('../legendifyArtboard/legendifyArtboards');
 const { cleanUpLegends } = require('../cleanup/legends');
 
 const addLegends = ({ document }) => {
-  const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
-  document.pages().forEach(page => cleanUpLegends(page.artboards()));
+  const allSymbols = document.documentData().allSymbols();
+  const symbolsDictionary = createSymbolsDictionary(allSymbols);
+  const localSymbols = document.documentData().localSymbols();
+  const localSymbolsDictionary = createSymbolsDictionary(localSymbols);  document.pages().forEach(page => cleanUpLegends(page.artboards()));
 
   return Promifill.all(
     Array.from(document.pages()).map(page =>
-      legendifyArtboards({ document, symbolsDictionary, artboards: page.artboards() })
+      legendifyArtboards({ document, symbolsDictionary, artboards: page.artboards(), localSymbolsDictionary })
     )
   )
     .then(() => document.showMessage('All Artboards processed.'))

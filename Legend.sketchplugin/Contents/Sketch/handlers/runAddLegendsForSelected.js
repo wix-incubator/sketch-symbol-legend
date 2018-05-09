@@ -14,11 +14,13 @@ const addLegends = (context) => {
     );
     return;
   }
-
-  const symbolsDictionary = createSymbolsDictionary(document.documentData().allSymbols());
+  const allSymbols = document.documentData().allSymbols();
+  const symbolsDictionary = createSymbolsDictionary(allSymbols);
+  const localSymbols = document.documentData().localSymbols();
+  const localSymbolsDictionary = createSymbolsDictionary(localSymbols);
   cleanUpLegends(artboards);
 
-  return legendifyArtboards({ document, symbolsDictionary, artboards })
+  return legendifyArtboards({ document, symbolsDictionary, artboards, localSymbolsDictionary })
     .then(() => document.showMessage('Selected artboards processed.'))
     .catch(() => document.showMessage('Processing failed!'));
 };

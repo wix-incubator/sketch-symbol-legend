@@ -4,7 +4,7 @@ const adjustArtboardPositions = require('../utils/adjustArtboardPositions');
 const Promifill = require('../utils/promifill');
 const { log } = require('../utils/log');
 
-const legendifyArtboards = ({ document, symbolsDictionary, artboards }) =>
+const legendifyArtboards = ({ document, symbolsDictionary, artboards, localSymbolsDictionary }) =>
   Promifill.all(
     Array.from(artboards)
       .filter(isArtboard)
@@ -13,6 +13,7 @@ const legendifyArtboards = ({ document, symbolsDictionary, artboards }) =>
           artboard,
           symbolsDictionary,
           document,
+          localSymbolsDictionary
         })
       )
   )

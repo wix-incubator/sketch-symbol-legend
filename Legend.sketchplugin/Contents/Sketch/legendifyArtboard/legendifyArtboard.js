@@ -17,6 +17,7 @@ function legendify({
   getLegendItemIndex,
   legendItems,
   legendIndexItems,
+  localSymbolsDictionary
 }) {
   if (!layer.layers) {
     return;
@@ -36,7 +37,8 @@ function legendify({
       });
     }
 
-    if (isActiveLibraryLayer(layer)) {
+    const symbolId = layer.symbolID && layer.symbolID();
+    if (isActiveLibraryLayer(layer) || localSymbolsDictionary[symbolId]) {
       const legendItemIndex = getLegendItemIndex();
 
       legendIndexItems.push.apply(
@@ -62,7 +64,7 @@ function legendify({
   getLayersCache(layer).forEach(processLayer);
 }
 
-const legendifyArtboard = ({ artboard, document, symbolsDictionary }) =>
+const legendifyArtboard = ({ artboard, document, symbolsDictionary, localSymbolsDictionary }) =>
   new Promifill(resolve => {
     artboard.setIsLocked(true);
 
@@ -77,6 +79,7 @@ const legendifyArtboard = ({ artboard, document, symbolsDictionary }) =>
       getLegendItemIndex: createIndexGenerator(),
       legendItems,
       legendIndexItems,
+      localSymbolsDictionary
     });
 
     if (legendItems.length) {

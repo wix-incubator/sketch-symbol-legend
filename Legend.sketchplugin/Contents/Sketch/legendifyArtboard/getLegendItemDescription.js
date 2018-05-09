@@ -72,14 +72,14 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
   );
 
   const defaultOverrides = Array.from(symbolMaster.overridePoints()).reduce(
-    (defaultOverrides, overridePoint, index) =>
-      Object.assign({}, defaultOverrides, {
+    (defaultOverrides, overridePoint, index) => {
+      return Object.assign({}, defaultOverrides, {
         [overridePoint.layerID()]: {
           type: overridePoint.layerName(),
           value: availableOverrideNames[index],
         },
-      }),
-    {}
+      })
+    }, {}
   );
 
   const finalOverrides = Object.keys(defaultOverrides).map(defaultOverrideKey => {
@@ -100,11 +100,17 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
   return returnObject;
 }
 
-
+const getComponentName = (symbolMaster) =>{
+  let componentName = symbolMaster.name();
+  if (componentName .split('/').length > 2){
+    componentName = componentName.split('/')[1].trim();
+  }
+  return componentName;
+}
 const getLegendItemDescription = ({ layer, layerIndex, symbolsDictionary }) => {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
-  const componentName = symbolMaster.name().split('/')[1].trim();
+  const componentName = getComponentName(symbolMaster);
   const overridedValues = getOverridesValues(symbolMaster, symbolsDictionary, overrides)
   const data = getComponentData(componentName, {symbolMaster, symbolsDictionary, overridedValues});
   const propsArr = Object.keys(data).map(x=> {
