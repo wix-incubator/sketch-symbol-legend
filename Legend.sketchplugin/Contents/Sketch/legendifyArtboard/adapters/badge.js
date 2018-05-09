@@ -10,7 +10,7 @@ const getBadgeProps = (symbolData) => {
     type,
     skin: overridedValues.Type.split('/')[4].trim(),
     prefixIcon: prefixIcon && overridedValues[iconKey].split('/')[3].trim(),
-    text: overridedValues.Value || "Badge"
+    children: overridedValues.Value || "Badge"
   }
 };
 
