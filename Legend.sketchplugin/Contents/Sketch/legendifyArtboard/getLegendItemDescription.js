@@ -2,7 +2,7 @@ const {getComponentData} = require('./adapters');
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const isSketchUndefined = require('../utils/isSketchUndefined');
 const {flatten} = require('../utils/flatten');
-const {TEXT_LAYER_CLASS_NAME} = require('../constants');
+const {TEXT_LAYER_CLASS_NAME, NONE} = require('../constants');
 
   const getSymbolDescription = (symbolKey, override, symbolsDictionary) => {
     const isNoneValue = (symbolID) => isSketchStringsEqual(symbolID, "" );
@@ -12,7 +12,7 @@ const {TEXT_LAYER_CLASS_NAME} = require('../constants');
     const attribute = symbolsDictionary[symbolKey];
     if (!attribute) return;
 
-    const value = isNoneValue(symbolID) ? "None" : symbolsDictionary[symbolID];
+    const value = isNoneValue(symbolID) ? NONE : symbolsDictionary[symbolID];
     log({value, attribute, symbolKey, override});
     if (!value) return;
 

@@ -9,6 +9,8 @@ const LEGEND_WIDTH = 700;
 
 const ACTIVE_LIB_NAME_SETTING = 'ActiveLibName';
 
+const NONE = "None";
+
 module.exports = {
   ARTBOARD_GROUP_CLASS_NAME,
   SYMBOL_INSTANCE_CLASS_NAME,
@@ -17,5 +19,6 @@ module.exports = {
   LEGEND_BADGES_NAME,
   LEGEND_WIDTH,
   ACTIVE_LIB_NAME_SETTING,
-  TEXT_LAYER_CLASS_NAME
+  TEXT_LAYER_CLASS_NAME,
+  NONE
 };
