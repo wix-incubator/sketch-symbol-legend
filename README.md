@@ -80,6 +80,23 @@ You need to specify a version bump, it can be one of the following:
 GITHUB_ACCESS_TOKEN=<token> SKETCH_RELEASE=<version-bump> npm run sketch:release
 ```
 
+## Create an Adapter
+* The adapter is a function that gets the symbol master and the overriden values, and returns the props that should be shown in the legend
+```js
+const adapter = ({symbolMaster, overridedValues}) => {
+    // your logic
+    return {
+      //wsr props to show in the legend
+    }
+}
+
+```
+Example - https://github.com/wix-incubator/sketch-symbol-legend/blob/add-adapter-logic/Legend.sketchplugin/Contents/Sketch/legendifyArtboard/adapters/loader.js
+
+* After creating the adapter, you should add it to the components map in the `index.js` file -  https://github.com/wix-incubator/sketch-symbol-legend/blob/add-adapter-logic/Legend.sketchplugin/Contents/Sketch/legendifyArtboard/adapters/index.js
+
+Note that the map key is the component name.
+
 ## Notes (tips, caveats, issues)
 
 * Some newer ES features don't work in Mac OS <= Sierra (e.g. spread operator on objects)
