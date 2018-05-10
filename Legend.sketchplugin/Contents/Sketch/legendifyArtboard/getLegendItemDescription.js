@@ -1,6 +1,7 @@
 const {getComponentData} = require('./adapters');
 const isSketchStringsEqual = require('../utils/isSketchStringsEqual');
 const isSketchUndefined = require('../utils/isSketchUndefined');
+const {flatten} = require('../utils/flatten');
 const {TEXT_LAYER_CLASS_NAME} = require('../constants');
 
   const getSymbolDescription = (symbolKey, override, symbolsDictionary) => {
@@ -91,13 +92,13 @@ const getOverridesValues = (symbolMaster, symbolsDictionary, overrides) => {
     return [defaultOverrides[defaultOverrideKey]];
   })
 
-  const flatten = [].concat.apply([], finalOverrides);
-  const returnObject = {};
-  flatten.forEach(x => {
-    returnObject[x.type] = x.value;
-  })
+  const flattenFinalOverrides = flatten(finalOverrides);
+  const finalOverridesObject = {};
+  flattenFinalOverrides.forEach(x => {
+    finalOverridesObject[x.type] = x.value;
+  });
 
-  return returnObject;
+  return finalOverridesObject;
 }
 
 const getComponentName = (symbolMaster) =>{
@@ -111,7 +112,7 @@ const getLegendItemDescription = ({ layer, layerIndex, symbolsDictionary }) => {
   const symbolMaster = layer.symbolMaster && layer.symbolMaster();
   const overrides = layer.overrides();
   const componentName = getComponentName(symbolMaster);
-  const overridedValues = getOverridesValues(symbolMaster, symbolsDictionary, overrides)
+  const overridedValues = getOverridesValues(symbolMaster, symbolsDictionary, overrides);
   const data = getComponentData(componentName, {symbolMaster, symbolsDictionary, overridedValues});
   const propsArr = Object.keys(data).map(x=> {
     return `- ${x}: ${data[x]}`
