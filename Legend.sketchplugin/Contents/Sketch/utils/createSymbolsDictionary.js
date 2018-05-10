@@ -24,5 +24,15 @@ function createSymbolsDictionary(symbols, dictionary = {}) {
 
   return dictionary;
 }
+function createSymbolsDictionaries(document){
+  const allSymbols = document.documentData().allSymbols();
+  const symbolsDictionary = createSymbolsDictionary(allSymbols);
+  const localSymbols = document.documentData().localSymbols();
+  const localSymbolsDictionary = createSymbolsDictionary(localSymbols);
+  return {symbolsDictionary , localSymbolsDictionary}
+}
+module.exports = {
+  createSymbolsDictionaries,
+  createSymbolsDictionary
+};
 
-module.exports = createSymbolsDictionary;

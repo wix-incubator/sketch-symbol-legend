@@ -1,7 +1,7 @@
 const legendifyArtboards = require('../legendifyArtboard/legendifyArtboards');
 const { cleanUpLegends } = require('../cleanup/legends');
 const getSelectedArtboards = require('../utils/getSelectedArtboards');
-const createSymbolsDictionary = require('../utils/createSymbolsDictionary');
+const { createSymbolsDictionaries } = require('../utils/createSymbolsDictionary');
 const { sketchWaitForCompletion } = require('../utils/async');
 
 const addLegends = (context) => {
@@ -14,10 +14,8 @@ const addLegends = (context) => {
     );
     return;
   }
-  const allSymbols = document.documentData().allSymbols();
-  const symbolsDictionary = createSymbolsDictionary(allSymbols);
-  const localSymbols = document.documentData().localSymbols();
-  const localSymbolsDictionary = createSymbolsDictionary(localSymbols);
+  const {localSymbolsDictionary , symbolsDictionary} = createSymbolsDictionaries(document);
+
   cleanUpLegends(artboards);
 
   return legendifyArtboards({ document, symbolsDictionary, artboards, localSymbolsDictionary })
