@@ -1,12 +1,16 @@
+const utils = require('./utils');
+
 const getLoaderProps = (symbolData) => {
   const {symbolMaster, overridedValues} = symbolData;
-  const symbolMasterArray = symbolMaster.name().split('/');
-  const symbolMasterData = symbolMasterArray[2].split('+');
-  const size =symbolMasterData[1].trim();
-  return {
-      size,
-      text: overridedValues.Message || "LOADING, PLEASE WAIT...",
-    }
+  const symbolMasterData = utils.getSymbolMasterData(symbolMaster);
+  const props = {
+    children: overridedValues.Message || "LOADING, PLEASE WAIT...",
+  };
+
+  if (symbolMasterData[1]) {
+    props.size = symbolMasterData[1].trim().toLowerCase();
+  }
+  return props
 };
 
 module.exports = {
