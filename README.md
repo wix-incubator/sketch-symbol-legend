@@ -2,7 +2,7 @@
 
 Legend plugin for sketch app.
 
-[download me](https://github.com/wix-incubator/sketch-symbol-legend/releases/download/v1.9.5/Sketch.zip)
+[download me](https://github.com/wix-incubator/sketch-symbol-legend/releases/download/v1.10.0/Sketch.zip)
 
 ## Motivation
 
